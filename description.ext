@@ -1,0 +1,10 @@
+//-->Functions
+class cfgFunctions
+{
+	//->SAS Functions
+	#define sas_cfg_functions
+	#include "sas\description.cpp"
+	#undef sas_cfg_functions
+	//<-SAS Functions
+};
+//<--Functions
