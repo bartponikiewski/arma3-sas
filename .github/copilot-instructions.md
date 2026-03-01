@@ -53,7 +53,7 @@ config.cpp
 
 * All public functions follow the SAS convention:
 
-SAS_fnc_<module_name>_<function_name>
+SAS_<module_name>_fnc_<function_name>
 
 Guidelines:
 
@@ -83,7 +83,7 @@ Example registration structure:
 
 ### Calling Functions
 
-[*arguments] call SAS_fnc*<module_name>_<function_name>;
+[*arguments] call SAS_<module_name>_fnc_<function_name>;
 
 * Respect public vs private scope when calling functions.
 
@@ -110,12 +110,7 @@ All function files must begin with a standardized header block in the following 
     
 */
 
-Directly below the header, add a comment block summarizing the main logic steps, e.g.:
-
-// Main block: <High-level summary of function purpose>
-// 1. <Step 1>
-// 2. <Step 2>
-// ...
+Add inline comments within the function body to explain complex logic.
 
 This ensures every function is self-documenting, easy to onboard, and consistent across the SAS framework. Update all new and existing function files to comply with this format.
 ---

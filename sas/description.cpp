@@ -1,11 +1,9 @@
 //-->SAS Functions
 #ifdef sas_cfg_functions
 class SAS_Morale {
-    class morale {
+    class Morale {
         file = "sas\morale\functions";
         class calculateGroupFear {};
-        class getGroupFear {};
-        class eventHandlerGroupFear {};
     };
 };
 #endif
