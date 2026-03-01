@@ -113,8 +113,19 @@ All function files must begin with a standardized header block in the following 
 Add inline comments within the function body to explain complex logic.
 
 This ensures every function is self-documenting, easy to onboard, and consistent across the SAS framework. Update all new and existing function files to comply with this format.
----
 
+## Debugging Standard
+
+All SAS functions must support debug output using the global debug flag and logging function:
+
+* The global debug flag (`SAS_Debug_global`) controls whether debug output is shown.
+* All debug output must use the centralized logging function: `["Your debug message"] call SAS_fnc_logDebug;`
+* Each function should include debug logic where appropriate, and document debug usage in the header block (add a "Debug" section if needed).
+* Example debug usage in header:
+    Debug:
+    Calls SAS_fnc_logDebug to output debug information if SAS_Debug_global is true.
+
+This ensures consistent, manageable debug output across all modules. Future updates may add per-module debug flags.
 ## Mission Initialization & Runtime Logic
 
 * Place startup logic in init.sqf.
