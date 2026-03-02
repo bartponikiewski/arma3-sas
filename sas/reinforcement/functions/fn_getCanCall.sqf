@@ -18,5 +18,9 @@
 params ["_group"];
 if (isNull _group) exitWith {false};
 private _canCall = _group getVariable ["SAS_Reinforcement_canCall", false];
+private _hasAliveUnits = {alive _x} count (units _group) > 0;
+
+_canCall = _canCall && _hasAliveUnits;
+
 [format ["[Reinforcement] getCanCall: group=%1 canCall=%2", _group, _canCall]] call SAS_fnc_logDebug;
 _canCall;

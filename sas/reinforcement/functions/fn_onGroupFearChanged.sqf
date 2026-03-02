@@ -22,19 +22,25 @@ params ["_group", "_oldFear", "_newFear"];
 
 // Only proceed if newFear is >= 0.5
 if (_newFear >= 0.5) then {
-    // Check if group can call reinforcements
-	private _canCall = [_group] call SAS_Reinforcement_fnc_getCanCall;
-    private _leader = leader _group;
-    private _knownEnemy = _leader findNearestEnemy (getPos _leader);
+    [_group] spawn {
+        params ["_group"];
+        // Add delay to simulate time needed for radio call
+        sleep 5;
 
-	if (_canCall) then {
-        // Remove possibility to call more reinforcements
-        [_group, false] call SAS_Reinforcement_fnc_setCanCall;
+        // Check if group can call reinforcements
+        private _canCall = [_group] call SAS_Reinforcement_fnc_getCanCall;
+        private _leader = leader _group;
+        private _knownEnemy = _leader findNearestEnemy (getPos _leader);
 
-		// Call reinforcements for this group
-		[_group] call SAS_Reinforcement_fnc_requestReinforcements;
-	};
+        if (_canCall) then {
+            // Remove possibility to call more reinforcements
+            [_group, false] call SAS_Reinforcement_fnc_setCanCall;
 
-    // Remove possibility to be called, since this group need to be reinforced, not be a reinforcement
-    [_group, false] call SAS_Reinforcement_fnc_setCanBeCalled;
+            // Call reinforcements for this group
+            [_group] call SAS_Reinforcement_fnc_requestReinforcements;
+        };
+
+        // Remove possibility to be called, since this group need to be reinforced, not be a reinforcement
+        [_group, false] call SAS_Reinforcement_fnc_setCanBeCalled;
+    };
 };
