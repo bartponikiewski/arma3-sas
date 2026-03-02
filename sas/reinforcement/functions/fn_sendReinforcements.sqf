@@ -26,7 +26,7 @@ params [
 if (count _pos == 0) exitWith {false};
 if (isNull _reinforceGroup) exitWith {false};
 if (typename _reinforceGroup == "OBJECT") then { _reinforceGroup = group _reinforceGroup; };
-if (!local (leader _reinforceGroup)) exitWith {false};
+if (!local _reinforceGroup) exitWith {false};
 
 // Set group as unavailable to response calls
 [_reinforceGroup, false] call SAS_Reinforcement_fnc_setCanCall;

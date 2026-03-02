@@ -27,6 +27,7 @@ if (isNull _group) exitWith {
 };
 
 private _result = [_group, _position, _distance, _blacklist] call BIS_fnc_taskPatrol;
+_group setBehaviour "SAFE";
 
 if (SAS_Debug_global) then {
     private _wps = waypoints _group;

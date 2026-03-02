@@ -116,9 +116,8 @@ This ensures every function is self-documenting, easy to onboard, and consistent
 
 ## Debugging Standard
 
-All SAS functions must support debug output using the global debug flag and logging function:
+All SAS functions must support debug logging function:
 
-* The global debug flag (`SAS_Debug_global`) controls whether debug output is shown.
 * All debug output must use the centralized logging function: `["Your debug message"] call SAS_fnc_logDebug;`
 * Each function should include debug logic where appropriate, and document debug usage in the header block (add a "Debug" section if needed).
 * Example debug usage in header:

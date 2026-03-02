@@ -51,7 +51,21 @@ class SAS_Task {
         class garrisonUnits {};
     };
 };
+
+class SAS_NightOps {
+    class NightOps {
+        file = "sas\nightops\functions";
+        class useFlashlights {};
+        class useFlares {};
+        class fireFlaresAtTargetRecurring {};
+    };
+};
+
 #endif
 //<--SAS Functions
+
+
+
+
 
 

@@ -26,15 +26,15 @@ params [
 
 if (isNull _grp) exitWith {};
 if (typename _grp == "OBJECT") then { _grp = group _grp; };
-if (!local (leader _grp)) exitWith {};
+if (!local _grp) exitWith {};
 
 private _unit = leader _grp;
 
 private _ammoType = switch (toLower _color) do {
-    case "red":   { "F_20mm_Red" };
-    case "green": { "F_20mm_Green" };
-    case "blue":  { "F_20mm_Cyan" };
-    default { "F_20mm_White" };
+    case "red":   { "F_40mm_Red" };
+    case "green": { "F_40mm_Green" };
+    case "blue":  { "F_40mm_Cyan" };
+    default { "F_40mm_White" };
 };
 
 private _pos = if (count _position > 1) then { _position } else { _unit modelToWorld [0,50,200] };

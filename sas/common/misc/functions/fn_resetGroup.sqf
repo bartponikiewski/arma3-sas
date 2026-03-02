@@ -16,7 +16,7 @@ params [
 // Validate
 if (isNull _grp) exitWith {};
 if (typename _grp == "OBJECT") then { _grp = group _grp; };
-if (!local (leader _grp)) exitWith {};
+if (!local _grp) exitWith {};
 
 // Enable AI
 { _x enableAI "ALL"; } forEach units _grp;
