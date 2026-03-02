@@ -20,10 +20,11 @@ if (typename _group == "OBJECT") then { _group = group _group; };
 // Ensure this is a local group to avoid registering remote groups
 if (!local _group) exitWith {false};
 
-// Check if already registered (by casualties variable)
-if (!isNil {_group getVariable "SAS_Morale_casualties"}) exitWith {false};
+// Check if already registered
+if (!isNil {_group getVariable "SAS_Morale_registered"}) exitWith {false};
 
 // Set casualties array and initial groupFear
+_group setVariable ["SAS_Morale_registered", true, true];
 _group setVariable ["SAS_Morale_casualties", [], true];
 _group setVariable ["SAS_Morale_groupFear", 0, true];
 

@@ -14,6 +14,6 @@
 
 params ["_msg"];
 
-if (isNil "SAS_Debug_global" || {SAS_Debug_global}) then {
+if (!isNil "SAS_Debug_global" && SAS_Debug_global) then {
     hint format ["[SAS DEBUG] %1", _msg];
 };

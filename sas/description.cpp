@@ -1,9 +1,34 @@
 //-->SAS Functions
 #ifdef sas_cfg_functions
+
 class SAS {
+    class Common {
+        file = "sas\common\misc\functions";
+        class resetGroup {};
+        class fireFlare {};
+    };
+
     class Logging {
-        file = "sas\logging\functions";
+        file = "sas\common\logging\functions";
         class logDebug {};
+    };
+};
+
+class SAS_Reinforcement {
+    class Reinforcement {
+        file = "sas\reinforcement\functions";
+        class registerGroup {};
+        class onGroupFearChanged {};
+        class requestReinforcements {};
+        class sendReinforcements {};
+        class getCanCall {};
+        class setCanCall {};
+        class getCanBeCalled {};
+        class setCanBeCalled {};
+        class registerReinforcementGroup {};
+        class getRegisteredReinforcementGroups {};
+        class findNearestReinforcementGroup {};
+        class registerCallerGroup {};
     };
 };
 
