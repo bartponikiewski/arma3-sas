@@ -41,5 +41,17 @@ class SAS_Morale {
         class onUnitKilled {};
     };
 };
+
+class SAS_Task {
+    class Task {
+        file = "sas\task\functions";
+        class patrol {};
+        class defend {};
+        class garrison {};
+        class garrisonUnits {};
+    };
+};
 #endif
 //<--SAS Functions
+
+
