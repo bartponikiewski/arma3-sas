@@ -58,6 +58,8 @@ class SAS_NightOps {
         class useFlashlights {};
         class useFlares {};
         class fireFlaresAtTargetRecurring {};
+        class switchLight {};
+        class switchLightsInArea {};
     };
 };
 
