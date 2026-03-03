@@ -6,6 +6,7 @@ class SAS {
         file = "sas\common\misc\functions";
         class resetGroup {};
         class fireFlare {};
+        class doHalo {};
     };
 
     class Logging {
