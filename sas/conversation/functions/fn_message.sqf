@@ -46,7 +46,7 @@ private _nameBarH    = 0.038;
 private _portraitW   = 0.12;
 private _portraitH   = 0.12;
 private _dialogueH   = _portraitH;          // text area matches portrait height
-private _dialogW     = safeZoneW * 0.5;
+private _dialogW     = safeZoneW * 0.3;
 private _dialogX     = safeZoneX + (safeZoneW - _dialogW) * 0.5;
 // Place dialog near the bottom of the screen
 private _dialogY     = safeZoneY + safeZoneH - (_nameBarH + _dialogueH + (_padding * 3)) - (safeZoneH * 0.02);
@@ -56,6 +56,13 @@ private _dialogH = _nameBarH + _dialogueH + (_padding * 3);
 private _portraitCtrl = objNull; // initialize to avoid "variable does not exist" error in cleanup
 private _faceCtrl = objNull;     // initialize to avoid "variable does not exist" error in cleanup
 private _cam = objNull;         // initialize to avoid "variable does not exist" error in cleanup
+
+private _bgColor = [
+profilenamespace getVariable ['GUI_BCG_RGB_R', 0.05],
+profilenamespace getVariable ['GUI_BCG_RGB_G', 0.05],
+profilenamespace getVariable ['GUI_BCG_RGB_B', 0.07],
+profilenamespace getVariable ['GUI_BCG_RGB_A', 0.88]
+];
 
 // -------------------------------------------------------
 // Open base display (non-modal) and obtain its reference
@@ -83,7 +90,7 @@ _bg ctrlCommit 0;
 // -------------------------------------------------------
 private _nameBar = _display ctrlCreate ["RscText", 9101];
 _nameBar ctrlSetPosition [_dialogX, _dialogY, _dialogW, _nameBarH];
-_nameBar ctrlSetBackgroundColor [0.12, 0.20, 0.40, 0.96];
+_nameBar ctrlSetBackgroundColor _bgColor;
 _nameBar ctrlSetText _speaker;
 _nameBar ctrlSetTextColor [1.0, 0.90, 0.60, 1.0];
 _nameBar ctrlCommit 0;
@@ -107,6 +114,7 @@ if (!isNull _unit) then {
     _cam camSetTarget _unit;
     _cam camSetRelPos [0, 0.5, 1.5];
     _cam cameraEffect ["internal", "back", _rttName];
+
     _cam camCommit 1;
     _rttName setPiPEffect [0];
 

@@ -99,7 +99,7 @@ params [
     ["_speaker",   "",      [""]],
     ["_face",      "",      ["", objNull]],  // STRING = portrait path | OBJECT = unit for live cam
     ["_dialogue",  "",      [""]],
-    ["_responses", [["[End]", {}]], [[]]]
+    ["_responses", [["Close", {}]], [[]]]
 ];
 
 if (!hasInterface) exitWith {};
@@ -130,6 +130,14 @@ private _dialogH     = _nameBarH + _dialogueH + _btnAreaH + (_padding * 5);
 private _dialogX     = safeZoneX + (safeZoneW - _dialogW) * 0.5;
 // Place dialog in lower third of screen (conversation style)
 private _dialogY     = safeZoneY + safeZoneH * 0.62;
+
+private _bgColor = [
+profilenamespace getVariable ['GUI_BCG_RGB_R', 0.05],
+profilenamespace getVariable ['GUI_BCG_RGB_G', 0.05],
+profilenamespace getVariable ['GUI_BCG_RGB_B', 0.07],
+profilenamespace getVariable ['GUI_BCG_RGB_A', 0.88]
+];
+
 
 // -------------------------------------------------------
 // Open base dialog and obtain its display reference
@@ -170,7 +178,7 @@ _bg ctrlCommit 0;
 // -------------------------------------------------------
 private _nameBar = _display ctrlCreate ["RscText", 9101];
 _nameBar ctrlSetPosition [_dialogX, _dialogY, _dialogW, _nameBarH];
-_nameBar ctrlSetBackgroundColor [0.12, 0.20, 0.40, 0.96];
+_nameBar ctrlSetBackgroundColor _bgColor;
 _nameBar ctrlSetText _speaker;
 _nameBar ctrlSetTextColor [1.0, 0.90, 0.60, 1.0];
 _nameBar ctrlCommit 0;
@@ -252,7 +260,7 @@ _textCtrl ctrlCommit 0;
 private _divY = _contentY + _dialogueH + (_padding * 0.5);
 private _divider = _display ctrlCreate ["RscText", 9104];
 _divider ctrlSetPosition [_dialogX + _padding, _divY, _dialogW - (_padding * 2), 0.002];
-_divider ctrlSetBackgroundColor [0.30, 0.40, 0.60, 0.60];
+_divider ctrlSetBackgroundColor _bgColor;
 _divider ctrlCommit 0;
 
 // -------------------------------------------------------
