@@ -27,6 +27,8 @@ params [
     ["_duration",  4,        [4]]
 ];
 
+if (!hasInterface) exitWith { displayNull };
+
 // Resolve whether _face is a unit or a static portrait path
 private _unit     = objNull;
 private _portrait = "";
@@ -44,10 +46,7 @@ private _nameBarH    = 0.038;
 private _portraitW   = 0.12;
 private _portraitH   = 0.12;
 private _dialogueH   = _portraitH;          // text area matches portrait height
-// No buttons, so no button area
-private _dialogW     = safeZoneW * 0.5;     // wider than before
-private _dialogH     = _nameBarH + _dialogH + (_padding * 3); // placeholder will be recalculated below
-
+private _dialogW     = safeZoneW * 0.5;
 private _dialogX     = safeZoneX + (safeZoneW - _dialogW) * 0.5;
 // Place dialog near the bottom of the screen
 private _dialogY     = safeZoneY + safeZoneH - (_nameBarH + _dialogueH + (_padding * 3)) - (safeZoneH * 0.02);
