@@ -13,6 +13,18 @@ class SAS {
         file = "sas\common\logging\functions";
         class logDebug {};
     };
+
+    class Gui {
+        file = "sas\common\gui\functions";
+        class guiMessage {};
+    };
+};
+
+class SAS_Conv {
+    class Conversation {
+        file = "sas\conversation\functions";
+        class messageDialog {};
+    };
 };
 
 class SAS_Reinforcement {
