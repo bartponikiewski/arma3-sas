@@ -102,7 +102,7 @@ params [
     ["_responses", [["[End]", {}]], [[]]]
 ];
 
-if (!hasInterface) exitWith { displayNull };
+if (!hasInterface) exitWith {};
 
 // Resolve whether _face is a unit or a static portrait path
 private _unit     = objNull;
