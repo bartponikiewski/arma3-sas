@@ -24,6 +24,7 @@ class SAS_Conv {
     class Conversation {
         file = "sas\conversation\functions";
         class messageDialog {};
+        class message {};
     };
 };
 

@@ -23,7 +23,7 @@
     in description.ext. All controls are injected dynamically.
 
     Usage:
-    [speaker, face, dialogue, responses] call SAS_Conv_fnc_messageDialog;
+    [speaker, face, dialogue, responses] call SAS_Conv_fnc_messageDialogDialog;
 
     Parameter(s):
     0: (Optional) STRING - Speaker name shown in the name bar (default: "")
@@ -45,7 +45,7 @@
 
     Examples:
     // 1. Minimal - NPC says one line, no portrait
-    ["Sgt. Harris", "", "Stay sharp. They know we're here."] call SAS_Conv_fnc_message;
+    ["Sgt. Harris", "", "Stay sharp. They know we're here."] call SAS_Conv_fnc_messageDialog;
 
     // 2. Live face cam from a unit object
     private _npc = grpNull; // replace with actual unit reference
@@ -54,7 +54,7 @@
             ["Push through", { hint "Pushing through the hot zone!"; }],
             ["Fall back",    { hint "Falling back to rally point."; }]
         ]
-    ] call SAS_Conv_fnc_message;
+    ] call SAS_Conv_fnc_messageDialog;
 
     // 3. Static portrait image (legacy)
     [
@@ -62,7 +62,7 @@
         "portraits\vasquez.paa",
         "Command wants us to secure the compound before dawn. Understood?",
         [["Understood", {}]]
-    ] call SAS_Conv_fnc_message;
+    ] call SAS_Conv_fnc_messageDialog;
 
     // 4. Chained nodes with live face cam - unit reference auto-forwarded
     [
@@ -89,7 +89,7 @@
                 ]
             ]]
         ]
-    ] call SAS_Conv_fnc_message;
+    ] call SAS_Conv_fnc_messageDialog;
 
     Debug:
     Calls SAS_fnc_logDebug to output debug information if SAS_Debug_global is true.
@@ -135,13 +135,13 @@ private _dialogY     = safeZoneY + safeZoneH * 0.62;
 // while it is open and only becomes visible after it closes.
 // Log before createDialog so the message fires visibly.
 // -------------------------------------------------------
-["[SAS_Conv_fnc_message] Opening - Speaker: '" + _speaker + "' | Face unit: " + (if (isNull _unit) then { "none" } else { str _unit }) + " | Portrait: '" + _portrait + "' | Responses: " + str (count _responses)] call SAS_fnc_logDebug;
+["[SAS_Conv_fnc_messageDialog] Opening - Speaker: '" + _speaker + "' | Face unit: " + (if (isNull _unit) then { "none" } else { str _unit }) + " | Portrait: '" + _portrait + "' | Responses: " + str (count _responses)] call SAS_fnc_logDebug;
 
 createDialog "SAS_RscGuiMessage";
 private _display = findDisplay 9001;
 
 if (isNull _display) exitWith {
-    ["[SAS_Conv_fnc_message] ERROR: Failed to open SAS_RscGuiMessage dialog"] call SAS_fnc_logDebug;
+    ["[SAS_Conv_fnc_messageDialog] ERROR: Failed to open SAS_RscGuiMessage dialog"] call SAS_fnc_logDebug;
     displayNull
 };
 
@@ -187,14 +187,11 @@ if (!isNull _unit) then {
 
     private _headPos = _unit modelToWorldVisual (_unit selectionPosition "head");
     _headPos set [2, _headPos select 2 + 0.5]; // shift target up to face centre
-    // Camera offset in unit MODEL space (consistent regardless of animation frame)
     private _localOffset = [0, 0.3, 0.09];
     private _camPos = _headPos vectorAdd (_unit vectorModelToWorld _localOffset);
-    private _dirVec = vectorNormalized (_headPos vectorDiff _camPos);
-    private _upVec  = if (abs (_dirVec select 2) > 0.9) then { [1,0,0] } else { [0,0,1] };
 
     private _cam = "camera" camCreate _camPos;
-    _cam camSetTarget player;
+    _cam camSetTarget _unit;
     _cam camSetRelPos [0, 0.5, 1.5];
     _cam cameraEffect ["internal", "back", _rttName];
     _cam camCommit 1;
@@ -208,11 +205,11 @@ if (!isNull _unit) then {
     _textOffsetX = _portraitW + (_padding * 2);
 
     // Store both cam and rtt name for cleanup
-    _display setVariable ["SAS_guiConvCam", _cam];
-    _display setVariable ["SAS_guiConvRtt", _rttName];
+    _display setVariable ["SAS_Conv_messageDialogGuiCam", _cam];
+    _display setVariable ["SAS_Conv_messageDialogGuiRtt", _rttName];
     _display displayAddEventHandler ["Unload", {
         params ["_disp"];
-        private _c = _disp getVariable ["SAS_guiConvCam", objNull];
+        private _c = _disp getVariable ["SAS_Conv_messageDialogGuiCam", objNull];
         if (!isNull _c) then {
             _c cameraEffect ["terminate", "back"];
             camDestroy _c;
@@ -227,7 +224,7 @@ if (!isNull _unit) then {
         _portraitCtrl ctrlSetText _portrait;
         _portraitCtrl ctrlCommit 0;
         _textOffsetX = _portraitW + (_padding * 2);
-        ["[SAS_Conv_fnc_message] Static portrait loaded: " + _portrait] call SAS_fnc_logDebug;
+        ["[SAS_Conv_fnc_messageDialog] Static portrait loaded: " + _portrait] call SAS_fnc_logDebug;
     };
 };
 
@@ -292,10 +289,10 @@ private _actionMap = createHashMap;
         params ["_control"];
         private _idc     = ctrlIDC _control;
         private _disp    = ctrlParent _control;
-        private _actMap  = _disp getVariable ["SAS_guiConvActionMap", createHashMap];
+        private _actMap  = _disp getVariable ["SAS_Conv_messageDialogGuiActionMap", createHashMap];
         private _act     = _actMap getOrDefault [str _idc, {}];
         // Retrieve the current unit so it can be forwarded to chained nodes
-        private _curUnit = _disp getVariable ["SAS_guiConvUnit", objNull];
+        private _curUnit = _disp getVariable ["SAS_Conv_messageDialogGuiUnit", objNull];
         _disp closeDisplay 0;
         // If action is ARRAY, treat as next conversation node params
         if (_act isEqualType []) then {
@@ -304,19 +301,19 @@ private _actionMap = createHashMap;
             if ((count _act >= 2) && { (_act select 1) isEqualTo "" } && { !isNull _curUnit }) then {
                 _act set [1, _curUnit];
             };
-            _act call SAS_Conv_fnc_message;
+            _act call SAS_Conv_fnc_messageDialog;
         } else {
             [] call _act;
         };
     }];
 
-   // ["[SAS_Conv_fnc_message] Response created - IDC: " + str _btnIDC + " Label: '" + _responseLabel + "'"] call SAS_fnc_logDebug;
+   // ["[SAS_Conv_fnc_messageDialog] Response created - IDC: " + str _btnIDC + " Label: '" + _responseLabel + "'"] call SAS_fnc_logDebug;
 } forEach _responses;
 
 // Attach action map and unit reference to display for event handler retrieval
-_display setVariable ["SAS_guiConvActionMap", _actionMap];
-_display setVariable ["SAS_guiConvUnit", _unit];
+_display setVariable ["SAS_Conv_messageDialogGuiActionMap", _actionMap];
+_display setVariable ["SAS_Conv_messageDialogGuiUnit", _unit];
 
-// ["[SAS_Conv_fnc_message] Dialog ready with " + str (count _responses) + " response(s)"] call SAS_fnc_logDebug;
+// ["[SAS_Conv_fnc_messageDialog] Dialog ready with " + str (count _responses) + " response(s)"] call SAS_fnc_logDebug;
 
 _display
