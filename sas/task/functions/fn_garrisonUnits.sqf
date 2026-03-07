@@ -1,6 +1,6 @@
 /*
     Description:
-    Garrisons units from a group into nearby buildings within a given radius. Each available building position is filled in order until all units are placed or positions run out. Optionally prioritizes high (Z) positions (e.g., towers/roofs).
+    Garrisons units into nearby buildings within a given radius. Each available building position is filled in order until all units are placed or positions run out. Optionally prioritizes high (Z) positions (e.g., towers/roofs).
 
     Usage:
     [group, position, radius, prioritizeByHeight] call SAS_Task_fnc_garrisonUnits;

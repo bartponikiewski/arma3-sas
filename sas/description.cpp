@@ -7,6 +7,7 @@ class SAS {
         class resetGroup {};
         class fireFlare {};
         class doHalo {};
+        class switchSide {};
     };
 
     class Logging {
@@ -77,7 +78,15 @@ class SAS_NightOps {
     };
 };
 
+class SAS_Civilians {
+    class Civilians {
+        file = "sas\civilians\functions";
+        class makeHostile {};
+    };
+};
+
 #endif
+
 //<--SAS Functions
 
 
