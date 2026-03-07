@@ -1,6 +1,6 @@
 // -------------------------------------------------------
 // SAS GUI: Base empty dialog (mouse-enabled, no controls)
-// All content is created dynamically via SAS_Gui_fnc_guiMessage
+// All content is created dynamically via SAS_fnc_guiMessage
 // -------------------------------------------------------
 class SAS_RscGuiMessage
 {

@@ -9,7 +9,7 @@
     in description.ext. All controls are injected dynamically.
 
     Usage:
-    [title, message, buttons] call SAS_Gui_fnc_guiMessage;
+    [title, message, buttons] call SAS_fnc_guiMessage;
 
     Parameter(s):
     0: (Optional) STRING - Dialog title text (default: "Message")
@@ -24,10 +24,10 @@
 
     Examples:
     // Simple OK dialog
-    ["Notice", "Mission area is now active."] call SAS_Gui_fnc_guiMessage;
+    ["Notice", "Mission area is now active."] call SAS_fnc_guiMessage;
 
     // Custom single button
-    ["Warning", "Proceed with caution.", [["Understood", {}]]] call SAS_Gui_fnc_guiMessage;
+    ["Warning", "Proceed with caution.", [["Understood", {}]]] call SAS_fnc_guiMessage;
 
     // Multiple buttons with actions
     [
@@ -38,7 +38,7 @@
             ["Hold",    { hint "Holding position."; }],
             ["Cancel",  {}]
         ]
-    ] call SAS_Gui_fnc_guiMessage;
+    ] call SAS_fnc_guiMessage;
 
     Debug:
     Calls SAS_fnc_logDebug to output debug information if SAS_Debug_global is true.
@@ -50,7 +50,7 @@ params [
     ["_buttons", [["OK", {}]], [[]]]
 ];
 
-["[SAS_Gui_fnc_guiMessage] Creating dialog - Title: '" + _title + "' | Buttons: " + str (count _buttons)] call SAS_fnc_logDebug;
+["[SAS_fnc_guiMessage] Creating dialog - Title: '" + _title + "' | Buttons: " + str (count _buttons)] call SAS_fnc_logDebug;
 
 // -------------------------------------------------------
 // Layout constants (SafeZone-relative units)
@@ -72,11 +72,11 @@ createDialog "SAS_RscGuiMessage";
 private _display = findDisplay 9001;
 
 if (isNull _display) exitWith {
-    ["[SAS_Gui_fnc_guiMessage] ERROR: Failed to open SAS_RscGuiMessage dialog"] call SAS_fnc_logDebug;
+    ["[SAS_fnc_guiMessage] ERROR: Failed to open SAS_RscGuiMessage dialog"] call SAS_fnc_logDebug;
     displayNull
 };
 
-["[SAS_Gui_fnc_guiMessage] Display opened successfully"] call SAS_fnc_logDebug;
+["[SAS_fnc_guiMessage] Display opened successfully"] call SAS_fnc_logDebug;
 
 // -------------------------------------------------------
 // Background panel
@@ -145,12 +145,12 @@ private _actionMap = createHashMap;
         [] call _act;
     }];
 
-    ["[SAS_Gui_fnc_guiMessage] Button created - IDC: " + str _btnIDC + " Label: '" + _btnLabel + "'"] call SAS_fnc_logDebug;
+    ["[SAS_fnc_guiMessage] Button created - IDC: " + str _btnIDC + " Label: '" + _btnLabel + "'"] call SAS_fnc_logDebug;
 } forEach _buttons;
 
 // Attach action map to display for event handler retrieval
 _display setVariable ["SAS_guiMsgActionMap", _actionMap];
 
-["[SAS_Gui_fnc_guiMessage] Dialog ready with " + str _btnCount + " button(s)"] call SAS_fnc_logDebug;
+["[SAS_fnc_guiMessage] Dialog ready with " + str _btnCount + " button(s)"] call SAS_fnc_logDebug;
 
 _display
