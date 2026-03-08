@@ -3,13 +3,11 @@
 SAS_Debug_global = true; // Set to false to disable all SAS debug output
 
 
-SAS_test = {
-private _timeline =
-[
-	[0.0, { hint "Start of the Timeline" }],
-	[1.0, { hint "Event 1" }],
-	[3.0, { hint "End of the timeline" }]
-];
+group civ_1 addEventHandler ["KnowsAboutChanged", {
+	params ["_group", "_targetUnit", "_newKnowsAbout", "_oldKnowsAbout"];
 
-[_timeline, 0, "", { hint "Interrupted" }, { hint "Timeline done" }] spawn BIS_fnc_eventTimeline;
-}
+	private _unitKnowsAbout = civ_1 knowsAbout _targetUnit;
+	hint format ["[KnowsAboutChanged] Group: %1, Target Unit: %2, New Knows About: %3, Old Knows About: %4, Unit Knows About: %5", _group, _targetUnit, _newKnowsAbout, _oldKnowsAbout, _unitKnowsAbout];
+}];
+
+hint "test";
