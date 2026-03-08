@@ -95,6 +95,16 @@ class SAS_Civilians {
     };
 };
 
+class SAS_Briefing {
+    class Briefing {
+        file = "sas\briefing\functions";
+        class createDiarySubject {};
+        class createBriefing {};
+        class createNotes {};
+        class addDiaryRecord {};
+    };
+};
+
 #endif
 
 //<--SAS Functions

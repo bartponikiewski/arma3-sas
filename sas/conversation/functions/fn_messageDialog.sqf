@@ -102,6 +102,7 @@ params [
     ["_responses", [["Close", {}]], [[]]]
 ];
 
+if (isDedicated) exitWith {};
 if (!hasInterface) exitWith {};
 
 // Resolve whether _face is a unit or a static portrait path
@@ -323,6 +324,9 @@ private _actionMap = createHashMap;
 // Attach action map and unit reference to display for event handler retrieval
 _display setVariable ["SAS_Conv_messageDialogGuiActionMap", _actionMap];
 _display setVariable ["SAS_Conv_messageDialogGuiUnit", _unit];
+
+// Add diary record with conversation log.
+["Conversations Log", _speaker, _dialogue] remoteExecCall ["SAS_Briefing_fnc_addDiaryRecord", 0];
 
 // ["[SAS_Conv_fnc_messageDialog] Dialog ready with " + str (count _responses) + " response(s)"] call SAS_fnc_logDebug;
 
