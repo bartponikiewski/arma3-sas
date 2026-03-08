@@ -21,6 +21,16 @@ class SAS {
     };
 };
 
+class SAS_Intro {
+    class Intro {
+        file = "sas\intro\functions";
+        class quote {};
+        class uav {};
+        class infoText {};
+        class opening {};
+    };
+};
+
 class SAS_Conv {
     class Conversation {
         file = "sas\conversation\functions";

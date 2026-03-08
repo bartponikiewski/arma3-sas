@@ -3,7 +3,7 @@
     Makes a civilian unit hostile and arms them with a weapon.
 
     Usage:
-    [civ, weaponClass] call SAS_civilians_fnc_makeHostile;
+    [civ, side player, weaponClass] call SAS_civilians_fnc_makeHostile;
 
     Parameter(s):
     0: OBJECT/GROUP - Civilian Unit or group to make hostile
@@ -38,24 +38,33 @@ if (isNull _civGroup) exitWith {
     [format ["[makeHostile] Invalid civilian group: %1", _civGroup]] call SAS_fnc_logDebug;
     false
 };
-if ({side _civGroup != civilian}) exitWith {
+if (typename _civGroup == "OBJECT") then { _civGroup = group _civGroup; };
+
+if ((side _civGroup) != civilian) exitWith {
     [format ["[makeHostile] Invalid civilian group side: %1", _civGroup]] call SAS_fnc_logDebug;
     false
 };
-if (typename _civGroup == "OBJECT") then { _civGroup = group _civGroup; };
+
 if (!local _civGroup) exitWith {
 	[format ["[makeHostile] Civilian group %1 is not local", _civGroup]] call SAS_fnc_logDebug;
 	false
 };
 
 // Determine hostile side
-private _hostileSides = _side call BIS_fnc_enemySides;
+// remove sideEnemy if exists, this side cannot be used to create group in switchSide
+private _hostileSides = (_side call BIS_fnc_enemySides) select { _x != sideEnemy };
+
+
 if (count _hostileSides == 0) exitWith {
 	[format ["[makeHostile] Invalid side: %1", _side]] call SAS_fnc_logDebug;
 	false
 };
 
+// Select the first hostile side (could be randomized if multiple sides are valid)
 private _hostileSide = _hostileSides select 0;
+
+// Move civilian to a new hostile group (_hostileSide)
+private _hostileGroup = [_civGroup, _hostileSide] call SAS_fnc_switchSide;
 
 // Determine weapon type
 private _weaponType = if (isNil "_weaponType") then { selectRandom (keys _weaponsConfig) } else { _weaponType };
@@ -69,22 +78,14 @@ if !(_weaponType in _weaponsConfig) exitWith {
 // Select a random weapon from the chosen type
 private _weaponClass = selectRandom (_weaponsConfig get _weaponType);
 
-// Move civilian to a new hostile group (_hostileSide)
-[_civGroup, _hostileSide] call SAS_fnc_switchSide;
-
 // Add weapon and ammo to each civilian in the group, and set them to be hostile
 {
 	private _civ = _x;
-	_civ addWeapon _weaponClass;
-
-	private _mags = compatibleMagazines _weaponClass;
-	if (count _mags > 0) then {
-		_civ addMagazines [(_mags select 0), 2];
-	};
+	[_civ, _weaponClass, 2] call BIS_fnc_addWeapon;
 
 	_civ setCaptive false;
 	_civ selectWeapon _weaponClass;
-} forEach units _civGroup;
+} forEach units _hostileGroup;
 
-[format ["[makeHostile] Civilian group %1 is now hostile and armed with %2", _civGroup, _weaponClass]] call SAS_fnc_logDebug;
+[format ["[makeHostile] Civilian group %1 is now hostile and armed with %2", _hostileGroup, _weaponClass]] call SAS_fnc_logDebug;
 true;

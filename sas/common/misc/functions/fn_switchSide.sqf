@@ -13,7 +13,7 @@
     1: SIDE - Target side
 
     Returns:
-    BOOL - true if successful, false otherwise
+    _grp  new group created for the unit or group with the new side, or false if there was an error
     
     Debug:
     Calls SAS_fnc_logDebug to output debug information if SAS_Debug_global is true.
@@ -21,7 +21,7 @@
 
 params ["_entity", "_side"];
 
-if (isNull _entity || isNil "_side") exitWith {
+if (isNull _entity || isNil "_side" || _side == sideEnemy) exitWith {
     [format ["[switchSide] Invalid entity or side: %1, %2", _entity, _side]] call SAS_fnc_logDebug;
     false
 };
@@ -31,24 +31,15 @@ if (!local _entity) exitWith {
 	false
 };
 
-private _grp = createGroup [_side, true];
-if (typeName _entity == "OBJECT") then {
-    // Switch side for a single unit
-    
-    [_entity] joinSilent _grp;
-    [format ["[switchSide] Unit %1 switched to side %2", _entity, _side]] call SAS_fnc_logDebug;
-    true
-} else {
-    if (typeName _entity == "GROUP") then {
-        // Switch side for all units in the group
-        private _units = units _entity;
-        {
-            [_x] joinSilent _grp;
-        } forEach _units;
-        [format ["[switchSide] Group %1 switched to side %2", _entity, _side]] call SAS_fnc_logDebug;
-        true
-    } else {
-        [format ["[switchSide] Unsupported entity type: %1", typeName _entity]] call SAS_fnc_logDebug;
-        false
-    };
-};
+private _currentGroup = if (typeName _entity == "OBJECT") then { group _entity } else { _entity };
+private _newGroup = createGroup [_side, false];
+
+{
+    [_x] joinSilent _newGroup;
+} forEach units _currentGroup;
+
+_newGroup deleteGroupWhenEmpty true;
+
+[format ["[switchSide] %1 switched to side %2, to new group %3", _entity, _side, _newGroup]] call SAS_fnc_logDebug;
+
+_newGroup;
