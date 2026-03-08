@@ -24,8 +24,7 @@ if (!hasInterface) exitWith {
     ["SAS_Briefing_fnc_createIntel: skipped (no interface)"] call SAS_fnc_logDebug;
 };
 
-params ["_records"];
 
 ["SAS_Briefing_fnc_createIntel: creating Intel subject"] call SAS_fnc_logDebug;
 
-["Intel", _records] call SAS_Briefing_fnc_createDiarySubject;
+["Intel", _this] call SAS_Briefing_fnc_createDiarySubject;

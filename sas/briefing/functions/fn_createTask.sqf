@@ -61,32 +61,21 @@ params [
     ["_destination", objNull, [objNull, [], ""]],
     ["_assign", false, [false]],
     ["_priority", -1, [0]],
-    ["_parent", nil, [nil, ""]],
+    ["_parent", "", [""]]
 ];
 
 if (!isServer) exitWith {
     ["SAS_Tasks_fnc_createTask: skipped (not server)"] call SAS_fnc_logDebug;
 };
 
-["SAS_Tasks_fnc_createTask: creating task '" + _taskID + "' (type: " + _type + ", destination: " + str _marker + ", parent: '" + _parent + "', assign: " + str _assign + ")"] call SAS_fnc_logDebug;
+[format ["SAS_Tasks_fnc_createTask: creating task '%1' (type: %2, destination: %3, parent: '%4', assign: %5)", _taskID, _type, _destination, _parent, _assign]] call SAS_fnc_logDebug;
 
-if (typeName _destination == "STRING") then {
-    if (_destination isEqualTo "") then {
-        private _marker = "";
-    } else {
-        private _marker = _destination;
-    };
-}
-
-if (!isNil "_parent") then {
-    _taskID = [_taskID, _parent];
+if ((typeName _destination == "STRING") && !(_destination isEqualTo "")) then {
+   _destination =  getMarkerPos _destination; 
 };
 
-switch (typeName _marker) do {
-    case "OBJECT": { _destination = [_marker, "", objNull] };
-    case "ARRAY":  { _destination = [_marker, "", objNull] };
-    case "STRING": { if (_marker isEqualTo "") then { _destination = [] } else { _destination = [getMarkerPos _marker, _marker, objNull] } };
-    default        { _destination = [] }
+if (_parent isEqualTo "") then {
+    _taskID = [_taskID, _parent];
 };
 
 private _initialState = if (_assign) then { "Assigned" } else { "Created" };
@@ -100,12 +89,12 @@ private _task = [
     _priority,
     missionNamespace getVariable ["SAS_Briefing_TaskShowNotification", false],
     _type,
-    missionNamespace getVariable ["SAS_Briefing_Task3D", false],
+    missionNamespace getVariable ["SAS_Briefing_Task3D", false]
 ] call BIS_fnc_taskCreate;
 
 
 [missionNamespace, "SAS_Briefing_TaskCreated", [_taskID]] remoteExecCall ["BIS_fnc_callScriptedEventHandler", 0];
 
-["SAS_Tasks_fnc_createTask: task '" + _taskID + "' created successfully"] call SAS_fnc_logDebug;
+[format ["SAS_Tasks_fnc_createTask: task '%1' created successfully", _taskID]] call SAS_fnc_logDebug;
 
-_task
+_taskID

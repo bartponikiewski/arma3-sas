@@ -20,7 +20,7 @@
 params [
 	["_civGroup", objNull, [objNull, grpNull]], 
 	["_side", west, [west, east, resistance, civilian]], 
-	["_weaponType", nil, ["PISTOL", "SMG", "SHOTGUN","RIFLE", nil]]
+	["_weaponType", "AUTO", ["AUTO", "PISTOL", "SMG", "SHOTGUN","RIFLE"]]
 ];
 
 
@@ -67,7 +67,7 @@ private _hostileSide = _hostileSides select 0;
 private _hostileGroup = [_civGroup, _hostileSide] call SAS_fnc_switchSide;
 
 // Determine weapon type
-private _weaponType = if (isNil "_weaponType") then { selectRandom (keys _weaponsConfig) } else { _weaponType };
+private _weaponType = if (_weaponType isEqualTo "AUTO") then { selectRandom (keys _weaponsConfig) } else { _weaponType };
 
 // Check if weapon type is valid
 if !(_weaponType in _weaponsConfig) exitWith {

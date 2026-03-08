@@ -30,7 +30,7 @@
             2: STRING                        - Task description
             3: (Optional) STRING             - Task type (default: "Move")
             4: (Optional) STRING, ARRAY, or OBJECT - Task destination (default: objNull)
-            5: (Optional) STRING             - Parent task ID (default: nil)
+            5: (Optional) STRING             - Parent task ID (default: "")
 
     Returns:
     ARRAY - Created TASK objects in the same order as the input
@@ -39,16 +39,13 @@
     Calls SAS_fnc_logDebug to output debug info if SAS_Debug_global is true.
 */
 
-params ["_tasks"];
-
 if (!isServer) exitWith {
-    ["SAS_Tasks_fnc_createTasks: skipped (not server)"] call SAS_fnc_logDebug;
+    ["SAS_Briefing_fnc_createTasks: skipped (not server)"] call SAS_fnc_logDebug;
 };
 
+["SAS_Briefing_fnc_createTasks: creating " + str (count _this) + " task(s)"] call SAS_fnc_logDebug;
 
-["SAS_Briefing_fnc_createTasks: creating " + str (count _tasks) + " task(s)"] call SAS_fnc_logDebug;
-
-private _count = count _tasks;
+private _count = count _this;
 private _createdTasks = [];
 
 {
@@ -58,7 +55,7 @@ private _createdTasks = [];
         "_description",
         ["_type", "Move"],
         ["_destination", objNull],
-        ["_parent", nil]
+        ["_parent", ""]
     ];
 
     private _priority = _count - 1 - _forEachIndex;
@@ -68,7 +65,7 @@ private _createdTasks = [];
 
     private _task = [_taskID, _title, _description, _type, _destination, _assign, _priority, _parent] call SAS_Briefing_fnc_createTask;
     _createdTasks pushBack _task;
-} forEach _tasks;
+} forEach _this;
 
 ["SAS_Briefing_fnc_createTasks: done"] call SAS_fnc_logDebug;
 

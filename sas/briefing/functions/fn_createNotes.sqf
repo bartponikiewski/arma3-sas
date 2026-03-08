@@ -24,8 +24,7 @@ if (!hasInterface) exitWith {
     ["SAS_Briefing_fnc_createNotes: skipped (no interface)"] call SAS_fnc_logDebug;
 };
 
-params ["_records"];
 
 ["SAS_Briefing_fnc_createNotes: creating Notes subject"] call SAS_fnc_logDebug;
 
-["Notes", _records] call SAS_Briefing_fnc_createDiarySubject;
+["Notes", _this] call SAS_Briefing_fnc_createDiarySubject;

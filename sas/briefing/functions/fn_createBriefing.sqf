@@ -30,14 +30,9 @@ if (!hasInterface) exitWith {
     ["SAS_Briefing_fnc_createBriefing: skipped (no interface)"] call SAS_fnc_logDebug;
 };
 
-params [
-    ["_records", [
-        ["Mission",   ""],
-        ["Situation", ""],
-        ["Execution", ""]
-    ], [[]]]
-];
-
 ["SAS_Briefing_fnc_createBriefing: creating Briefing subject"] call SAS_fnc_logDebug;
 
-["Briefing", _records] call SAS_Briefing_fnc_createDiarySubject;
+["Diary", _this] call SAS_Briefing_fnc_createDiarySubject;
+    
+
+
