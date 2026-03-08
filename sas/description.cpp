@@ -101,6 +101,7 @@ class SAS_Briefing {
         class createDiarySubject {};
         class createBriefing {};
         class createNotes {};
+        class createIntel {};
         class addDiaryRecord {};
     };
 };

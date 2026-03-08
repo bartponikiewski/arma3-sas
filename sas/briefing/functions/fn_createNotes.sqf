@@ -6,8 +6,8 @@
 
     Usage:
     [
-        ["Objectives", "1. Secure the LZ<br/>2. Eliminate HVT"],
-        ["Intel",      "Enemy patrol route: grid 112233 to 445566"],
+        ["Credits", "Mission designed by XYZ"],
+        ["Tech notes", "This mission is using Sushi Arma Scripts framework v1.0.0"],
     ] call SAS_Briefing_fnc_createNotes;
 
     Parameters:
