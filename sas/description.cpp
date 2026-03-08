@@ -103,6 +103,12 @@ class SAS_Briefing {
         class createNotes {};
         class createIntel {};
         class addDiaryRecord {};
+        class createTask {};
+        class createTasks {};
+        class setTaskState {};
+        class completeTask {};
+        class failTask {};
+        class cancelTask {};
     };
 };
 
