@@ -18,9 +18,6 @@ hint "TEST";
 if (isDedicated) exitWith {};
 if (!hasInterface) exitWith {};
 
-if (isDedicated) exitWith {};
-if (!hasInterface) exitWith {};
-
 waitUntil {(!isNull player)};
 
 private _qArr = [

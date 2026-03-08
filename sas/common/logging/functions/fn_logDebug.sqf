@@ -14,6 +14,8 @@
 
 params ["_msg"];
 
-if (!isNil "SAS_Debug_global" && SAS_Debug_global) then {
+private _debugGlobal = missionNamespace getVariable ["SAS_Debug_global", false];
+
+if (_debugGlobal) then {
     hint format ["[SAS DEBUG] %1", _msg];
 };
