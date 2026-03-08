@@ -1,6 +1,5 @@
 //-->SAS Functions
 #ifdef sas_cfg_functions
-
 class SAS {
     class Common {
         file = "sas\common\misc\functions";
@@ -21,6 +20,14 @@ class SAS {
     };
 };
 
+class SAS_Skills {
+    class Skills {
+        file = "sas\skills\functions";
+        class set {};
+        class paramSkills {};
+    };
+};
+
 class SAS_Intro {
     class Intro {
         file = "sas\intro\functions";
@@ -28,6 +35,7 @@ class SAS_Intro {
         class uav {};
         class infoText {};
         class opening {};
+        class enabled {};
     };
 };
 
@@ -111,13 +119,4 @@ class SAS_Briefing {
         class cancelTask {};
     };
 };
-
 #endif
-
-//<--SAS Functions
-
-
-
-
-
-

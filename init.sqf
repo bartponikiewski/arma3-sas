@@ -30,4 +30,9 @@
 ] call SAS_Briefing_fnc_createTasks;
 
 // Intro order
+private _introEnabled = [] call SAS_Intro_fnc_enabled;
+hint format ["Intro enabled: %1", _introEnabled];
+if (_introEnabled) then {
+
+};
 

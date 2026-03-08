@@ -1,14 +1,67 @@
-// -------------------------------------------------------
-// SAS GUI: Base empty dialog (mouse-enabled, no controls)
-// All content is created dynamically via SAS_fnc_guiMessage
-// -------------------------------------------------------
-class SAS_RscGuiMessage
+//--> Mission info
+author = "Sushi";
+briefingName = "SAS v1.0 Development Mission";
+
+//--> Overview
+overviewText = "Playground for SAS Development";
+overviewPicture = "sas\assets\mission_bg.jpg";
+
+//--> Loading screen 
+onLoadName = "SAS v1.0 Development Mission"; // Mission name (temporary solution; actual name set in editor will be used later in the alpha)
+onLoadMission = "Playground for SAS Development"; // Description
+loadScreen = "sas\assets\mission_bg.jpg"; // Preview picture
+
+class Header
 {
-    idd = 9001;
-    movingEnable = 0;       // integer 0 required in config, not false
-    enableSimulation = 0;   // disables player input while dialog is open
-    onLoad = "";
-    class Controls {};
+	gameType = "Coop";	// game type
+	minPlayers =  1;	// minimum number of players the mission supports
+	maxPlayers = 4;	// maximum number of players the mission supports
+};
+
+//--> Respawn settings
+respawn = 1;
+respawnDelay = 42;
+respawnTemplates[] = { "Spectator" };
+
+//--> Revive settings
+reviveMode = 1;
+reviveUnconsciousStateMode=0;
+reviveRequiredTrait = 0;
+reviveRequiredItems = 2;
+reviveRequiredItemsFakConsumed = 1;
+reviveMedicSpeedMultiplier = 2;
+reviveDelay = 10;
+reviveForceRespawnDelay = 5;
+reviveBleedOutDelay = 200;
+
+// --> Mission settings
+class Params
+{
+	// Params examples
+
+	// class Daytime
+	// {
+	// 	title = "Time";
+	// 	texts[] = { "Morning", "Day", "Evening", "Night" };
+	// 	values[] = { 6, 12, 18, 0 };
+	// 	default = 12;
+	// 	function = "BIS_fnc_paramDaytime";
+	// };
+
+	// class Weather
+	// {
+	// 	title = "Weather";
+	// 	texts[] = { "Clear", "Cloudy", "Rainy", "Stormy" };
+	// 	values[] = { 0, 0.5, 1, 1.5 };
+	// 	default = 0;
+	// 	function = "BIS_fnc_paramWeather";
+	// };
+
+	//-->SAS Params
+	#define sas_cfg_params
+	#include "sas\params.cpp"
+	#undef sas_cfg_params
+	//<--SAS Params
 };
 
 //-->Functions
@@ -16,8 +69,14 @@ class cfgFunctions
 {
 	//->SAS Functions
 	#define sas_cfg_functions
-	#include "sas\description.cpp"
+	#include "sas\functions.cpp"
 	#undef sas_cfg_functions
 	//<-SAS Functions
 };
 //<--Functions
+
+//-->RSC
+#define sas_cfg_rsc
+#include "sas\rsc.cpp"
+#undef sas_cfg_rsc
+//<--RSC
