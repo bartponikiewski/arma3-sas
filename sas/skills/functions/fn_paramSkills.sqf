@@ -7,7 +7,7 @@
     In mission params konfig
 
     Parameter(s):
-    0: Param value for skill level. One of: "AUTO", "NORMAL", "GOOD", "SPECOPS". Default is "NORMAL".
+    0: Param value for skill level, passed from param it will be number 0-3, where 0=AUTO, 1=NORMAL, 2=GOOD, 3=SPECOPS. See params.cpp for details.
 
     Returns:
     Nothing
@@ -20,5 +20,6 @@ if (!isServer) exitWith {
 
 waitUntil { !isNil "allUnits" };
 
-[allUnits, _skillLevel] call SAS_Skills_fnc_set;
+private _trueSkillLvels = ["AUTO", "NORMAL", "GOOD", "SPECOPS"];
+[allUnits, _trueSkillLvels select _skillLevel] call SAS_Skills_fnc_set;
 

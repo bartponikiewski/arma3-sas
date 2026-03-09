@@ -3,6 +3,8 @@
 // missionNamespace setVariable ["SAS_Briefing_Task3D", false];
 // missionNamespace setVariable ["SAS_Debug_global", true];
 
+// Disable auto reporting
+enableSentences false; 
 
 // SAS Example Briefing
 [
@@ -25,13 +27,12 @@
 
 // SAS Example tasks
 [
-	["task1", "Secure the area", "Move to the designated location and secure it.", "Move", "marker1"],
-	["task2", "Eliminate targets", "Engage and eliminate all hostiles in the area.", "Kill", objNull]
+	["task1", "Secure the area", "Move to the designated location and secure it.", "Move", civ_1],
+	["task2", "Eliminate targets", "Engage and eliminate all hostiles in the area.", "Kill", tl_opfor_1]
 ] call SAS_Briefing_fnc_createTasks;
 
 // Intro order
 private _introEnabled = [] call SAS_Intro_fnc_enabled;
-hint format ["Intro enabled: %1", _introEnabled];
 if (_introEnabled) then {
 
 };
