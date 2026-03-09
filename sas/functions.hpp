@@ -1,5 +1,4 @@
 //-->SAS Functions
-#ifdef sas_cfg_functions
 class SAS {
     class Common {
         file = "sas\common\misc\functions";
@@ -17,6 +16,9 @@ class SAS {
     class Gui {
         file = "sas\common\gui\functions";
         class guiMessage {};
+        class blackIn {};
+        class blackOut {};
+        class loadingScreen {};
     };
 };
 
@@ -36,6 +38,7 @@ class SAS_Intro {
         class infoText {};
         class opening {};
         class enabled {};
+        class play {};
     };
 };
 
@@ -119,4 +122,3 @@ class SAS_Briefing {
         class cancelTask {};
     };
 };
-#endif

@@ -13,7 +13,6 @@
 	Debug:
 	Calls SAS_fnc_logDebug to output debug information if SAS_Debug_global is true.
 */
-hint "TEST";
 
 if (isDedicated) exitWith {};
 if (!hasInterface) exitWith {};
@@ -30,5 +29,4 @@ private _v = (_tmpArr select 1) call BIS_fnc_selectRandom;
 private _vid = _path + _v + ".ogv";
 
 ["[SAS_intro_fnc_quote] Displayed quote video: " + _vid] call SAS_fnc_logDebug;
-[_vid] call BIS_fnc_quotations;	
-
+[_vid] call BIS_fnc_playVideo;

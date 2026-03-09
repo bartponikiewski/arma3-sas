@@ -28,6 +28,7 @@ if (isDedicated) exitWith {};
 if (!hasInterface) exitWith {};
 
 waitUntil {(!isNull player)};
+waitUntil {time > 0};
 
 private _prefix = toUpper(worldName)+", "+((getPos _target) call BIS_fnc_locationDescription);
 

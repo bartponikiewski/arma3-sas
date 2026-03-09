@@ -58,9 +58,8 @@ class Params
 	// };
 
 	//-->SAS Params
-	#define sas_cfg_params
-	#include "sas\params.cpp"
-	#undef sas_cfg_params
+	#include "sas\params\paramIntro.hpp"
+	#include "sas\params\paramSkills.hpp"
 	//<--SAS Params
 };
 
@@ -68,15 +67,11 @@ class Params
 class cfgFunctions
 {
 	//->SAS Functions
-	#define sas_cfg_functions
-	#include "sas\functions.cpp"
-	#undef sas_cfg_functions
+	#include "sas\functions.hpp"
 	//<-SAS Functions
 };
 //<--Functions
 
 //-->RSC
-#define sas_cfg_rsc
-#include "sas\rsc.cpp"
-#undef sas_cfg_rsc
+#include "sas\rsc.hpp"
 //<--RSC

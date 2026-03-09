@@ -1,5 +1,4 @@
-//-->SAS RSC
-#ifdef sas_cfg_rsc
+
 // -------------------------------------------------------
 // SAS GUI: Base empty dialog (mouse-enabled, no controls)
 // All content is created dynamically via SAS_fnc_guiMessage
@@ -12,9 +11,5 @@ class SAS_RscGuiMessage
     onLoad = "";
     class Controls {};
 };
-#endif
-//<--SAS RSC
-
-
 
 
