@@ -3,13 +3,14 @@
 	This script is meant to be executed on every machine, perfectly by remoteExec.
 
 	Usage:
-	[_unit, _state] remoteExec ["SAS_Hostage_fnc_setHostageState", 0, true];
+	[_unit, _state, _caller] remoteExec ["SAS_Hostage_fnc_setHostageState", 0, true];
 
 	Parameters:
 	0: Object - _unit: The unit to set the hostage state on (default: objNull)
 	1: String - _state: The state to set on the hostage (e.g., "CUFFED", "FREE")
+	2: Object - _caller: The unit that initiated the action (optional)
 */
-params ["_unit", "_state"];
+params [["_unit", objNull], ["_state", ""], ["_caller", objNull]];
 
 if (isNull _unit) exitWith {
 	[format ["[SAS_Hostage_fnc_setHostageState]: Invalid unit: %1", _unit]] call SAS_fnc_logDebug;
@@ -63,6 +64,8 @@ switch (_state) do {
 		  We use joinSilent to avoid any unwanted side effects of joining 
 		  a new group (e.g., getting a new group icon, etc.).
 		*/
-		[_unit] joinSilent (group player);
+		if (!isNull _caller) then {
+			[_unit] joinSilent (group _caller);
+		};
 	};
 };

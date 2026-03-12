@@ -25,9 +25,8 @@ private _actionId = _hostage addAction [
 	"Free Hostage", 
 	{
 		params ["_target", "_caller", "_actionId", "_arguments"];
-		_target setCaptive false;
 
-		[_target, "RELEASED"] remoteExec ["SAS_Hostage_fnc_setHostageState", 0];
+		[_target, "RELEASED", _caller] remoteExec ["SAS_Hostage_fnc_setHostageState", 0];
 	}, 
 	[], 
 	1.5, 
