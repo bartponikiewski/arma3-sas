@@ -41,17 +41,14 @@ if (_str != "") then {
 private _scriptHandle = [_target, _str] spawn BIS_fnc_establishingShot;
 
 if (_mode == "Auto") then {
-	//-->Determine mode based on time of day
-	private _sunriseSunsetTimes = date call BIS_fnc_sunriseSunsetTime;
-	private _sunrise = _sunriseSunsetTimes select 0;
-	private _sunset = _sunriseSunsetTimes select 1;
-	
-	if ((dayTime > _sunrise) && (dayTime < _sunset)) then {
-		//-->Daytime, use normal mode
-		_mode = "Normal";
-	} else {
+
+	private _isNight = [] call SAS_fnc_isNightTime;
+	if (_isNight) then {
 		//-->Nighttime, use NVG mode
 		_mode = "NVG";
+	} else {
+		//-->Daytime, use normal mode
+		_mode = "Normal";
 	};
 };
 

@@ -26,4 +26,4 @@ if (!isServer) exitWith {
 
 ["SAS_Tasks_fnc_cancelTask: cancelling task '" + _taskID + "'"] call SAS_fnc_logDebug;
 
-[_taskID, "Canceled"] call SAS_Tasks_fnc_setTaskState;
+[_taskID, "Canceled"] call SAS_Briefing_fnc_setTaskState;

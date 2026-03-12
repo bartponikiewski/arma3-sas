@@ -31,6 +31,11 @@ if ((typeName _position) != (typeName [])) exitWith {
     false
 };
 
+if(!local _group) exitWith {
+    ["[SAS_task_fnc_defend] ERROR: Group is not local"] call SAS_fnc_logDebug;
+    false
+};
+
 _group setBehaviour "SAFE";
 
 
@@ -109,8 +114,8 @@ if (_doPatrol && {count _assignedPatrol > 0}) then {
 
 
 
-
-if (SAS_Debug_global) then {
+private _debugGlobal = missionNamespace getVariable ["SAS_Debug_global", false];
+if (_debugGlobal) then {
     private _marker = createMarker [format ["sas_defend_%1", groupId _group], _position];
     _marker setMarkerShape "ICON";
     _marker setMarkerType "mil_flag";

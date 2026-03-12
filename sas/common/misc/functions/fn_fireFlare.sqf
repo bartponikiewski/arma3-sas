@@ -41,8 +41,7 @@ private _pos = if (count _position > 1) then { _position } else { _unit modelToW
 private _flare = _ammoType createVehicle _pos;
 _flare setVelocity [0,0,-10];
 
-if (SAS_Debug_global) then {
-    [format ["Fired flare: %1 at %2 (color: %3)", _flare, _pos, _color]] call SAS_fnc_logDebug;
-};
+[format ["Fired flare: %1 at %2 (color: %3)", _flare, _pos, _color]] call SAS_fnc_logDebug;
+
 
 _flare;

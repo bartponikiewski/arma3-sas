@@ -20,11 +20,16 @@ params ["_light", "_toState"];
 
 if (isNull _light) exitWith {};
 if (isNil "_toState") then {
-	private _currentState = _light getVariable ["SAS_NightOps_LightState", "ON"];
+	private _currentState = _light getVariable ["SAS_NightOps_LightState", "AUTO"];
+
 	switch (_currentState) do
 	{
 		case "ON": { _toState = "OFF"; };
 		case "OFF": { _toState = "ON"; };
+		case "AUTO": {
+			private _isNight = [] call SAS_fnc_isNightTime;
+			_toState = if (_isNight) then {"OFF"} else {"ON"};
+		};
 	};
 };
 

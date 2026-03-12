@@ -31,9 +31,7 @@ if (!local _reinforceGroup) exitWith {false};
 // Set group as unavailable to response calls
 [_reinforceGroup, false] call SAS_Reinforcement_fnc_setCanCall;
 
-if (SAS_Debug_global) then {
-    [format ["[Reinforcement] Group %1 dispatched to support group %2 at %3.", _reinforceGroup, _targetGroup, _pos]] call SAS_fnc_logDebug;
-};
+[format ["[Reinforcement] Group %1 dispatched to support group %2 at %3.", _reinforceGroup, _targetGroup, _pos]] call SAS_fnc_logDebug;
 
 // Reset group
 [_reinforceGroup] call SAS_fnc_resetGroup;

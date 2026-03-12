@@ -26,10 +26,16 @@ if (isNull _group) exitWith {
     false
 };
 
+if (!local _group) exitWith {
+    ["[SAS_task_fnc_patrol] ERROR: Group is not local"] call SAS_fnc_logDebug;
+    false
+};
+
 private _result = [_group, _position, _distance, _blacklist] call BIS_fnc_taskPatrol;
 _group setBehaviour "SAFE";
 
-if (SAS_Debug_global) then {
+private _debugGlobal = missionNamespace getVariable ["SAS_Debug_global", false];
+if (_debugGlobal) then {
     private _wps = waypoints _group;
     {
         private _wpPos = waypointPosition _x;

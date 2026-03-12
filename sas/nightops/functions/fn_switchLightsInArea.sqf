@@ -19,11 +19,13 @@
 params ["_pos", ["_radius", 50], "_toState"];
 
 
-private _lamps = nearestObjects [player, ["Lamps_base_F", "PowerLines_base_F", "PowerLines_Small_base_F"], _radius];
+private _lamps = nearestObjects [_pos, ["Lamps_base_F", "PowerLines_base_F", "PowerLines_Small_base_F"], _radius];
 
 {
-	for "_i" from 0 to (count getAllHitPointsDamage _x -1) do
-	{
-		[_x, _toState] call SAS_NightOps_fnc_switchLight;
+	private _switchLightParams = [_x];
+	if (!isNil "_toState") then {
+		_switchLightParams pushBack _toState;
 	};
+
+	_switchLightParams call SAS_NightOps_fnc_switchLight;
 } forEach _lamps;

@@ -43,15 +43,12 @@ if (_prioritizeByHeight) then {
     _positionsSorted = _allPositions apply { [_x, (_x select 2)] };
     _positionsSorted sort false; // sort descending by Z
     _positionsSorted = _positionsSorted apply { _x select 0 };
-    if (SAS_Debug_global) then {
-        ["[SAS_task_fnc_garrison] Prioritizing by Z (height): highest positions first"] call SAS_fnc_logDebug;
-    };
+    ["[SAS_task_fnc_garrison] Prioritizing by Z (height): highest positions first"] call SAS_fnc_logDebug;
 } else {
     // Shuffle for randomness (legacy behavior)
     _positionsSorted = _allPositions call BIS_fnc_arrayShuffle;
-    if (SAS_Debug_global) then {
-        ["[SAS_task_fnc_garrison] Not prioritizing by height: using randomized positions"] call SAS_fnc_logDebug;
-    };
+
+    ["[SAS_task_fnc_garrison] Not prioritizing by height: using randomized positions"] call SAS_fnc_logDebug;
 };
 
 
@@ -64,7 +61,9 @@ private _garrisoned = 0;
     doStop _unit;
     _unit setUnitPos "UP";
 
-    if (SAS_Debug_global) then {
+    private _debugGlobal = missionNamespace getVariable ["SAS_Debug_global", false];
+
+    if (_debugGlobal) then {
         private _marker = createMarker [format ["sas_garrison_%1_%2", groupId (group _unit), _garrisoned], _pos];
         _marker setMarkerShape "ICON";
         _marker setMarkerType "mil_dot";
@@ -76,8 +75,8 @@ private _garrisoned = 0;
 
 
 
-if (SAS_Debug_global) then {
-    [format ["[SAS_task_fnc_garrison] Garrisoned %1 units in building positions (prioritizeByHeight: %2)", _garrisoned, _prioritizeByHeight]] call SAS_fnc_logDebug;
-};
+
+[format ["[SAS_task_fnc_garrison] Garrisoned %1 units in building positions (prioritizeByHeight: %2)", _garrisoned, _prioritizeByHeight]] call SAS_fnc_logDebug;
+
 
 _garrisoned;

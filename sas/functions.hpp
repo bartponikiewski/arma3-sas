@@ -6,6 +6,7 @@ class SAS {
         class fireFlare {};
         class doHalo {};
         class switchSide {};
+        class isNightTime {};
     };
 
     class Logging {
@@ -96,6 +97,9 @@ class SAS_NightOps {
         class fireFlaresAtTargetRecurring {};
         class switchLight {};
         class switchLightsInArea {};
+        class setAsLightsPowerSource {};
+        class addPowerSourceAction {};
+        class removePowerSourceAction {};
     };
 };
 
@@ -103,6 +107,18 @@ class SAS_Civilians {
     class Civilians {
         file = "sas\civilians\functions";
         class makeHostile {};
+        class createHostileZone {};
+        class makeHostileInArea {};
+    };
+};
+
+class SAS_Hostage {
+    class Hostage {
+        file = "sas\hostage\functions";
+        class make {};
+        class setHostageState {};
+        class addFreeHostageAction {};
+        class removeFreeHostageAction {};
     };
 };
 

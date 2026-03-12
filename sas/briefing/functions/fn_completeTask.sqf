@@ -5,7 +5,7 @@
     The state change is broadcast to all clients by the framework.
 
     Usage:
-    ["taskClearArea"] call SAS_Tasks_fnc_completeTask;
+    ["taskClearArea"] call SAS_Briefing_fnc_completeTask;
 
     Parameters:
     0: STRING - Task ID
@@ -26,4 +26,4 @@ if (!isServer) exitWith {
 
 ["SAS_Tasks_fnc_completeTask: completing task '" + _taskID + "'"] call SAS_fnc_logDebug;
 
-[_taskID, "Succeeded"] call SAS_Tasks_fnc_setTaskState;
+[_taskID, "Succeeded"] call SAS_Briefing_fnc_setTaskState;
