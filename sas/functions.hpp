@@ -138,3 +138,16 @@ class SAS_Briefing {
         class cancelTask {};
     };
 };
+
+class SAS_Fastrope {
+    class Fastrope {
+        file = "sas\fastrope\functions";
+        class createRopes {};
+        class cutRopes {};
+        class doFastrope {};
+        class dropCrew {};
+        class getHeliConfig {};
+        class isHeliReady {};
+        class startMission {};
+    };
+};

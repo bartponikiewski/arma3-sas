@@ -30,11 +30,11 @@ if (isRemoteExecutedJIP) then {
 	if (_state != "CUFFED") exitWith {
 		[format ["[SAS_Hostage_fnc_setHostageState]: JIP unit %1 is not in CUFFED state, current state: %2", _unit, _state]] call SAS_fnc_logDebug;
 	}; 
-}
+};
 
 if (local _unit) then {
 	_unit setVariable ["SAS_Hostage_state", _state, true]; // Set the hostage state variable on the unit, replicated to all machines
-}
+};
 
 switch (_state) do {
 	case "CUFFED": {

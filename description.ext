@@ -58,8 +58,8 @@ class Params
 	// };
 
 	//-->SAS Params
-	#include "sas\params\paramIntro.hpp"
-	#include "sas\params\paramSkills.hpp"
+	// #include "sas\params\paramIntro.hpp"
+	// #include "sas\params\paramSkills.hpp"
 	//<--SAS Params
 };
 

@@ -27,9 +27,9 @@ if (isNull _lightControl) exitWith {};
 private _turnOffDamage = _lightControl getVariable ["SAS_NightOps_lightControltTurnOffDamage", 0.5];
 
 // Don't add action if the object is already damaged beyond the threshold (e.g., when repairing and re-adding action to an existing object)
-if (damage _lightControl > _turnOffDamage) then {
+if (damage _lightControl > _turnOffDamage) exitWith {
 	["[SAS_NightOps_fnc_setAsLightsPowerSource]: Light control object is already damaged beyond the threshold, not adding action"] call SAS_fnc_logDebug;
-	exitWith {};
+	
 }; 
 
 private _actionId = _lightControl addAction [
