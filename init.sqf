@@ -7,6 +7,7 @@ missionNamespace setVariable ["SAS_Debug_global", true];
 // // missionNamespace setVariable ["SAS_Dev_mode", true];
 
 
+
 // // Disable auto reporting
 // enableSentences false; 
 

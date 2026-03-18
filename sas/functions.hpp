@@ -7,6 +7,9 @@ class SAS {
         class doHalo {};
         class switchSide {};
         class isNightTime {};
+        class createMarker {};
+        class addWaypoint {};
+        class guideAmmo {};
     };
 
     class Logging {
@@ -119,6 +122,38 @@ class SAS_Hostage {
         class setHostageState {};
         class addFreeHostageAction {};
         class removeFreeHostageAction {};
+    };
+};
+
+class SAS_Gunship {
+    class Gunship {
+        file = "sas\gunship\functions";
+        class init {};
+        class callOnPosition {};
+        class createGunship {};
+        class addCallMenu {};
+        class removeCallMenu {};
+        class addCommandMenu {};
+        class removeCommandMenu {};
+        class setGunshipMode {};
+        class getGunshipMode {};
+        class setGunshipAmmo {};
+        class getGunshipAmmo {};
+        class setGunshipUnit {};
+        class getGunshipUnit {};
+        class setGunshipUnitWeapon {};
+        class getGunshipUnitWeapon {};
+        class setMaxCalls {};
+        class getMaxCalls {};
+        class setJtacUnit {};
+        class getJtacUnit {};
+        class generateSubmenus {};
+        class refreshMenus {};
+        class startMission {};
+        class message {};
+        class remoteControlWeapon {};
+        class doFire {};
+
     };
 };
 

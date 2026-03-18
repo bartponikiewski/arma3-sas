@@ -1,0 +1,1 @@
+missionNamespace getVariable ["SAS_Gunship_jtac_unit", objNull];

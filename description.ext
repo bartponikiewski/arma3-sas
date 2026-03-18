@@ -63,6 +63,15 @@ class Params
 	//<--SAS Params
 };
 
+//-->Comms modules
+class CfgCommunicationMenu
+{
+	//->SAS Comms
+	#include "sas\gunship\comms.hpp"
+	//<-SAS Comms
+};
+//<--Comms modules
+
 //-->Functions
 class cfgFunctions
 {
@@ -75,3 +84,5 @@ class cfgFunctions
 //-->RSC
 #include "sas\rsc.hpp"
 //<--RSC
+
+

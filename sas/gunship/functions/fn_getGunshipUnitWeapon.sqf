@@ -1,0 +1,1 @@
+missionNamespace getVariable ["SAS_Gunship_unit_weapon", objNull]
