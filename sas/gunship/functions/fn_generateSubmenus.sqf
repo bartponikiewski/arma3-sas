@@ -90,7 +90,7 @@ SAS_GUNSHIP_SUBMENU_COMMAND = [
 	[
 		"RTB", 
 		[5], "", -5, 
-		[["expression", "[] spawn SAS_Gunship_fnc_rtb;"]],"]],
+		[["expression", "[] spawn SAS_Gunship_fnc_rtb;"]],
 		"1", 
 		"1"
 	]
@@ -98,14 +98,6 @@ SAS_GUNSHIP_SUBMENU_COMMAND = [
 
 SAS_GUNSHIP_SUBMENU_CALL = 	[
 	["Call", true],
-	// [
-	// 	"Call on position",
-	// 	[2], "", -5, 
-	// 	[["expression", "[_pos, 'AUTO'] spawn SAS_Gunship_fnc_startMission;"]], 
-	// 	"1",
-	// 	"1", 
-	// 	"\A3\ui_f\data\igui\cfg\cursors\iconCursorSupport_ca.paa"
-	// ],
 	[
 		"Call on position (Laser designated)",
 		[2], "", -5, 

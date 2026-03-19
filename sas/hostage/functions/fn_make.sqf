@@ -15,7 +15,7 @@
     Calls SAS_fnc_logDebug to output debug information if SAS_Debug_global is true.
 */
 
-params [["_unit", objNull, [objNull, objEmpty]]];
+params [["_unit", objNull]];
 
 // Validate parameters
 if (isNull _unit) exitWith {

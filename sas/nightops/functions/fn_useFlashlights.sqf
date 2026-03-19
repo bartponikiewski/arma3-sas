@@ -8,6 +8,7 @@
     Parameter(s):
     0: Group - The group to equip with flashlights
     1: (Optional) Boolean - Whether to force flashlights immediately (default: false)
+    2: (Optional) Number - Percentage of units to equip with flashlights (default: 0.5)
 
     Returns:
     Nothing
@@ -16,7 +17,7 @@
     Calls SAS_fnc_logDebug to output debug information if SAS_Debug_global is true.
 */
 
-params ["_group", ["_force", false]];
+params ["_group", ["_force", false], ["_percent", 0.5]];
 if (isNull _group) exitWith {};
 if (typename _group == "OBJECT") then { _group = group _group; };
 if (!local _group) exitWith {};
@@ -33,15 +34,14 @@ if (!(_flashlightClass in (primaryWeaponItems _tl))) then {
     [format ["[NightOps] Added flashlight to TL %1", name _tl]] call SAS_fnc_logDebug;
 };
 
-// Give every 3rd unit (excluding TL) a flashlight, randomly
+// Give a percentage of units (excluding TL) a flashlight, randomly
 private _otherUnits = _units - [_tl];
 private _shuffled = _otherUnits call BIS_fnc_arrayShuffle;
+private _count = ceil((_percent * count _otherUnits));
 {
-    if ((_forEachIndex % 3) == 0) then {
-        if (!(_flashlightClass in (primaryWeaponItems _x))) then {
-            _x addPrimaryWeaponItem _flashlightClass;
-            [format ["[NightOps] Added flashlight to %1", name _x]] call SAS_fnc_logDebug;
-        };
+    if ((_forEachIndex < _count) && !(_flashlightClass in (primaryWeaponItems _x))) then {
+        _x addPrimaryWeaponItem _flashlightClass;
+        [format ["[NightOps] Added flashlight to %1", name _x]] call SAS_fnc_logDebug;
     };
 } forEach _shuffled;
 

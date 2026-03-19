@@ -3,7 +3,7 @@
 // missionNamespace setVariable ["SAS_Briefing_Task3D", false];
 
 // --> Uncomment for development testing
-// missionNamespace setVariable ["SAS_Debug_global", true];
+missionNamespace setVariable ["SAS_Debug_global", true];
 // missionNamespace setVariable ["SAS_Dev_mode", true];
 
 
@@ -31,6 +31,23 @@ laptop_1 addAction ["Switch day/night", {
 	[_now] remoteExec ["setDate"];
 }, [],1.5,true, true, "", "true", 5];
 
+// Add action to switch day/light
+laptop_2 addAction ["Switch day/night", {
+	params ["_target", "_caller", "_actionId", "_arguments"];
+	
+	private _now = date;
+
+	private _isNight = [] call SAS_fnc_isNightTime;
+
+	if (_isNight) then {
+		_now set [3, 12];
+	} else {
+		_now set [3, 23];
+	};
+
+	[_now] remoteExec ["setDate"];
+}, [],1.5,true, true, "", "true", 5];
+
 // Add action to parachute
 laptop_1 addAction ["Parachute", {
 	params ["_target", "_caller", "_actionId", "_arguments"];
@@ -41,9 +58,32 @@ laptop_1 addAction ["Parachute", {
 // Add action to fastrpe
 heli_1 addAction ["Fastrope", {
 	params ["_target", "_caller", "_actionId", "_arguments"];
-	
-	[_caller, getPos _caller, 2000, true, true, true] call SAS_fnc_doHalo;
+
+	/*
+	Helicopter fast-rope transport script
+
+	Usage:
+	[heli_1, getPos heli_1, getPos heli_1, false] spawn SAS_Fastrope_fnc_startMission; 
+
+
+	Parameter(s):
+	0: OBJECT - Helicopter to use for fast rope transport
+	1: ARRAY - Position to drop troops at (e.g., marker position)
+	2: ARRAY - Position for helicopter to return to after fast rope operation
+	3: BOOL - Whether to delete the helicopter at the end of the mission
+	*/
+
+	[_target, getPos _target, getPos _target, false] remoteExec ["SAS_Fastrope_fnc_startMission", _target];
 },[],1.5,true, true, "", "true", 5];
+
+heli_2 addAction ["Fastrope", {
+	params ["_target", "_caller", "_actionId", "_arguments"];
+
+	[_target, getPos _target, getPos _target, false] remoteExec ["SAS_Fastrope_fnc_startMission", _target];
+},[],1.5,true, true, "", "true", 5];
+
+
+
 
 // -------------------------------------------------------------------------
 
@@ -137,7 +177,7 @@ heli_1 addAction ["Fastrope", {
 */
 
 [group tl_opfor_4] call SAS_NightOps_fnc_useFlares;
-[group tl_opfor_4] call SAS_NightOps_fnc_useFlashlights;
+[group tl_opfor_4, true] call SAS_NightOps_fnc_useFlashlights;
 
 /*
 	Light switch example:
@@ -186,7 +226,7 @@ heli_1 addAction ["Fastrope", {
 
 	After taking this much damage, object is considered as destroyed and al lighs in are aare off (default: 0.5)
 */
-[light_control, 60, 0.2, "Toggle power on/off"] call SAS_NightOps_fnc_setAsLightsPowerSource;
+[light_control, 200, 0.2, "Toggle power on/off"] call SAS_NightOps_fnc_setAsLightsPowerSource;
 
 // -------------------------------------------------------------------------
 /*
@@ -295,6 +335,25 @@ civ_1 addAction ["Talk With", {
 
 // Example Patrol
 [group tl_blufor_2, getPos tl_blufor_2, 100] call SAS_Task_fnc_patrol;
+
+/*
+    Gunship CAS Example
+	Simple system to call in gunship CAS support, select ammo type and fire on target.
+
+	To call in gunship support, use:
+	[JTACUnits, maxCalls, availableModes] call SAS_Gunship_fnc_init;
+
+	where:
+	0: Array - JTAC units to register
+	1: Number - Maximum number of gunship calls
+	2: Array - Available gunship modes (e.g., ["LASER", "MANUAL"])
+
+	After calling in support, a menu will be available for registered JTAC units to call in support, select ammo type and fire on target.
+*/
+[playableUnits, 5, ["LASER", "MANUAL"]] spawn SAS_Gunship_fnc_init;
+
+// OR start CAS support mission programatically by:
+// [attackPos, mode, jtacUnit] call SAS_Gunship_fnc_startMission;
 
 
 

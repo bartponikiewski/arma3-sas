@@ -1,3 +1,24 @@
+
+
+/*
+	Description:
+	Initializes the Gunship module, sets allowed modes, max calls, and registers JTAC units.
+
+	Usage:
+	[JTACUnits, maxCalls, availableModes] call SAS_Gunship_fnc_init;
+
+	Parameter(s):
+	0: Array - JTAC units to register
+	1: Number - Maximum number of gunship calls
+	2: Array - Available gunship modes (e.g., ["LASER", "MANUAL"])
+
+	Returns:
+	Nothing
+
+	Debug:
+	Calls SAS_fnc_logDebug to output debug information if SAS_Debug_global is true.
+*/
+
 params [["_jtacUnits", []],["_maxCalls", 5], ["_availableModes", ["LASER", "MANUAL"]]];
 
 if (!isServer) exitWith {};
