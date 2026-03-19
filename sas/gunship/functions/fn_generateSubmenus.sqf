@@ -73,13 +73,6 @@ SAS_GUNSHIP_SUBMENU_AMMO =
 
 SAS_GUNSHIP_SUBMENU_COMMAND = [
 	["", false],
-	// [
-	// 	"Control mode", 
-	// 	[2], "#USER:SAS_GUNSHIP_SUBMENU_MODE", -5, 
-	// 	[], 
-	// 	"1", 
-	// 	"1"
-	// ],
 	[
 		"Select weapon", 
 		[2], "#USER:SAS_GUNSHIP_SUBMENU_AMMO", -5, 
@@ -94,17 +87,10 @@ SAS_GUNSHIP_SUBMENU_COMMAND = [
 		if ([] call SAS_Gunship_fnc_getGunshipMode == 'MANUAL') then {"1"} else {"0"}, 
 		"1"
 	],
-	// [
-	// 	"Hold fire", 
-	// 	[4], "", -5, 
-	// 	[["expression", "hint 'Hold fire command not implemented yet.';"]],
-	// 	if ([] call SAS_Gunship_fnc_getGunshipMode == 'AUTO') then {"1"} else {"0"},
-	// 	"1"
-	// ],
 	[
 		"RTB", 
 		[5], "", -5, 
-		[["expression", "hint 'RTB command not implemented yet.';"]],
+		[["expression", "[] spawn SAS_Gunship_fnc_rtb;"]],"]],
 		"1", 
 		"1"
 	]

@@ -1,12 +1,9 @@
-params ["_trg"];
-
-private  _fakeWeap = [] call SAS_Gunship_fnc_getGunshipUnitWeapon;
+params ["_fakeWeap", "_trg"];
 private _ammo = [] call SAS_Gunship_fnc_getGunshipAmmo;
-
-
 
 if (isNull _fakeWeap) exitWith {};
 if (isNull _trg) exitWith {};
+if (!local _fakeWeap) exitWith {};
 
 _fakeWeap setVariable ["SAS_Gunship_target",_trg, true];
 private _rounds = 1;

@@ -23,10 +23,15 @@ if (!isNull _gunship) exitWith {
 private _newMaxCalls = _maxCalls - 1;
 [_newMaxCalls] call SAS_Gunship_fnc_setMaxCalls;
 
+if (_newMaxCalls <= 0) then {
+	[] remoteExec ["SAS_Gunship_fnc_removeCallMenu", 0];
+} else {
+	[] call SAS_Gunship_fnc_removeCallMenu;
+};
 
-// Call on position for everyone
+
+// Call on position on server
 [_attackPos, player, _mode] remoteExec ["SAS_Gunship_fnc_callOnPosition", 2];
-[] call SAS_Gunship_fnc_removeCallMenu;
 
 
 

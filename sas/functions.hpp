@@ -148,11 +148,11 @@ class SAS_Gunship {
         class setJtacUnit {};
         class getJtacUnit {};
         class generateSubmenus {};
-        class refreshMenus {};
         class startMission {};
         class message {};
         class remoteControlWeapon {};
         class doFire {};
+        class rtb {};
 
     };
 };

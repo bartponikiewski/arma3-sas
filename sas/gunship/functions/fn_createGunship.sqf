@@ -55,7 +55,6 @@ _fakeWeap addMagazineTurret ["30Rnd_120mm_HE_shells_Tracer_Yellow",[0],_120HE];
 
 [_vehicle] call SAS_Gunship_fnc_setGunshipUnit;
 [_fakeWeap] call SAS_Gunship_fnc_setGunshipUnitWeapon;
-["20mm"] call SAS_Gunship_fnc_setGunshipAmmo;
 
 [_vehicle, _fakeWeap]
 
