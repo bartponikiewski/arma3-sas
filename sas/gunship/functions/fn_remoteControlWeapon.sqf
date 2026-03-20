@@ -3,34 +3,24 @@ if (!hasInterface) exitWith {};
 
 waitUntil {!isNull player};
 
-private _jtacUnit = [] call SAS_Gunship_fnc_getJtacUnit;
-if (isNull _jtacUnit) exitWith {};
+private _gunshipUnit = [] call SAS_Gunship_fnc_getGunshipUnit;
 
-if (!isPlayer _jtacUnit) exitWith {};
-if (player != _jtacUnit) exitWith {};
+private _gunner = gunner _gunshipUnit;
 
-private _fakeWeapon = [] call SAS_Gunship_fnc_getGunshipUnitWeapon;
-if (isNull _fakeWeapon) exitWith {};
+player remoteControl _gunner;
+_gunshipUnit switchCamera "GUNNER";
 
-private _gunner = gunner _fakeWeapon;
-_gunner doWatch player;
-
-player remoteControl _gunner; 
-_fakeWeapon switchCamera "GUNNER";
-
-
-while {cameraOn == _fakeWeapon} do {
+while {cameraOn == _gunshipUnit} do {
 	if (cameraView != "GUNNER") then {
-		_fakeWeapon switchCamera "GUNNER";
+		_gunshipUnit switchCamera "GUNNER";
 		player remoteControl _gunner;
 	};
 
-	if(vehicle _gunner != _fakeWeapon) then {
-		_gunner moveInGunner _fakeWeapon;
+	if(!(_gunner in _gunshipUnit)) then {
+		_gunner moveInGunner _gunshipUnit;
 		player remoteControl _gunner;
 	};
 	sleep 0.1;
 };
-
 
 

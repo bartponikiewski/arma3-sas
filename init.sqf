@@ -3,7 +3,7 @@
 // missionNamespace setVariable ["SAS_Briefing_Task3D", false];
 
 // --> Uncomment for development testing
-missionNamespace setVariable ["SAS_Debug_global", true];
+// missionNamespace setVariable ["SAS_Debug_global", true];
 // missionNamespace setVariable ["SAS_Dev_mode", true];
 
 
@@ -83,7 +83,32 @@ heli_2 addAction ["Fastrope", {
 },[],1.5,true, true, "", "true", 5];
 
 
+// ------------------------------------------------------------------------
+/*
+	Example of simple intel action added to an object, which when used shows a dialog with intel information and a response button.
+	Example below shows how to destroy intel when taken, and complete related task.
 
+	To add an intel action to an object, use:
+	[_obj, _actionText, _text, _title, _buttonText, _callback] call SAS_Intel_fnc_setIntelSimple;
+
+	where:
+	0: Object - The object to attach the action to.
+	1: String - The action text shown to the player (default: "Investigate").
+	2: String - The intel text shown in the dialog (default: "").
+	3: String - The title of the dialog (default: "Intel").
+	4: String - The text for the response button (default: "Take").
+	5: Code - The code to execute when the response button is pressed (default: empty code).
+
+*/
+
+[
+	laptop_3, 
+	"Take Terminal", 
+	"The terminal contains valuable intel on enemy positions.", 
+	"Terminal Intel", 
+	"Take", 
+	{ deleteVehicle laptop_3; ["task3"] call SAS_Briefing_fnc_completeTask; }
+] call SAS_Intel_fnc_setIntelSimple;
 
 // -------------------------------------------------------------------------
 
@@ -108,7 +133,8 @@ heli_2 addAction ["Fastrope", {
 // SAS Example tasks
 [
 	["task1", "Test reinforcements", "Lorem ipsum dolor sit amet.", "Attack", "mrk_reinforcements_1"],
-	["task2", "Destroy that", "Lorem ipsum dolor sit amet.", "Destroy", tl_opfor_1]
+	["task2", "Destroy that", "Lorem ipsum dolor sit amet.", "Destroy", tl_opfor_1],
+	["task3", "Take intel", "Lorem ipsum dolor sit amet.", "Destroy", laptop_3]
 ] spawn SAS_Briefing_fnc_createTasks;
 
 // SAS Example Briefing
@@ -121,7 +147,7 @@ heli_2 addAction ["Fastrope", {
 
 // SAS Example additional notes
 [
-	["Credits", "Mission created by Sushi. Thanks for playing!<br /><img image='sas\assets\logo_bar.paa' width=400 />"],
+	["Credits", "Mission created by Sushi. Thanks for playing!<br /><img image='sas\assets\logo_bar.paa' width=300 />"],
 	["Tech notes", "This mission is using Sushi Arma Scripts framework v1.0.0<br /><img image='sas\assets\powered_by_sas_large.paa' width=200 />"]
 ] spawn SAS_Briefing_fnc_createNotes;
 
@@ -350,7 +376,9 @@ civ_1 addAction ["Talk With", {
 
 	After calling in support, a menu will be available for registered JTAC units to call in support, select ammo type and fire on target.
 */
-[playableUnits, 5, ["LASER", "MANUAL"]] spawn SAS_Gunship_fnc_init;
+
+private  _playableUnits = if(isMultiplayer) then {playableUnits} else {switchableUnits};
+[_playableUnits, 5, ["LASER", "MANUAL"]] spawn SAS_Gunship_fnc_init;
 
 // OR start CAS support mission programatically by:
 // [attackPos, mode, jtacUnit] call SAS_Gunship_fnc_startMission;

@@ -43,7 +43,7 @@ if (count _existingRopes > 0) exitWith {
 } forEach _heliDoors;
 
 // Create ropes and store them in an array variable on the helicopter
-private _ropeLength = ((getPos _heli) select 2) + 5;
+private _ropeLength = ((getPos _heli) select 2) + 10;
 private _ropes = [];
 {
 	private _ropePos = _x;

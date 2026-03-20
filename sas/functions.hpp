@@ -153,6 +153,11 @@ class SAS_Gunship {
         class remoteControlWeapon {};
         class doFire {};
         class rtb {};
+        class trackLaserTarget {};
+        class setGunshipState {};
+        class getGunshipState {};
+        class setJtacUnits {};
+        class getJtacUnits {};
 
     };
 };
@@ -163,7 +168,6 @@ class SAS_Briefing {
         class createDiarySubject {};
         class createBriefing {};
         class createNotes {};
-        class createIntel {};
         class addDiaryRecord {};
         class createTask {};
         class createTasks {};
@@ -171,6 +175,15 @@ class SAS_Briefing {
         class completeTask {};
         class failTask {};
         class cancelTask {};
+    };
+};
+
+class SAS_Intel {
+    class Intel {
+        file = "sas\intel\functions";
+        class setIntel {};
+        class setIntelSimple {};
+        class intelDialog {};
     };
 };
 

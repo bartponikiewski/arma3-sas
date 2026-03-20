@@ -1,11 +1,9 @@
-params ["_fakeWeap", "_trg"];
-private _ammo = [] call SAS_Gunship_fnc_getGunshipAmmo;
+params ["_fakeWeap", "_trg", ["_ammoType", "20mm"]];
 
-if (isNull _fakeWeap) exitWith {};
-if (isNull _trg) exitWith {};
-if (!local _fakeWeap) exitWith {};
+if (isNull _fakeWeap) exitWith { hint "Invalid weapon for firing." };
+if (isNull _trg) exitWith { hint "Invalid target for firing." };
+if (!isServer) exitWith { hint "Firing can only be done on the server." };
 
-_fakeWeap setVariable ["SAS_Gunship_target",_trg, true];
 private _rounds = 1;
 private _sleepNextBarrage = 0.4;
 private _sleepNextRounds = 0.2;
@@ -14,7 +12,7 @@ private _ammoClass = "";
 private _spread = 0;
 
 
-switch (_ammo) do {
+switch (_ammoType) do {
 	case "20mm": {
 		_ammoClass = "B_20mm_Tracer_Red";
 		_rounds = 10;
@@ -37,17 +35,16 @@ switch (_ammo) do {
 		_spread = 1;
 	};
 	case "120mmHE": {
-		_rounds = 1;
-		_sleepNextRounds = 0;
-		 _sleepNextBarrage = 10;
-		_ammoClass = "Sh_120mm_APFSDS_Tracer_Yellow";
-	};
-	case "120mmAT": {
 		_ammoClass = "Sh_120mm_HE_Tracer_Green";
 		_rounds = 1;
 		_sleepNextRounds = 0;
 		_sleepNextBarrage = 10;
-
+	};
+	case "120mmAT": {	
+		_ammoClass = "Sh_120mm_APFSDS_Tracer_Yellow";
+		_rounds = 1;
+		_sleepNextRounds = 0;
+		_sleepNextBarrage = 10;
 	};
 };
 

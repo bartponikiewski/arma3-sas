@@ -1,3 +1,3 @@
-params [["_mode", "AUTO", ["AUTO", "LASER", "MANUAL"]]];
+params [["_mode", "LASER", ["LASER", "MANUAL"]]];
 
-missionNamespace setVariable ["SAS_Gunship_mode", _mode];
+missionNamespace setVariable ["SAS_Gunship_mode", _mode, true];

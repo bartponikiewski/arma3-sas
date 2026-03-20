@@ -27,6 +27,8 @@ if (!hasInterface) exitWith {};
 waitUntil {(!isNull player)};
 waitUntil {time > 0};
 
+private _startTime = time;
+["[SAS] fn_loading: Started"] call SAS_fnc_logDebug;
 private _devMode = missionNamespace getVariable ["SAS_Dev_mode", false];
 if (_devMode) exitWith { 
     ["[SAS]: Skipping loading screen due to dev mode"] call SAS_fnc_logDebug; 
@@ -66,7 +68,7 @@ if ((count _customLines) > 0) then {
 
 // Make waits for players
 waitUntil { ({alive _x && isPlayer _x} count allPlayers) > 0 };
-waitUntil { time > 5 };
+waitUntil { time > (_startTime + 5) };
 
 
 // Black in and restore environment

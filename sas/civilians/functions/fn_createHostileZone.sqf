@@ -46,10 +46,6 @@ _trigger setTriggerStatements
 	""
 ];
 
-hint format["%1", _trigger];
-
-
-
 private _debugGlobal = missionNamespace getVariable ["SAS_Debug_global", false];
 if (_debugGlobal) then {
 	private _triggerPos = getPos _trigger;

@@ -90,7 +90,7 @@ SAS_GUNSHIP_SUBMENU_COMMAND = [
 	[
 		"RTB", 
 		[5], "", -5, 
-		[["expression", "[] spawn SAS_Gunship_fnc_rtb;"]],
+		[["expression", "[] remoteExec ['SAS_Gunship_fnc_rtb', 2];"]],
 		"1", 
 		"1"
 	]
@@ -101,7 +101,7 @@ SAS_GUNSHIP_SUBMENU_CALL = 	[
 	[
 		"Call on position (Laser designated)",
 		[2], "", -5, 
-		[["expression", "[_pos, 'LASER'] spawn SAS_Gunship_fnc_startMission;"]], 
+		[["expression", "[_pos, 'LASER', player] spawn SAS_Gunship_fnc_startMission;"]], 
 		"1", 
 		"1", 
 		"\A3\ui_f\data\igui\cfg\cursors\iconCursorSupport_ca.paa"
@@ -109,7 +109,7 @@ SAS_GUNSHIP_SUBMENU_CALL = 	[
 	[
 		"Call on position (Remote fire control)",
 		[3], "", -5, 
-		[["expression", "[_pos, 'MANUAL'] spawn SAS_Gunship_fnc_startMission;"]], 
+		[["expression", "[_pos, 'MANUAL', player] spawn SAS_Gunship_fnc_startMission;"]], 
 		"1", 
 		"1", 
 		"\A3\ui_f\data\igui\cfg\cursors\iconCursorSupport_ca.paa"

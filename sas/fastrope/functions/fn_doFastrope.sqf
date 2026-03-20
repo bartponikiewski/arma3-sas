@@ -22,6 +22,8 @@ if (isNull _rope) then {
 	_rope = selectRandom _attachedRopes;
 };
 
+_unit allowDamage false;
+
 private _ropePos = ropeEndPosition _rope;
 private _ropeStartPos = _ropePos select 0;
 private _ropeEndPos = _ropePos select 1;
@@ -29,7 +31,7 @@ private _ropeEndPos = _ropePos select 1;
 private _startOfRopeZ = _ropeStartPos select 2;
 private _endOfRopeZ = _ropeEndPos select 2;
 
-_unit allowDamage false;
+
 unassignVehicle _unit;
 [_unit] allowGetIn false;
 moveOut _unit;
@@ -39,7 +41,6 @@ _unit playMove "LadderRifleStatic";
 
 [_unit, "LadderRifleStatic"] remoteExec ["switchMove"];
 [_unit, "LadderRifleStatic"] remoteExec ["playMove"];
-
 
 private _descentRate = 1;   // metres per tick (lower = slower)
 private _tickRate    = 0.2;  // seconds per tick (lower = smoother)
@@ -62,6 +63,9 @@ while {_roping} do {
 
 _unit setVelocity [0,0,0];
 
+
+_unit playMove "LadderRifleDownOff";
+_unit switchMove "";
 [_unit, "LadderRifleDownOff"] remoteExec ["playMove"];
 [_unit, ""] remoteExec ["switchMove"];
 _unit allowDamage true;

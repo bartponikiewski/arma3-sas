@@ -1,8 +1,10 @@
-params ["_attackPos", "_jtacUnit", ["_mode", "AUTO"]];
+params [["_attackPos", []], ["_jtacUnit", objNull], ["_mode", "LASER"]];
 
+if (count _attackPos < 2) exitWith {};
+if (isNull _jtacUnit) exitWith {};
+if (!isPlayer _jtacUnit) exitWith {};
+if (!alive _jtacUnit) exitWith {};
 if (!isServer) exitWith {};
-
-
 
 private _orbitRadius = 750;
 private _fireZoneRadius = 300;
@@ -10,33 +12,18 @@ private _spawnPos = [_attackPos, _orbitRadius + 1500 + (random 500), random 360]
 private _dirTo = [_attackPos, _spawnPos] call BIS_fnc_dirTo;
 private _alt = 500;
 
-
-
 // Create gunship and send it to attack position
 private _createGunshipResult = [_spawnPos, side _jtacUnit] call SAS_Gunship_fnc_createGunship;
 _createGunshipResult params ["_gunship", "_weapon"];
 
-// Set jtac unit that called the gunship
-[_jtacUnit] call SAS_Gunship_fnc_setJtacUnit;
-
 // Set gunship mode
 [_mode] call SAS_Gunship_fnc_setGunshipMode;
 
-[_gunship, "gunship"] spawn {
-	params ["_unit", "_markerName"];
+// Set gunship state
+["ONMISSION"] call SAS_Gunship_fnc_setGunshipState;
 
-	_markerName = createMarker [_markerName, position _unit];
-	_markerName setMarkerShape "ICON";
-	_markerName setMarkerType "mil_dot";
-	_markerName setMarkerColor "ColorRed";
-
-	while {alive _unit} do {
-		_markerName setMarkerPos (getPos _unit);
-		sleep 0.2;
-	};
-
-	deleteMarker _markerName;
-};
+// Set jtac unit that called the gunship
+[_jtacUnit] call SAS_Gunship_fnc_setJtacUnit;
 
 //Send gunship to attack position
 private _ipPos = [_attackPos, _orbitRadius + 500, _dirTo] call BIS_fnc_relPos;
@@ -45,41 +32,29 @@ private _wpLoiter = [group _gunship,_attackPos,"LOITER","LIMITED","CARELESS"] ca
 _wpLoiter setWaypointLoiterType "CIRCLE_L";
 _wpLoiter setWaypointLoiterRadius _orbitRadius;
 
-[format["Oscar Mike. ETA %1s.",40],_gunship] call SAS_Gunship_fnc_message;
+[format["Oscar Mike. ETA %1s.",40],_gunship, _jtacUnit] call SAS_Gunship_fnc_message;
 
-waitUntil { _gunship distance2D _attackPos < (_orbitRadius + 600) };
-["Entering fire mision airspace.",_gunship] call SAS_Gunship_fnc_message;
+// Wait until gunship is in range of attack position
+waitUntil { _gunship distance2D _attackPos < (_orbitRadius + 700) };
+["Entering fire mision airspace.",_gunship, _jtacUnit] call SAS_Gunship_fnc_message;
 _gunship flyInHeight _alt;
 
-waitUntil { _gunship distance2D _attackPos < (_orbitRadius + 150) };
+// Wait until gunship is in orbit
+waitUntil { _gunship distance2D _attackPos < (_orbitRadius + 50) };
 _gunship forceSpeed 60;
 
 // Add command menu
-[_jtacUnit] remoteExec ["SAS_Gunship_fnc_addCommandMenu", _jtacUnit];
+[] remoteExec ["SAS_Gunship_fnc_addCommandMenu", _jtacUnit];
 
 // Send message
-["Ready for fire mission.",_gunship] call SAS_Gunship_fnc_message;
+["Ready for fire mission.",_gunship, _jtacUnit] call SAS_Gunship_fnc_message;
 
 // For laser designated missions
 if (_mode == "LASER") then {
-	["Waiting for laser designation.",_gunship] call SAS_Gunship_fnc_message;
-
-	[_gunship, _jtacUnit] spawn {
-		params ["_unit", "_jtac"];
-		private _weapon = [] call SAS_Gunship_fnc_getGunshipUnitWeapon;
-		
-
-		while {alive _jtac && !isNull _weapon} do {
-			private _laserTarget = laserTarget _jtac;
-
-			if (isNull _laserTarget) then {
-				sleep 0.2;
-			} else {
-				[_laserTarget, _weapon] call SAS_Gunship_fnc_doFire;
-			};
-		};
-	};
+	[_gunship, _jtacUnit] spawn SAS_Gunship_fnc_trackLaserTarget;
 };
+
+
 
 
 

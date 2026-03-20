@@ -24,15 +24,15 @@ respawnDelay = 42;
 respawnTemplates[] = { "Spectator" };
 
 //--> Revive settings
-reviveMode = 1;
-reviveUnconsciousStateMode=0;
-reviveRequiredTrait = 0;
-reviveRequiredItems = 2;
-reviveRequiredItemsFakConsumed = 1;
-reviveMedicSpeedMultiplier = 2;
-reviveDelay = 10;
-reviveForceRespawnDelay = 5;
-reviveBleedOutDelay = 200;
+ReviveMode  = 1;
+ReviveUnconsciousStateMode=0;
+ReviveRequiredTrait = 0;
+ReviveRequiredItems = 2;
+ReviveRequiredItemsFakConsumed = 1;
+ReviveMedicSpeedMultiplier = 2;
+ReviveDelay = 10;
+ReviveForceRespawnDelay = 30;
+ReviveBleedOutDelay = 200;
 
 // --> Mission settings
 class Params
@@ -58,8 +58,8 @@ class Params
 	// };
 
 	//-->SAS Params
-	// #include "sas\params\paramIntro.hpp"
-	// #include "sas\params\paramSkills.hpp"
+	#include "sas\params\paramIntro.hpp"
+	#include "sas\params\paramSkills.hpp"
 	//<--SAS Params
 };
 

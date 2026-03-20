@@ -19,11 +19,6 @@
 
 params ["_taskID"];
 
-if (!isServer) exitWith {
-    ["SAS_Tasks_fnc_completeTask: skipped (not server)"] call SAS_fnc_logDebug;
-};
-
-
 ["SAS_Tasks_fnc_completeTask: completing task '" + _taskID + "'"] call SAS_fnc_logDebug;
 
-[_taskID, "Succeeded"] call SAS_Briefing_fnc_setTaskState;
+[_taskID, "Succeeded"] remoteExec ["SAS_Briefing_fnc_setTaskState", 0, true];

@@ -55,7 +55,7 @@ private _scriptsHandlers = [];
 
 		{
 			private _unit = _x select 0;
-			[_unit, _rope] call SAS_Fastrope_fnc_doFastrope;
+			[_unit, _rope] remoteExec ["SAS_Fastrope_fnc_doFastrope", _unit];
 
 			sleep 2;
 		} forEach _group;

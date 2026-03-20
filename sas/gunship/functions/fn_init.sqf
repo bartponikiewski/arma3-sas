@@ -29,6 +29,8 @@ if (count _jtacUnits <= 0) exitWith {
 
 missionnamespace setVariable ["SAS_Gunship_allowLaserMode", (if (_availableModes find "LASER" != -1) then {true} else {false}), true];
 missionnamespace setVariable ["SAS_Gunship_allowManualMode", (if (_availableModes find "MANUAL" != -1) then {true} else {false}), true];
+[_jtacUnits] call SAS_Gunship_fnc_setJtacUnits;
 [_maxCalls] call SAS_Gunship_fnc_setMaxCalls;
+["IDLE"] call SAS_Gunship_fnc_setGunshipState;
 
 remoteExec ["SAS_Gunship_fnc_addCallMenu", _jtacUnits, true];
