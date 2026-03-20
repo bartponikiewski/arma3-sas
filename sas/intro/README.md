@@ -1,43 +1,67 @@
+
 # SAS Intro Module
 
-Provides intro sequence tools for Arma 3 missions: full screen text sequences, UAV establishing shots, info overlays, and the Arma 3 quote screen.
+This module provides intro sequence tools for Arma 3 missions: full screen text sequences, UAV establishing shots, info overlays, and the Arma 3 quote screen.
 
-## Features
+## Key Functions
 
-- Full blackout intro with scrolling text lines and formatted title cards
-- UAV/establishing shot camera with automatic day/night mode detection
-- Bottom-right info overlay showing player name, location, date, and time
-- Arma 3 EPA-style random quote screen
+### Opening Sequence
+**SAS_Intro_fnc_opening**
 
-## Functions
+Full intro sequence: blackout, music, scrolling text, title card, blur, fade-in.
 
-### `SAS_Intro_fnc_opening`
-
-Full intro sequence. Blacks out the screen, plays optional music, displays text lines one by one, then shows a formatted title card. Applies dynamic blur and fades back in at the end.
-
-```sqf
+**Usage:**
+```
 [
-    ["Line one of the intro.", "Line two of the intro."],  // text lines
-    ["Operation Silent Strike", "3rd SAS Regiment"],       // title lines
-    "MyMusicClass",                                        // music (optional)
-    true,                                                  // black out (optional)
-    true,                                                  // black in (optional)
-    { hint "Intro finished"; }                             // callback (optional)
+    ["Line one of the intro.", "Line two of the intro."],
+    ["Operation Silent Strike", "3rd SAS Regiment"],
+    "MyMusicClass",
+    true,
+    true,
+    { hint "Intro finished"; }
 ] spawn SAS_Intro_fnc_opening;
 ```
 
-**Parameters:**
+---
 
-| # | Type | Description | Default |
-|---|------|-------------|---------|
-| 0 | `ARRAY` | Text lines to display sequentially | `[]` |
-| 1 | `ARRAY` | Title lines shown after the text (first line large, subsequent smaller) | `[]` |
-| 2 | `STRING` | Music class name to play | `""` |
-| 3 | `BOOL` | Black out screen at start | `true` |
-| 4 | `BOOL` | Fade back in at end with blur effect | `true` |
-| 5 | `CODE` | Callback executed before black-in | `{}` |
+### UAV Shot
+**SAS_Intro_fnc_uav**
 
-**Notes:**
+Plays a UAV/establishing shot using `BIS_fnc_establishingShot`.
+
+**Usage:**
+```
+[] call SAS_Intro_fnc_uav;
+[myObject, "Stratis - 0300 hrs"] call SAS_Intro_fnc_uav;
+[getPos myMarker, "LZ Delta", "NVG"] call SAS_Intro_fnc_uav;
+```
+
+---
+
+## Additional Functions
+- `SAS_Intro_fnc_infoText`: Displays info overlay
+- `SAS_Intro_fnc_quote`: Shows random Arma 3 EPA quote screen
+
+See the functions directory for more details.
+
+---
+
+## Usage Example
+```sqf
+[] call SAS_Intro_fnc_quote;
+[player, "Stratis - Operation Silent Strike"] call SAS_Intro_fnc_uav;
+[
+    ["Intelligence reports enemy activity near the airfield.", "Your team has been inserted under cover of darkness."],
+    ["Operation Silent Strike"],
+    "MyIntroMusic"
+] spawn SAS_Intro_fnc_opening;
+```
+
+## Debugging
+Enable `SAS_Debug_global` for debug output. All debug messages use `SAS_fnc_logDebug`.
+
+## Standards
+Follow [copilot-instructions.md](../.github/copilot-instructions.md) for documentation and coding conventions.
 - Must be called with `spawn` — internally uses `sleep` and `waitUntil`.
 - Display time per line is calculated as `(charCount * 0.08) max 4` seconds.
 - Title lines are formatted with decreasing font sizes: large (`RobotoCondensedBold`), medium, small.

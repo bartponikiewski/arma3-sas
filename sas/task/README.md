@@ -1,36 +1,49 @@
+
 # SAS Task Module
 
-This module provides AI group tasking functions for the SAS framework in Arma 3 missions. It enables mission-makers to assign and manage group-level behaviors such as defending, garrisoning, and patrolling, in a modular and engine-friendly way.
+This module provides AI group tasking functions for the SAS framework in Arma 3 missions. Key features include defend, garrison, and patrol tasks for AI groups.
 
-## Features
-- Assign defend, garrison, and patrol tasks to AI groups
-- Modular, event-driven design for scalability
-- Designed for use with SAS function registration and mission architecture
+## Key Functions
 
-## Functions
-- **fn_defend.sqf**: Assigns a defend task to a group at a specified position or area.
-- **fn_garrison.sqf**: Orders a group to garrison a building or set of positions.
-- **fn_patrol.sqf**: Assigns a patrol route or area to a group.
+### Patrol
+**SAS_Task_fnc_patrol**
 
-## Usage
-All functions are registered using the SAS naming convention and should be called via the engine-registered function name, e.g.:
+Assigns a patrol route or area to a group.
 
-    [group, position, radius] call SAS_task_fnc_patrol;
-
-Refer to each function's header for parameter details and usage examples.
-
-## Integration
-- Register all public functions in `sas/description.cpp` under the `SAS_task` class.
-- Use only the public interface for cross-module calls.
-- Place all new task-related functions in this module for consistency.
-
-## Debugging
-All functions support debug logging via the SAS logging system. Enable `SAS_Debug_global` to see debug output.
-
-## Best Practices
-- Use group-level tasking for performance and realism.
-- Avoid per-frame or per-unit polling; prefer event-driven logic.
-- Follow SAS documentation and function header standards for all new functions.
+**Usage:**
+```
+[group, position, radius] call SAS_Task_fnc_patrol;
+```
 
 ---
-For more information, see the main SAS framework documentation and the copilot-instructions.md in the repository root.
+
+### Defend
+**SAS_Task_fnc_defend**
+
+Assigns a defend task to a group at a specified position or area.
+
+**Usage:**
+```
+[group, position, radius, garrison, patrol] call SAS_Task_fnc_defend;
+```
+
+---
+
+## Additional Functions
+- `fn_garrison.sqf`: Orders a group to garrison a building or set of positions
+
+See the functions directory for more details.
+
+---
+
+## Usage Example
+```sqf
+[group, getPos marker, 150] call SAS_Task_fnc_patrol;
+[group, getPos marker, 100, true, true] call SAS_Task_fnc_defend;
+```
+
+## Debugging
+Enable `SAS_Debug_global` for debug output. All debug messages use `SAS_fnc_logDebug`.
+
+## Standards
+Follow [copilot-instructions.md](../.github/copilot-instructions.md) for documentation and coding conventions.

@@ -1,43 +1,48 @@
-# SAS Briefing — Task Functions
 
-Functions for creating and managing mission tasks using the Arma 3 Task Framework (`BIS_fnc_task*`).
+# SAS Briefing Module  Task Functions
 
-Task state changes are **network-synchronised** by the framework. Call task functions on the server (`isServer`) or from `init.sqf` with an `isServer` guard.
+This module provides functions for creating and managing mission tasks using the Arma 3 Task Framework. Key features include task creation, assignment, and state management.
 
----
+## Key Functions
 
-## Functions
-
-### `SAS_Briefing_fnc_createTask`
+### Create Task
+**SAS_Briefing_fnc_createTask**
 
 Creates a single mission task and assigns it to all players.
 
-The following are fixed internally and not exposed as parameters:
+**Usage:**
+```
+[taskID, taskName, taskDesc, taskType, destination, assignNow] call SAS_Briefing_fnc_createTask;
+```
 
-| Setting | Value |
-|---------|-------|
-| Owners | `allPlayers` |
-| Initial state | `"Created"` — use param 5 to assign immediately |
-| Show notification | `SAS_Briefing_TaskShowNotification` (namespace variable) |
-| 3D waypoint | `SAS_Briefing_Task3D` (namespace variable) |
+**Parameters:**
+- taskID: Task identifier
+- taskName: Task display name
+- taskDesc: Task description
+- taskType: Task type (e.g., "Move")
+- destination: Marker, position, or object
+- assignNow: Assign as current task (optional)
 
+---
+
+## Additional Functions
+- Create multiple tasks, set task state, complete/fail/cancel tasks
+
+See the functions directory for more details.
+
+---
+
+## Usage Example
 ```sqf
-// Minimal
 ["taskSeize", "Seize Alpha", "Capture the compound."] call SAS_Briefing_fnc_createTask;
-
-// With marker as destination
-["taskSeize", "Seize Alpha", "Capture the compound.", "Move", "markerAlpha"] call SAS_Briefing_fnc_createTask;
-
-// With a position array as destination
-["taskSeize", "Seize Alpha", "Capture the compound.", "Move", getPos myObj] call SAS_Briefing_fnc_createTask;
-
-// With an object as destination (task marker tracks the object)
-["taskSeize", "Seize Alpha", "Capture the compound.", "Move", myObj] call SAS_Briefing_fnc_createTask;
-
-// Immediately assign as current task
 ["taskSeize", "Seize Alpha", "Capture the compound.", "Move", "markerAlpha", true] call SAS_Briefing_fnc_createTask;
+```
 
-// Sub-task nested under a parent
+## Debugging
+Enable `SAS_Debug_global` for debug output. All debug messages use `SAS_fnc_logDebug`.
+
+## Standards
+Follow [copilot-instructions.md](../../.github/copilot-instructions.md) for documentation and coding conventions.
 ["taskRadar", "Destroy Radar", "Take out the comms dish.", "Destroy", "markerRadar", false, -1, "taskSeize"] call SAS_Briefing_fnc_createTask;
 ```
 

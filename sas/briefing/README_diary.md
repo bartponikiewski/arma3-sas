@@ -1,43 +1,57 @@
-# SAS Briefing — Diary Functions
 
-Functions for populating the in-game diary (Arma 3 intel/notes screen).
+# SAS Briefing Module  Diary Functions
 
-All diary commands are **local** — these functions only run on machines with an interface. Call them from `initPlayerLocal.sqf` or equivalent, never from `init.sqf` without an `hasInterface` guard.
+This module provides functions for populating the in-game diary (Arma 3 intel/notes screen). Key features include diary subject creation and briefing section management.
 
----
+## Key Functions
 
-## Functions
+### Create Diary Subject
+**SAS_Briefing_fnc_createDiarySubject**
 
-### `SAS_Briefing_fnc_createDiarySubject`
+Creates a diary subject and populates it with records.
 
-Creates a diary subject and populates it with records. If the subject already exists it is reused. Core function — all other diary helpers are wrappers around this.
-
-```sqf
-["SubjectName", [
-    ["RecordName",  "Record content"],
-    ["RecordName2", "Record content"],
-]] call SAS_Briefing_fnc_createDiarySubject;
+**Usage:**
+```
+[subjectName, records] call SAS_Briefing_fnc_createDiarySubject;
 ```
 
-| # | Type | Description | Default |
-|---|------|-------------|---------|
-| 0 | STRING | Subject name (identifier and display name) | — |
-| 1 | ARRAY | `[recordName, recordContent]` pairs | `[]` |
-
-Returns: Nothing
+**Parameters:**
+- subjectName: Subject name (identifier and display name)
+- records: Array of `[recordName, recordContent]` pairs
 
 ---
 
-### `SAS_Briefing_fnc_createBriefing`
+### Create Briefing
+**SAS_Briefing_fnc_createBriefing**
 
-Creates a `Briefing` diary subject with standard operational sections. Defaults to empty Mission / Situation / Execution sections if no records are passed.
+Creates a `Briefing` diary subject with standard operational sections.
 
-```sqf
-// Default sections:
+**Usage:**
+```
 [] call SAS_Briefing_fnc_createBriefing;
+[sections] call SAS_Briefing_fnc_createBriefing;
+```
 
-// Custom sections:
-[
+---
+
+## Additional Functions
+- Add diary records, create notes
+
+See the functions directory for more details.
+
+---
+
+## Usage Example
+```sqf
+["Mission", [["Situation", "Enemy forces detected."]]] call SAS_Briefing_fnc_createDiarySubject;
+[] call SAS_Briefing_fnc_createBriefing;
+```
+
+## Debugging
+Enable `SAS_Debug_global` for debug output. All debug messages use `SAS_fnc_logDebug`.
+
+## Standards
+Follow [copilot-instructions.md](../../.github/copilot-instructions.md) for documentation and coding conventions.
     ["Mission",   "Capture the enemy HQ at grid 123456."],
     ["Situation", "Enemy forces are entrenched in the area."],
     ["Execution", "Phase 1: approach under cover of darkness."],

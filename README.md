@@ -1,111 +1,115 @@
-# SAS_v1.Stratis
+# Sushi Arma Scripts - Framework for missionmakers
 
-An Arma 3 mission built on the **SAS framework** — a modular scripting system designed to support mission-makers with reusable, well-structured gameplay systems.
+## What is SAS?
 
-## Mission Overview
+SAS (Sushi ArmA Scripts) is a modular framework for Arma 3 missions, designed to support mission-makers with scalable, engine-friendly systems. It provides:
+- Modular, self-contained scripts for AI, tasks, intro, logging, and more
+- Standardized function registration and documentation
+- Engine compatibility and performance best practices
 
-- **Map:** Stratis
-- **Time:** Night
-- **Player:** BLUFOR soldier (`player_1`)
-- **Setting:** Multi-faction engagement with OPFOR infantry, recon elements, air support, and civilian presence. Enemy groups are pre-registered into the SAS Reinforcement and Morale systems.
+This mission is a **playground for SAS development and testing**. All features are enabled and ready for demonstration, including:
+ - Actions for day/night switching, parachute, fastrope
+ - Intro sequences and loading screen via `SAS_Intro_fnc_play`
+ - Briefing and tasks setup using `SAS_Briefing_fnc_createTasks` and `SAS_Briefing_fnc_createBriefing`
+ - Additional diary notes and credits
+The mission setup (see `init.sqf` and `initPlayerLocal.sqf`) demonstrates all core SAS systems, including intro, loading screen, briefing, and tasks.
 
-## Framework Architecture
+## Module Overview
 
-All mission logic lives under `sas/`, organized into self-contained modules. Functions are registered centrally in `sas/description.cpp`, included by `description.ext`, and callable via `SAS_<Module>_fnc_<action>`.
+All mission logic lives under `sas/`, organized into self-contained modules. Each module has a README documenting its key functions, usage, and debugging. See [sas/README.md](sas/README.md) for a full module table and details.
 
-```
-sas/
-├── description.cpp         Central CfgFunctions registration
-├── civilians/              Civilian hostility and side-switching
-├── common/
-│   ├── gui/                Modal GUI dialog builder
-│   ├── logging/            Centralized debug logging
-│   └── misc/               Shared utilities (HALO, flares, group reset, side switch)
-├── conversation/           In-game dialogue overlays and branching dialogs
-├── intro/                  Intro sequence, UAV shots, text overlays, quote screen
-├── morale/                 Group-level fear and casualty tracking
-├── nightops/               Night combat tools (flashlights, flares, light switching)
-├── reinforcement/          AI reinforcement request and dispatch system
-└── task/                   AI task assignment (patrol, defend, garrison)
-```
+Example modules:
+- Common: Logging, GUI, misc utilities
+- Intro: Opening sequence, UAV shots, overlays
+- Conversation: HUD overlays, branching dialogs
+- Morale: Group fear calculation, casualty tracking
+- Reinforcement: AI reinforcement request and dispatch
+- NightOps: Night combat tools (lights, flares)
+- Task: AI task assignment (patrol, defend, garrison)
+- Civilians: Make civilians hostile and arm them
+- Fastrope: Helicopter fastrope mechanics
+- Gunship: Gunship creation, control, comms
+- Hostage: Hostage creation and management
+- Intel: Intel dialog and management
+- Skills: Skill parameter management
+- Briefing: Diary and task creation functions
+- Params: Mission parameter configuration
 
-## Modules
+For a complete list and documentation links, see [sas/README.md](sas/README.md).
 
-| Module | Tag | Description |
-|---|---|---|
-| [Common / Logging](sas/common/logging/README.md) | `SAS_fnc_` | Debug logging via `SAS_fnc_logDebug` |
-| [Common / Misc](sas/common/misc/README.md) | `SAS_fnc_` | HALO jump, flares, group reset, side switch |
-| [Common / GUI](sas/common/gui/README.md) | `SAS_fnc_` | Modal button dialogs |
-| [Intro](sas/intro/README.md) | `SAS_Intro_fnc_` | Intro text, UAV shots, title cards, quote screen |
-| [Conversation](sas/conversation/README.md) | `SAS_Conv_fnc_` | HUD message overlays and branching modal dialogs |
-| [Morale](sas/morale/README.md) | `SAS_Morale_fnc_` | Group fear calculation and casualty tracking |
-| [Reinforcement](sas/reinforcement/README.md) | `SAS_Reinforcement_fnc_` | AI reinforcement request and dispatch |
-| [NightOps](sas/nightops/README.md) | `SAS_NightOps_fnc_` | Flashlights, flares, area light control |
-| [Task](sas/task/README.md) | `SAS_Task_fnc_` | Patrol, defend, garrison tasks for AI groups |
-| [Civilians](sas/civilians/README.md) | `SAS_Civilians_fnc_` | Make civilians hostile and arm them |
+## Example Usage
 
-## Module Interdependencies
-
-```
-Civilians ──────────────────► Common/Misc (switchSide)
-NightOps ───────────────────► Common/Misc (fireFlare)
-Task/Defend ────────────────► Task/Garrison, Task/Patrol
-Reinforcement ──────────────► Morale (registerGroup, groupFearChanged event)
-                           ► Common/Misc (fireFlare, resetGroup)
-All modules ────────────────► Common/Logging (logDebug)
-```
-
-## Getting Started
-
-### Debug Mode
-
-Enable debug hints globally in `init.sqf`:
-
+Enable debug mode in `init.sqf`:
 ```sqf
 SAS_Debug_global = true;
 ```
 
-When true, all modules output status messages via `SAS_fnc_logDebug` and draw debug markers on the map.
-
-### Registering Groups
-
-Register groups at mission start or in unit init fields:
-
+Register a group for reinforcements:
 ```sqf
-// Can call reinforcements, cannot be called
 [this, true, false] call SAS_Reinforcement_fnc_registerGroup;
-
-// Cannot call, but available as reinforcement
-[this, false, true] call SAS_Reinforcement_fnc_registerGroup;
 ```
 
-### Running an Intro Sequence
-
+Show loading screen and intro sequence:
 ```sqf
+[] call SAS_fnc_loadingScreen;
+
 [
-    ["It was a dark night on Stratis.", "The mission had just begun."],
-    ["Operation Silent Strike", "3rd SAS Regiment"],
-    "MyMusicClass"
-] spawn SAS_Intro_fnc_opening;
+    ["QUOTE"],
+    [
+        "OPENING", 
+        [
+            ["This is", "a simple intro sequence example", "for SAS framework"],
+            ["SAS", "Sushi ArmA Scripts", "v1.0.0-a"],
+            ["LeadTrack01_F_Tacops", true]
+        ]
+    ],
+    ["UAV", player]
+] call SAS_Intro_fnc_play;
+
+[] call SAS_Intro_fnc_infoText;
 ```
 
-### Assigning AI Tasks
-
+Assign AI tasks:
 ```sqf
-// Patrol around a position
 [_group, getPos _marker, 150] call SAS_Task_fnc_patrol;
-
-// Defend a position (garrison + patrol)
 [_group, getPos _marker, 100, true, true] call SAS_Task_fnc_defend;
 ```
 
-## Conventions
+Create tasks, briefing, and notes:
+```sqf
+[
+    ["task1", "Test reinforcements", "Lorem ipsum dolor sit amet.", "Attack", "mrk_reinforcements_1"],
+    ["task2", "Destroy that", "Lorem ipsum dolor sit amet.", "Destroy", tl_opfor_1],
+    ["task3", "Take intel", "Lorem ipsum dolor sit amet.", "Destroy", laptop_3]
+] spawn SAS_Briefing_fnc_createTasks;
 
-- **Function naming:** `SAS_<Module>_fnc_<action>` (e.g., `SAS_Morale_fnc_registerGroup`)
-- **Variables:** `SAS_<Module>_<camelCaseState>` (e.g., `SAS_Morale_groupFear`)
-- **Do not edit** `mission.sqm` manually — use the Arma 3 editor only
-- All new functions must be registered in `sas/description.cpp`
-- See [copilot-instructions.md](.github/copilot-instructions.md) for full coding standards
+[
+    ["Mission",   "Test SAS and complete the work"],
+    ["Situation", "Nothing works, figure it out and fix it."],
+    ["Execution", "Go there, do that, win the day."],
+    ["Support",   "You have nothing, good luck!"]
+] spawn SAS_Briefing_fnc_createBriefing;
+
+[
+    ["Credits", "Mission created by Sushi. Thanks for playing!<br /><img image='sas/assets/logo_bar.paa' width=300 />"],
+    ["Tech notes", "This mission is using Sushi Arma Scripts framework v1.0.0<br /><img image='sas/assets/powered_by_sas_large.paa' width=200 />"]
+] spawn SAS_Briefing_fnc_createNotes;
+```
+
+Use mission parameters:
+```sqf
+#include "sas/params/paramSkills.hpp"
+#include "sas/params/paramIntro.hpp"
+```
+
+## Onboarding & Testing
+
+- The mission is prepared to test every SAS feature. Actions and scripts in `init.sqf` and `initPlayerLocal.sqf` demonstrate:
+    - Intro and loading screen (`SAS_Intro_fnc_play`)
+    - Briefing and tasks setup (`SAS_Briefing_fnc_createTasks`, `SAS_Briefing_fnc_createBriefing`)
+    - All core systems and actions
+- See [sas/README.md](sas/README.md) for module details and links to documentation.
+- For coding standards and architecture, see [copilot-instructions.md](.github/copilot-instructions.md).
 
 ## References
 

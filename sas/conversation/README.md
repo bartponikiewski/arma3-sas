@@ -1,43 +1,51 @@
+
 # SAS Conversation Module
 
-This module provides functions for displaying in-game conversation overlays and dialogue dialogs in Arma 3 missions using the SAS framework. It supports speaker names, live face-cam PiP (picture-in-picture) or static portrait images, dialogue text, and configurable response buttons for branching NPC dialogue trees.
+This module provides functions for displaying in-game conversation overlays and dialogue dialogs in Arma 3 missions using the SAS framework. Key features include speaker overlays, face-cam, and branching dialogue.
 
-## Features
-- Non-modal, non-pausing message overlay that auto-closes after a configurable duration
-- Modal dialogue dialog with response buttons for interactive NPC conversations
-- Live unit face-cam via PiP camera, or static portrait image (legacy)
-- Chainable conversation nodes — response buttons can open the next dialogue node inline
-- Automatic live-cam unit forwarding when chaining nodes
-- Escape key interception to cleanly close dialogs
-- All controls injected dynamically; relies on the base `SAS_RscGuiMessage` dialog class (IDD 9001)
+## Key Functions
 
-## Functions
+### Message Overlay
+**SAS_Conv_fnc_message**
 
-### `SAS_Conv_fnc_message`
-Displays a non-modal, non-pausing conversation overlay at the bottom of the screen. Auto-closes after `_duration` seconds. No response buttons.
+Displays a non-modal, non-pausing conversation overlay at the bottom of the screen. Auto-closes after a configurable duration.
 
 **Usage:**
-```sqf
+```
 [speaker, face, dialogue, duration] call SAS_Conv_fnc_message;
 ```
 
 **Parameters:**
-| # | Type | Description | Default |
-|---|------|-------------|---------|
-| 0 | STRING | Speaker name shown in the name bar | `""` |
-| 1 | OBJECT \| STRING | Unit for live PiP face-cam, or path to a static portrait image (`""` for none) | `""` |
-| 2 | STRING | Dialogue text shown in the body | `""` |
-| 3 | NUMBER | Seconds before the overlay auto-closes | `4` |
+- speaker: Speaker name shown in the name bar
+- face: Unit for live PiP face-cam or path to static portrait image
+- dialogue: Dialogue text shown in the body
+- duration: Seconds before overlay auto-closes (default: 4)
 
-**Returns:** `DISPLAY` — the created display reference, or `displayNull` on failure.
+---
 
-**Example:**
+### Dialogue Dialog
+**SAS_Conv_fnc_messageDialog**
+
+Displays a modal dialogue dialog with response buttons for interactive NPC conversations.
+
+**Usage:**
+```
+[speaker, face, dialogue, responses] call SAS_Conv_fnc_messageDialog;
+```
+
+---
+
+## Usage Example
 ```sqf
-// Simple text notification
 ["Radio", "", "All units, stand by."] call SAS_Conv_fnc_message;
-
-// With a live face-cam
 ["Sgt. Harris", _npc, "Move up to the ridge. Now.", 6] call SAS_Conv_fnc_message;
+```
+
+## Debugging
+Enable `SAS_Debug_global` for debug output. All debug messages use `SAS_fnc_logDebug`.
+
+## Standards
+Follow [copilot-instructions.md](../.github/copilot-instructions.md) for documentation and coding conventions.
 ```
 
 ---

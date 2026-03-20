@@ -1,43 +1,54 @@
-# SAS Night Operations Module
 
-## Overview
-The **nightops** module provides functions and utilities to enhance night-time gameplay in Arma 3 missions. It enables mission-makers to control lighting, flares, and AI flashlight usage, supporting immersive and dynamic night operations.
+# SAS NightOps Module
 
-## Features
-- Switch individual or area lights on/off dynamically
-- Recurring flare launches at target locations
-- AI flashlight and flare usage scripting
-- Modular, event-driven design for performance and flexibility
+This module provides functions and utilities to enhance night-time gameplay in Arma 3 missions. Key features include dynamic lighting, flares, and AI flashlight usage.
 
-## Functions
-All public functions follow the SAS naming convention and are registered for use in mission scripts. Key functions include:
+## Key Functions
 
-- **SAS_Nightops_fnc_switchLight**
-  - Switches a single light source on or off.
-- **SAS_Nightops_fnc_switchLightsInArea**
-  - Switches all lights within a specified area on or off.
-- **SAS_Nightops_fnc_fireFlaresAtTargetRecurring**
-  - Launches flares at a target location on a recurring schedule.
-- **SAS_Nightops_fnc_useFlares**
-  - Orders AI to use flares.
-- **SAS_Nightops_fnc_useFlashlights**
-  - Orders AI to use flashlights.
+### Switch Lights In Area
+**SAS_Nightops_fnc_switchLightsInArea**
 
-See each function's header for usage, parameters, and return values.
+Switches all lights within a specified area on or off.
 
-## Usage
-1. Register the module's functions in your central include (see SAS framework instructions).
-2. Call the desired function from your mission script or event handler:
-   
-   Example:
-   [position, radius, true] call SAS_Nightops_fnc_switchLightsInArea;
+**Usage:**
+```
+[position, radius, true] call SAS_Nightops_fnc_switchLightsInArea;
+```
 
-3. For recurring or AI-driven effects, use the provided functions in scheduled or event-driven logic.
+---
 
-## Best Practices
-- Use area-based light switching for performance.
-- Prefer event-driven triggers over continuous polling.
-- Follow SAS framework conventions for modularity and debug logging.
+### Use Flashlights
+**SAS_Nightops_fnc_useFlashlights**
+
+Orders AI to use flashlights.
+
+**Usage:**
+```
+[group] call SAS_Nightops_fnc_useFlashlights;
+```
+
+---
+
+## Additional Functions
+- `SAS_Nightops_fnc_switchLight`: Switches a single light source
+- `SAS_Nightops_fnc_fireFlaresAtTargetRecurring`: Launches flares at a target location on a recurring schedule
+- `SAS_Nightops_fnc_useFlares`: Orders AI to use flares
+
+See the functions directory for more details.
+
+---
+
+## Usage Example
+```sqf
+[position, 100, true] call SAS_Nightops_fnc_switchLightsInArea;
+[group] call SAS_Nightops_fnc_useFlashlights;
+```
+
+## Debugging
+Enable `SAS_Debug_global` for debug output. All debug messages use `SAS_fnc_logDebug`.
+
+## Standards
+Follow [copilot-instructions.md](../.github/copilot-instructions.md) for documentation and coding conventions.
 
 ## Debugging
 All functions support debug logging via `SAS_fnc_logDebug`. Enable `SAS_Debug_global` for verbose output during development.

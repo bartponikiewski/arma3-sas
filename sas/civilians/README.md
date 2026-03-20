@@ -1,43 +1,46 @@
+
 # SAS Civilians Module
 
-This module provides functions for manipulating civilian units and groups in Arma 3 missions using the SAS framework. It enables mission-makers to script dynamic civilian behaviour such as turning civilians hostile mid-mission.
+This module provides functions for manipulating civilian units and groups in Arma 3 missions using the SAS framework. Key features include turning civilians hostile mid-mission and arming them.
 
-## Features
-- Turn a civilian unit or group hostile toward a specified side
-- Arm newly hostile civilians with a random or specified weapon type
-- Validates locality, side, and weapon type before applying changes
-- Delegates side-switching to `SAS_fnc_switchSide` for consistency
+## Key Functions
 
-## Functions
+### Make Hostile
+**SAS_Civilians_fnc_makeHostile**
 
-### `SAS_Civilians_fnc_makeHostile`
 Makes a civilian unit or group hostile and arms every member with a weapon.
 
 **Usage:**
-```sqf
+```
 [civ, side, weaponType] call SAS_Civilians_fnc_makeHostile;
 ```
 
 **Parameters:**
-| # | Type | Description | Default |
-|---|------|-------------|---------|
-| 0 | OBJECT \| GROUP | Civilian unit or group to make hostile | *(required)* |
-| 1 | SIDE | Side that the civilians become hostile toward (e.g. `WEST`) | `WEST` |
-| 2 | STRING | Weapon category: `"PISTOL"`, `"SMG"`, `"SHOTGUN"`, `"RIFLE"`, or an exact class name | random |
+- civ: Civilian unit or group to make hostile
+- side: Side to become hostile toward (default: WEST)
+- weaponType: Weapon category ("PISTOL", "SMG", "SHOTGUN", "RIFLE", or exact class; default: random)
 
-**Returns:** `BOOL` — `true` on success, `false` on validation failure.
+---
 
-**Examples:**
+## Additional Functions
+- `fn_createHostileZone.sqf`: Create hostile zone for civilians
+- `fn_makeHostileInArea.sqf`: Make civilians hostile in area
+
+See the functions directory for more details.
+
+---
+
+## Usage Example
 ```sqf
-// Make a single civilian hostile toward WEST with a random weapon
 [civ1] call SAS_Civilians_fnc_makeHostile;
-
-// Make an entire civilian group hostile toward EAST, armed with SMGs
 [civGrp, EAST, "SMG"] call SAS_Civilians_fnc_makeHostile;
 ```
 
-## Implementation Notes
-- The function exits early if the entity is null, not local, or not of civilian side.
+## Debugging
+Enable `SAS_Debug_global` for debug output. All debug messages use `SAS_fnc_logDebug`.
+
+## Standards
+Follow [copilot-instructions.md](../.github/copilot-instructions.md) for documentation and coding conventions.
 - Weapon selection uses a built-in hash map of category-to-class-array mappings; passing an invalid category causes an early exit.
 - Side switching is performed via `SAS_fnc_switchSide`, which moves all units into a new group of the target side.
 - Each unit has `setCaptive false` applied after arming to ensure they engage enemies.
