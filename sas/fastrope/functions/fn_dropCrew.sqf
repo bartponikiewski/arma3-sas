@@ -44,7 +44,18 @@ for "_i" from 0 to (count _ropes - 1) do {
 	_groups pushBack _group;
 };
 
-// Spawn rope descent scripts for each group
+// Calculate _delay for fastrope drop
+private _descentRate = 0.8;   // meters per tick 
+private _tickRate    = 0.2;   // seconds per tick
+private _safeSpacing = 2;     // meters between units (adjust as needed)
+
+// Calculate descent distance (vertical)
+private _descentDistance = (getPosATL _heli) select 2;
+
+// Calculate time for one unit to descend the safe spacing
+private _delay = (_safeSpacing / _descentRate) * _tickRate;
+
+if (_delay > _totalDescentTime) then { _delay = _totalDescentTime / 2; };
 private _scriptsHandlers = [];
 {
 	private _group = _x;
@@ -55,9 +66,9 @@ private _scriptsHandlers = [];
 
 		{
 			private _unit = _x select 0;
-			[_unit, _rope] remoteExec ["SAS_Fastrope_fnc_doFastrope", _unit];
+			[_unit, _rope, _descentRate, _tickRate] remoteExec ["SAS_Fastrope_fnc_doFastrope", _unit];
 
-			sleep 2;
+			sleep _delay;
 		} forEach _group;
 	};
 

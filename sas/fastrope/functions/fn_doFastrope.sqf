@@ -1,4 +1,5 @@
-params [["_unit", objNull], ["_rope", objNull]];
+params [["_unit", objNull], ["_rope", objNull], ["_descentRate", 0.8], ["_tickRate", 0.2]];
+
 
 if (isNull _unit) exitWith {
 	["Error: No unit provided to fn_doFastrope."] call SAS_fnc_logDebug;
@@ -7,6 +8,11 @@ if (isNull _unit) exitWith {
 if (!alive _unit) exitWith {
 	["Error: Unit provided to fn_doFastrope is not alive."] call SAS_fnc_logDebug;
 };
+
+if (!local _unit) exitWith {
+	["Error: Unit provided to fn_doFastrope is not local."] call SAS_fnc_logDebug;
+};
+
 
 private _heli = objectParent  _unit;
 if (isNull _heli) exitWith {
@@ -34,16 +40,10 @@ private _endOfRopeZ = _ropeEndPos select 2;
 
 unassignVehicle _unit;
 [_unit] allowGetIn false;
-moveOut _unit;
+
 _unit setPos [(_ropeStartPos select 0),(_ropeStartPos select 1),(_ropeStartPos select 2)-2];
 _unit switchMove "LadderRifleStatic";
 _unit playMove "LadderRifleStatic";
-
-[_unit, "LadderRifleStatic"] remoteExec ["switchMove"];
-[_unit, "LadderRifleStatic"] remoteExec ["playMove"];
-
-private _descentRate = 1;   // metres per tick (lower = slower)
-private _tickRate    = 0.2;  // seconds per tick (lower = smoother)
 
 private _roping = true;
 while {_roping} do {
@@ -61,15 +61,12 @@ while {_roping} do {
 	sleep _tickRate;
 };
 
-_unit setVelocity [0,0,0];
-
-
 _unit playMove "LadderRifleDownOff";
 _unit switchMove "";
-[_unit, "LadderRifleDownOff"] remoteExec ["playMove"];
-[_unit, ""] remoteExec ["switchMove"];
 _unit allowDamage true;
 [_unit] allowGetIn true;
+
+moveOut _unit;
 
 
 
