@@ -1,40 +1,60 @@
-# SAS Framework Modules
+# SAS Framework — Module Index
 
-This document provides an overview of all modules in the SAS framework, their purpose, tags, and links to detailed documentation. Each module is self-contained and registered centrally for engine compatibility.
+All modules live under `sas/`, each self-contained with its own functions and README. Functions are registered centrally in `sas/functions.hpp` via `cfgFunctions` in `description.ext`.
 
-## Module Table
+→ New here? Start with **[QUICKSTART.md](QUICKSTART.md)**.
 
-| Module         | Tag                    | Description                                      | Documentation Link                       |
-|---------------|------------------------|--------------------------------------------------|------------------------------------------|
-| Common / Logging   | SAS_fnc_               | Centralized debug logging                        | [logging/README.md](common/logging/README.md) |
-| Common / Misc      | SAS_fnc_               | HALO jump, flares, group reset, side switch      | [misc/README.md](common/misc/README.md)      |
-| Common / GUI       | SAS_fnc_               | Modal button dialogs                             | [gui/README.md](common/gui/README.md)        |
-| Intro              | SAS_Intro_fnc_         | Intro text, UAV shots, title cards, quote screen | [intro/README.md](intro/README.md)           |
-| Conversation       | SAS_Conv_fnc_          | HUD message overlays, branching dialogs           | [conversation/README.md](conversation/README.md) |
-| Morale             | SAS_Morale_fnc_        | Group fear calculation, casualty tracking         | [morale/README.md](morale/README.md)           |
-| Reinforcement      | SAS_Reinforcement_fnc_ | AI reinforcement request and dispatch             | [reinforcement/README.md](reinforcement/README.md) |
-| NightOps           | SAS_NightOps_fnc_      | Flashlights, flares, area light control           | [nightops/README.md](nightops/README.md)         |
-| Task               | SAS_Task_fnc_          | Patrol, defend, garrison tasks for AI groups      | [task/README.md](task/README.md)               |
-| Civilians          | SAS_Civilians_fnc_     | Make civilians hostile and arm them               | [civilians/README.md](civilians/README.md)       |
-| Briefing           | SAS_Briefing_fnc_      | Diary and task creation functions                 | [briefing/README_diary.md](briefing/README_diary.md) |
-| Fastrope           | SAS_Fastrope_fnc_      | Helicopter fastrope mechanics                     | [fastrope/functions/](fastrope/functions/)         |
-| Gunship            | SAS_Gunship_fnc_       | Gunship creation, control, and comms              | [gunship/functions/](gunship/functions/)           |
-| Hostage            | SAS_Hostage_fnc_       | Hostage creation and management                   | [hostage/functions/](hostage/functions/)           |
-| Intel              | SAS_Intel_fnc_         | Intel dialog and management                       | [intel/functions/](intel/functions/)               |
-| Skills             | SAS_Skills_fnc_        | Skill parameter management                        | [skills/functions/](skills/functions/)              |
-| DragBody           | SAS_DragBody_fnc_      | Drag incapacitated players (native revive)        | [dragbody/README.md](dragbody/README.md)           |
+---
 
-## Module Registration
+## Modules
 
-All public functions are registered in `sas/functions.hpp` and centrally included for engine compatibility. See [copilot-instructions.md](../.github/copilot-instructions.md) for standards.
+| Module | Tag | Description | Docs |
+|--------|-----|-------------|------|
+| Common / Logging | `SAS_fnc_` | Centralised debug logging via `SAS_fnc_logDebug` | [common/logging/README.md](common/logging/README.md) |
+| Common / Misc | `SAS_fnc_` | HALO jump, flares, markers, waypoints, group reset, side switch | [common/misc/README.md](common/misc/README.md) |
+| Common / GUI | `SAS_fnc_` | Modal button dialogs, black-in/out, loading screen | [common/gui/README.md](common/gui/README.md) |
+| Intro | `SAS_Intro_fnc_` | Blackout intro sequence, UAV shot, info overlay, quote screen | [intro/README.md](intro/README.md) |
+| Briefing | `SAS_Briefing_fnc_` | Task creation, briefing sections, diary notes, task state management | [briefing/README_diary.md](briefing/README_diary.md) |
+| Conversation | `SAS_Conv_fnc_` | Non-blocking HUD overlays and modal branching dialogs with face-cam | [conversation/README.md](conversation/README.md) |
+| Task | `SAS_Task_fnc_` | Patrol, defend, and garrison behaviours for AI groups | [task/README.md](task/README.md) |
+| Morale | `SAS_Morale_fnc_` | Per-group fear tracking based on casualties | [morale/README.md](morale/README.md) |
+| Reinforcement | `SAS_Reinforcement_fnc_` | Fear-driven reinforcement requests and dispatch between AI groups | [reinforcement/README.md](reinforcement/README.md) |
+| NightOps | `SAS_NightOps_fnc_` | Flashlights, flares, area light control, power source actions | [nightops/README.md](nightops/README.md) |
+| Civilians | `SAS_Civilians_fnc_` | Make civilians hostile, arm them, create hostile zones | [civilians/README.md](civilians/README.md) |
+| Hostage | `SAS_Hostage_fnc_` | Cuff civilians as hostages, free action, state management | [hostage/README.md](hostage/README.md) |
+| Captive | `SAS_Captive_fnc_` | Full captive flow: surrender → arrest → escort → vehicle → release | [captive/README.md](captive/README.md) |
+| DragBody | `SAS_DragBody_fnc_` | Drag incapacitated players (requires native BIS revive) | [dragbody/README.md](dragbody/README.md) |
+| Fastrope | `SAS_Fastrope_fnc_` | Helicopter fast-rope insertion mechanics | [fastrope/README.md](fastrope/README.md) |
+| Gunship | `SAS_Gunship_fnc_` | Gunship CAS: spawn, JTAC menu, laser/manual fire modes, RTB | [gunship/README.md](gunship/README.md) |
+| Intel | `SAS_Intel_fnc_` | Interactable intel objects with dialog and callback | [intel/README.md](intel/README.md) |
+| Skills | `SAS_Skills_fnc_` | Apply skill presets (NORMAL / GOOD / SPECOPS) to units or groups | [skills/README.md](skills/README.md) |
+| Params | — | Lobby parameters for intro toggle and AI skill level | [params/README.md](params/README.md) |
 
-## Adding New Modules
-- Create a new folder under `sas/` for your module.
-- Add a README.md describing its purpose, functions, and usage.
-- Register public functions in `sas/functions.hpp`.
-- Follow SAS naming conventions and documentation standards.
+---
+
+## Global variables
+
+| Variable | Type | Set in | Description |
+|----------|------|--------|-------------|
+| `SAS_Debug_global` | Bool | `init.sqf` | Enable verbose debug logging across all modules |
+| `SAS_Dev_mode` | Bool | `init.sqf` | Enable development helpers (markers, extra logging) |
+
+---
+
+## Adding a new module
+
+1. Create `sas/<module>/` with a `functions/` subfolder.
+2. Write your functions as `fn_<name>.sqf`.
+3. Register them in `sas/functions.hpp` under a new `class SAS_<Module>` block.
+4. Add a `README.md` and a row to this table.
+
+See [copilot-instructions.md](../.github/copilot-instructions.md) for naming conventions and coding standards.
+
+---
 
 ## References
+
+- [QUICKSTART.md](QUICKSTART.md)
 - [copilot-instructions.md](../.github/copilot-instructions.md)
 - [Arma 3 SQF Reference](https://community.bistudio.com/wiki/Category:Scripting_Commands)
 - [CfgFunctions reference](https://community.bistudio.com/wiki/Arma_3:_Functions_Library)
