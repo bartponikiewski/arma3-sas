@@ -57,6 +57,7 @@ switch (_state) do {
 		_unit setCombatMode "BLUE";
 		_unit allowFleeing 0;
 		[_unit] call SAS_Hostage_fnc_removeFreeHostageAction;
+		_unit setCaptive true;
 
 		/*
 		  When a hostage is released, we want them to join the player's group so they can follow the player if they want. 

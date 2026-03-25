@@ -199,3 +199,13 @@ class SAS_Fastrope {
         class startMission {};
     };
 };
+
+class SAS_DragBody {
+    class DragBody {
+        file = "sas\dragbody\functions";
+        class init { postInit = 1; };
+        class addDragAction {};
+        class drag {};
+        class release {};
+    };
+};

@@ -22,6 +22,7 @@ This document provides an overview of all modules in the SAS framework, their pu
 | Hostage            | SAS_Hostage_fnc_       | Hostage creation and management                   | [hostage/functions/](hostage/functions/)           |
 | Intel              | SAS_Intel_fnc_         | Intel dialog and management                       | [intel/functions/](intel/functions/)               |
 | Skills             | SAS_Skills_fnc_        | Skill parameter management                        | [skills/functions/](skills/functions/)              |
+| DragBody           | SAS_DragBody_fnc_      | Drag incapacitated players (native revive)        | [dragbody/README.md](dragbody/README.md)           |
 
 ## Module Registration
 
