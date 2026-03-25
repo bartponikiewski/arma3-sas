@@ -40,7 +40,7 @@ waitUntil {
 };
 
 /* --- slow down and hover --- */
-_heli flyInHeight [45, true];
+_heli flyInHeight 45;
 _heli setSpeedMode "LIMITED";
 
 waitUntil {
@@ -62,11 +62,6 @@ sleep 2;
 [_heli] call SAS_Fastrope_fnc_dropCrew;
 sleep 2;
 [_heli] call SAS_Fastrope_fnc_cutRopes;
-
-waitUntil {
-  sleep 2;
-  (count (_heli getVariable ["SAS_Fastrope_attachedRopes", []])) == 0;
-};
 
 /* --- restore flight --- */
 _heli enableAI "MOVE";

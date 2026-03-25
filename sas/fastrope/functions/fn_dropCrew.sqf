@@ -16,7 +16,10 @@ params ["_heli"];
 
 // Check params
 if (isNull _heli) exitWith {
-	["Error: No helicopter provided to fn_createRopes."] call SAS_fnc_logDebug;
+	["Error: No helicopter provided to fn_dropCrew."] call SAS_fnc_logDebug;
+};
+if (!local _heli) exitWith {
+	["Error: Helicopter provided to fn_dropCrew is not local."] call SAS_fnc_logDebug;
 };
 
 private _ropes = _heli getVariable ["SAS_Fastrope_attachedRopes", []];
@@ -55,14 +58,15 @@ private _descentDistance = (getPosATL _heli) select 2;
 // Calculate time for one unit to descend the safe spacing
 private _delay = (_safeSpacing / _descentRate) * _tickRate;
 
+private _totalDescentTime = (_descentDistance / _descentRate) * _tickRate;
 if (_delay > _totalDescentTime) then { _delay = _totalDescentTime / 2; };
 private _scriptsHandlers = [];
 {
 	private _group = _x;
   	private _rope = _ropes select _forEachIndex;
 
-	private _scriptHandle = [_group, _rope] spawn {
-		params ["_group", "_rope"];
+	private _scriptHandle = [_group, _rope, _descentRate, _tickRate, _delay] spawn {
+		params ["_group", "_rope", "_descentRate", "_tickRate", "_delay"];
 
 		{
 			private _unit = _x select 0;
