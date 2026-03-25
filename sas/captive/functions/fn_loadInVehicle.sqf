@@ -12,7 +12,7 @@
 params ["_target", "_caller"];
 
 // Find nearest vehicle with free cargo
-private _vehicles = nearestObjects [_caller, ["Car", "Tank", "Helicopter", "Boat", "Plane"], 10];
+private _vehicles = nearestObjects [_caller, ["Car", "Tank", "Helicopter", "Boat", "Plane"], 5];
 private _vehicle = objNull;
 
 {
@@ -44,11 +44,15 @@ if (_loadActionId >= 0) then {
 	_caller setVariable ["SAS_Captive_loadActionId", nil];
 };
 
+// Clear escort references so action conditions work after unload/release
+_caller setVariable ["SAS_Captive_escortingUnit", objNull];
+_target setVariable ["SAS_Captive_escortedBy", objNull, true];
+
 // Remove escort/release actions from previous state
 [_target] call SAS_Captive_fnc_removeEscortAction;
 
-// Move into vehicle cargo
-_target moveInCargo _vehicle;
+// Move into vehicle cargo — must execute where _target is local (server for AI)
+[_target, _vehicle] remoteExec ["moveInCargo", _target];
 
 // Store vehicle reference BEFORE remoteExec so all clients can read it
 _target setVariable ["SAS_Captive_vehicle", _vehicle, true];

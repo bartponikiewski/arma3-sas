@@ -65,11 +65,11 @@ switch (_state) do {
 				params ["_unit"];
 				private _state = _unit getVariable ["SAS_Captive_state", ""];
 
-				// Clean up all actions
+				// Clean up all actions (remoteExec unload removal so clients remove their local actions)
 				[_unit] call SAS_Captive_fnc_removeSurrenderAction;
 				[_unit] call SAS_Captive_fnc_removeArrestAction;
 				[_unit] call SAS_Captive_fnc_removeEscortAction;
-				[_unit] call SAS_Captive_fnc_removeUnloadAction;
+				[_unit] remoteExec ["SAS_Captive_fnc_removeUnloadAction", 0];
 
 				// Detach if escorted
 				if (_state == "ESCORTED") then {
@@ -90,6 +90,8 @@ switch (_state) do {
 		[_unit] call SAS_Captive_fnc_removeUnloadAction;
 
 		if (local _unit) then {
+			// Clear vehicle reference after action removal (so removeUnloadAction can read it)
+			_unit setVariable ["SAS_Captive_vehicle", objNull, true];
 			_unit disableAI "MOVE";
 			_unit setCaptive true;
 		};
@@ -122,6 +124,9 @@ switch (_state) do {
 	};
 
 	case "IN_VEHICLE": {
+		// Remove any existing unload action before adding (guards against JIP duplicates)
+		[_unit] call SAS_Captive_fnc_removeUnloadAction;
+
 		if (local _unit) then {
 			_unit setCaptive true;
 		};
@@ -142,7 +147,7 @@ switch (_state) do {
 					true,
 					true,
 					"",
-					"",
+					format ["alive %1 && (%1 getVariable ['SAS_Captive_state', '']) == 'IN_VEHICLE'", _unit],
 					3
 				];
 				_unit setVariable ["SAS_Captive_unloadActionId", _unloadActionId];

@@ -17,6 +17,9 @@ if ((_target getVariable ["SAS_Captive_state", ""]) != "ARRESTED") exitWith {};
 // Guard: caller is already escorting someone
 if (!isNull (_caller getVariable ["SAS_Captive_escortingUnit", objNull])) exitWith {};
 
+// Guard: someone else is already escorting this target
+if (!isNull (_target getVariable ["SAS_Captive_escortedBy", objNull])) exitWith {};
+
 // Set state
 [_target, "ESCORTED", _caller] remoteExec ["SAS_Captive_fnc_setCaptiveState", 0, true];
 _caller setVariable ["SAS_Captive_escortingUnit", _target];
@@ -62,8 +65,8 @@ private _loadActionId = _caller addAction [
 	true,
 	false,
 	"",
-	"(cursorTarget isKindOf 'LandVehicle' || cursorTarget isKindOf 'Air' || cursorTarget isKindOf 'Ship') && cursorTarget emptyPositions 'cargo' > 0 && cursorTarget distance _caller < 3",
-	10
+	"(cursorTarget isKindOf 'LandVehicle' || cursorTarget isKindOf 'Air' || cursorTarget isKindOf 'Ship') && cursorTarget emptyPositions 'cargo' > 0 && cursorTarget distance _target < 3",
+	5
 ];
 
 _caller setVariable ["SAS_Captive_loadActionId", _loadActionId];
@@ -72,10 +75,20 @@ _caller setVariable ["SAS_Captive_loadActionId", _loadActionId];
 [_target, _stopActionId, _loadActionId, _caller] spawn {
 	params ["_target", "_stopActionId", "_loadActionId", "_caller"];
 
+	// Wait for the ESCORTED state to propagate from the server before monitoring.
+	// Without this, the loop exits immediately in multiplayer because the broadcast
+	// hasn't arrived yet and the local state is still "ARRESTED".
+	waitUntil {
+		(_target getVariable ["SAS_Captive_state", ""]) == "ESCORTED"
+		|| !alive _target
+		|| !alive _caller
+	};
+
 	while {
 		alive _caller
 		&& lifeState _caller != "INCAPACITATED"
 		&& alive _target
+		&& vehicle _caller == _caller
 		&& (_target getVariable ["SAS_Captive_state", ""]) == "ESCORTED"
 	} do {
 		sleep 1;
@@ -93,8 +106,7 @@ _caller setVariable ["SAS_Captive_loadActionId", _loadActionId];
 	} else {
 		// Captive died or state changed externally — just clean up references
 		[_target, _caller] remoteExecCall ["enableCollisionWith", 0];
-		if (local _target) then {
-			_target setVariable ["SAS_Captive_escortedBy", objNull, true];
-		};
+		_target setVariable ["SAS_Captive_escortedBy", objNull, true];
+		_caller setVariable ["SAS_Captive_escortingUnit", objNull];
 	};
 };

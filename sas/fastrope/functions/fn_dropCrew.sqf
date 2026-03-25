@@ -81,9 +81,18 @@ private _scriptsHandlers = [];
 } forEach _groups;
 
 
-// Wait for all rope descent scripts to finish
+// Wait for all remoteExec calls to be sent
 {
 	waitUntil {scriptDone _x};
 } forEach _scriptsHandlers;
+
+// Collect all passenger units
+private _allUnits = _passangersData apply { _x select 0 };
+
+// Wait for all units to actually finish fastroping
+waitUntil {
+	sleep 1;
+	(_allUnits findIf { _x getVariable ["SAS_Fastrope_roping", false] }) == -1
+};
 
 true;

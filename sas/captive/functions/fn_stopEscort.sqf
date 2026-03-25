@@ -38,10 +38,8 @@ if (_loadActionId >= 0) then {
 	_caller setVariable ["SAS_Captive_loadActionId", nil];
 };
 
-// Clear escort reference
-if (local _target) then {
-	_target setVariable ["SAS_Captive_escortedBy", objNull, true];
-};
+// Clear escort reference (setVariable with true broadcasts from any machine)
+_target setVariable ["SAS_Captive_escortedBy", objNull, true];
 
 // Clear escorting reference on caller
 _caller setVariable ["SAS_Captive_escortingUnit", objNull];

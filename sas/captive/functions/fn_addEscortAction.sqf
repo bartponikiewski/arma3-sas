@@ -12,6 +12,9 @@ params ["_unit"];
 if (isDedicated) exitWith {};
 if (isNull _unit) exitWith {};
 
+// Remove any existing actions to prevent duplicates (race condition guard)
+[_unit] call SAS_Captive_fnc_removeEscortAction;
+
 // Escort action
 private _escortActionId = _unit addAction [
 	"<t color='#00BFFF'>Escort</t>",
@@ -42,7 +45,7 @@ private _releaseActionId = _unit addAction [
 	true,
 	true,
 	"",
-	"alive _target && (_target getVariable ['SAS_Captive_state', '']) in ['ARRESTED', 'ESCORTED']",
+	"alive _target && (_target getVariable ['SAS_Captive_state', '']) in ['ARRESTED', 'ESCORTED'] && (isNull (_this getVariable ['SAS_Captive_escortingUnit', objNull]) || (_this getVariable ['SAS_Captive_escortingUnit', objNull]) == _target)",
 	5
 ];
 

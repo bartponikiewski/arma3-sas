@@ -12,6 +12,9 @@ params ["_unit"];
 if (isDedicated) exitWith {};
 if (isNull _unit) exitWith {};
 
+// Remove any existing action to prevent duplicates (race condition guard)
+[_unit] call SAS_Captive_fnc_removeSurrenderAction;
+
 private _actionId = _unit addAction [
 	"<t color='#FF8C00'>Hands Up!</t>",
 	{
@@ -23,7 +26,7 @@ private _actionId = _unit addAction [
 	true,
 	true,
 	"",
-	"alive _target && (_target getVariable ['SAS_Captive_state', '']) == 'CAPTURABLE'",
+	"alive _target && (_target getVariable ['SAS_Captive_state', '']) == 'CAPTURABLE' && isNull (_this getVariable ['SAS_Captive_escortingUnit', objNull])",
 	50
 ];
 
