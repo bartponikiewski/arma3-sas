@@ -18,8 +18,11 @@ if (!isServer) exitWith {
 	["SAS_Skills_fnc_paramSkills: skipped (not server)"] call SAS_fnc_logDebug;
 };
 
-waitUntil { !isNil "allUnits" };
+[_skillLevel] spawn {
+    params ["_skillLevel"];
+    waitUntil { !isNil "allUnits" };
 
-private _trueSkillLvels = ["AUTO", "NORMAL", "GOOD", "SPECOPS"];
-[allUnits, _trueSkillLvels select _skillLevel] call SAS_Skills_fnc_set;
+    private _trueSkillLvels = ["AUTO", "NORMAL", "GOOD", "SPECOPS"];
+    [allUnits, _trueSkillLvels select _skillLevel] call SAS_Skills_fnc_set;
+};
 

@@ -3,8 +3,8 @@
 // missionNamespace setVariable ["SAS_Briefing_Task3D", false];
 
 // --> Uncomment for development testing
-// missionNamespace setVariable ["SAS_Debug_global", true];
-// missionNamespace setVariable ["SAS_Dev_mode", true];
+missionNamespace setVariable ["SAS_Debug_global", true];
+missionNamespace setVariable ["SAS_Dev_mode", true];
 
 
 
@@ -297,6 +297,31 @@ heli_2 addAction ["Fastrope", {
 */
 // Example: Make a hostage
 [civ_2] call SAS_Hostage_fnc_make;
+
+// -------------------------------------------------------------------------
+/*
+	Captive System
+	Allows players to order units to surrender, arrest, escort, and load into vehicles.
+
+	To register units as capturable (adds "Hands Up!" action):
+	[_units] call SAS_Captive_fnc_register;
+
+	where:
+	0: ARRAY - Array of units to register as capturable
+
+	To put a unit directly into surrender state (no registration needed):
+	[_unit] call SAS_Captive_fnc_surrender;
+
+	where:
+	0: OBJECT - Unit to put into surrender state
+
+	Once surrendered, players can approach within 3m to arrest, then escort (attachTo),
+	load into vehicles, or release the captive.
+*/
+// Example: Register units as capturable (player can order "Hands Up!")
+[[civ_3]] call SAS_Captive_fnc_register;
+
+[civ_4] call SAS_Captive_fnc_surrender;
 
 // -------------------------------------------------------------------------
 /*

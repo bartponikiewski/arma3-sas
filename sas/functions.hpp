@@ -209,3 +209,23 @@ class SAS_DragBody {
         class release {};
     };
 };
+
+class SAS_Captive {
+    class Captive {
+        file = "sas\captive\functions";
+        class register {};
+        class surrender {};
+        class setCaptiveState {};
+        class addSurrenderAction {};
+        class removeSurrenderAction {};
+        class addArrestAction {};
+        class removeArrestAction {};
+        class addEscortAction {};
+        class removeEscortAction {};
+        class escort {};
+        class stopEscort {};
+        class loadInVehicle {};
+        class unloadFromVehicle {};
+        class removeUnloadAction {};
+    };
+};
