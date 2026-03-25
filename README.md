@@ -1,6 +1,8 @@
 # Sushi Arma Scripts — Framework for missionmakers
 
-SAS (Sushi ArmA Scripts) is a modular framework for Arma 3 missions. It provides self-contained systems for AI, intro sequences, briefing, conversations, night ops, captives, and more — all registered centrally for engine compatibility.
+**Version 1.0.0**
+
+SAS (Sushi ArmA Scripts) is a modular framework for Arma 3 missions, created by Sushi with multiplayer testing by Gruwi. It provides self-contained systems for AI, intro sequences, briefing, conversations, night ops, captives, and more — all registered centrally for engine compatibility.
 
 ## Getting started
 

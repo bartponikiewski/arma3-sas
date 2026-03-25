@@ -12,7 +12,7 @@
 				"a simple intro sequence example ",
 				"for SAS framework"
 			], 
-			["SAS", "Sushi ArmA Scripts", "v1.0.0-a"], 
+			["SAS", "Sushi ArmA Scripts", "v1.0.0"], 
 			["LeadTrack01_F_Tacops", true]
 		]
 	],

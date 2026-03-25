@@ -147,8 +147,8 @@ heli_2 addAction ["Fastrope", {
 
 // SAS Example additional notes
 [
-	["Credits", "Mission created by Sushi. Thanks for playing!<br /><img image='sas\assets\logo_bar.paa' width=300 />"],
-	["Tech notes", "This mission is using Sushi Arma Scripts framework v1.0.0<br /><img image='sas\assets\powered_by_sas_large.paa' width=200 />"]
+	["Credits", "Mission created by Sushi. Multiplayer testing by Gruwi. Thanks for playing!<br /><img image='sas\assets\logo_bar.paa' width=300 />"],
+	["Tech notes", "This mission is using Sushi Arma Scripts framework v1.0.0<br/><br/><img image='sas\assets\powered_by_sas_large.paa' width=200 />"]
 ] spawn SAS_Briefing_fnc_createNotes;
 
 // -------------------------------------------------------------------------
