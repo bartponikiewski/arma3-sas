@@ -14,8 +14,12 @@ params ["_target", "_caller"];
 // Guard against race condition — another player may have started escort simultaneously
 if ((_target getVariable ["SAS_Captive_state", ""]) != "ARRESTED") exitWith {};
 
+// Guard: caller is already escorting someone
+if (!isNull (_caller getVariable ["SAS_Captive_escortingUnit", objNull])) exitWith {};
+
 // Set state
 [_target, "ESCORTED", _caller] remoteExec ["SAS_Captive_fnc_setCaptiveState", 0, true];
+_caller setVariable ["SAS_Captive_escortingUnit", _target];
 
 // Disable collision
 [_target, _caller] remoteExecCall ["disableCollisionWith", 0];

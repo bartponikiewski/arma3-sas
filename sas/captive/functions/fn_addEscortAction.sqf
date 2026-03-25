@@ -24,7 +24,7 @@ private _escortActionId = _unit addAction [
 	true,
 	true,
 	"",
-	"alive _target && (_target getVariable ['SAS_Captive_state', '']) == 'ARRESTED' && !(_this getVariable ['SAS_DragBody_isDragging', false])",
+	"alive _target && (_target getVariable ['SAS_Captive_state', '']) == 'ARRESTED' && !(_this getVariable ['SAS_DragBody_isDragging', false]) && isNull (_this getVariable ['SAS_Captive_escortingUnit', objNull])",
 	3
 ];
 

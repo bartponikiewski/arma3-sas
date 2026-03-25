@@ -4,6 +4,19 @@ Get a playable mission with intro, briefing, AI tasks, and conversation up and r
 
 ---
 
+## Using the repo as a test mission
+
+You don't have to build from scratch. The repo itself is a fully working mission — `mission.sqm` already has all units, markers, named objects, and groups placed in the editor. Every SAS feature is wired up in `init.sqf` and `initPlayerLocal.sqf`.
+
+To run it:
+1. Copy the repo folder into `Documents\Arma 3\mpmissions\` (keep the `.Stratis` suffix in the folder name).
+2. Host it as a local multiplayer session or open it in Eden Editor.
+3. Play — all systems (intro, briefing, tasks, reinforcements, conversations, captives, etc.) are active and ready to test.
+
+Use `init.sqf` and `initPlayerLocal.sqf` as a reference while reading the steps below.
+
+---
+
 ## Step 1 — Create a new mission in the editor
 
 1. Open Arma 3 Eden Editor.

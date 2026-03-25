@@ -43,5 +43,8 @@ if (local _target) then {
 	_target setVariable ["SAS_Captive_escortedBy", objNull, true];
 };
 
+// Clear escorting reference on caller
+_caller setVariable ["SAS_Captive_escortingUnit", objNull];
+
 // Return to arrested state
 [_target, "ARRESTED", _caller] remoteExec ["SAS_Captive_fnc_setCaptiveState", 0, true];
