@@ -16,7 +16,7 @@ initPlayerLocal.sqf — per-client setup (intro, HUD)
 mission.sqm        — Eden Editor scene data
 ```
 
-This repo is also a **development playground** — `init.sqf` and `initPlayerLocal.sqf` demonstrate every SAS feature and serve as a reference when building your own mission.
+This repo is also a **ready-to-run test mission**. The included `mission.sqm` has all units, markers, and objects already placed and named. Drop the repo folder into your Arma 3 missions directory and open it in the editor or host it directly — every SAS feature is wired up and ready to test. `init.sqf` and `initPlayerLocal.sqf` serve as a living reference for how to use each module.
 
 ## Modules
 
