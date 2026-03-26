@@ -340,12 +340,11 @@ They are already included in `description.ext` via:
 Lets players enable or disable the intro sequence in the lobby. Read the value in `initPlayerLocal.sqf`:
 
 ```sqf
-// Loading screen runs automatically via postInit.
+// Wait for loading screen to finish
+waitUntil { [] call SAS_Init_fnc_getScreenState };
 if ([] call SAS_Intro_fnc_enabled) then {
     [...] call SAS_Intro_fnc_play;
 };
-// Signal init done when all scripts are finished
-[] call SAS_Init_fnc_finish;
 ```
 
 The function returns `false` when the player disabled intro in the lobby — no extra work needed.
@@ -401,7 +400,8 @@ missionNamespace setVariable ["SAS_Debug_global", false];
 ## Minimal initPlayerLocal.sqf template
 
 ```sqf
-// Loading screen runs automatically via postInit.
+// Wait for loading screen to finish
+waitUntil { [] call SAS_Init_fnc_getScreenState };
 if ([] call SAS_Intro_fnc_enabled) then {
     [
         ["QUOTE"],
@@ -414,8 +414,6 @@ if ([] call SAS_Intro_fnc_enabled) then {
     ] call SAS_Intro_fnc_play;
     [] call SAS_Intro_fnc_infoText;
 };
-// Signal init done — loading screen fades out
-[] call SAS_Init_fnc_finish;
 ```
 
 ---
