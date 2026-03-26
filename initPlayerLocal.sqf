@@ -1,6 +1,3 @@
-// --> Loading screen to make sure everything is in sync
-[] call SAS_fnc_loadingScreen;
-
 // --> Simple Intro sequence
 [
 	["QUOTE"],

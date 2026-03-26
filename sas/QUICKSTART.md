@@ -105,7 +105,7 @@ You can copy them from the repo and strip out what you don't need, or start from
 
 ```sqf
 // Show loading screen while mission loads
-[] call SAS_fnc_loadingScreen;
+[] call SAS_Init_fnc_loadingScreen;
 
 // Intro sequence — runs on each player's client
 [
@@ -340,7 +340,7 @@ Lets players enable or disable the intro sequence in the lobby. Read the value i
 
 ```sqf
 if ([] call SAS_Intro_fnc_enabled) then {
-    [] call SAS_fnc_loadingScreen;
+    [] call SAS_Init_fnc_loadingScreen;
     [...] call SAS_Intro_fnc_play;
 };
 ```
@@ -399,7 +399,7 @@ missionNamespace setVariable ["SAS_Debug_global", false];
 
 ```sqf
 if ([] call SAS_Intro_fnc_enabled) then {
-    [] call SAS_fnc_loadingScreen;
+    [] call SAS_Init_fnc_loadingScreen;
     [
         ["QUOTE"],
         ["OPENING", [

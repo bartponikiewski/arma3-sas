@@ -22,7 +22,14 @@ class SAS {
         class guiMessage {};
         class blackIn {};
         class blackOut {};
-        class loadingScreen {};
+    };
+};
+
+class SAS_Init {
+    class Init {
+        file = "sas\init\functions";
+        class loadingScreen { postInit = 1; };
+        class finish {};
     };
 };
 

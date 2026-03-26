@@ -2,10 +2,11 @@
     Description:
     Displays a black loading screen with animated "typing" loading text, shows mission
     name and author when available, credits SAS framework, and displays a centered
-    logo bar at the end.
+    logo bar at the end. The screen stays up until SAS_Init_fnc_finish is called.
 
     Usage:
-    [] spawn SAS_Common_misc_fnc_loading;
+    Runs automatically via postInit. To end the loading screen, call:
+    [] call SAS_Init_fnc_finish;
 
     Parameters:
     0: (Optional) ARRAY - Array of strings to display as loading lines (default: prebuilt)
@@ -24,14 +25,13 @@ params [
 
 if (isDedicated) exitWith {};
 if (!hasInterface) exitWith {};
-waitUntil {(!isNull player)};
-waitUntil {time > 0};
+
 
 private _startTime = time;
-["[SAS] fn_loading: Started"] call SAS_fnc_logDebug;
+["[SAS_Init] fn_loadingScreen: Started"] call SAS_fnc_logDebug;
 private _devMode = missionNamespace getVariable ["SAS_Dev_mode", false];
-if (_devMode) exitWith { 
-    ["[SAS]: Skipping loading screen due to dev mode"] call SAS_fnc_logDebug; 
+if (_devMode) exitWith {
+    ["[SAS_Init]: Skipping loading screen due to dev mode"] call SAS_fnc_logDebug;
 };
 
 // Black out
@@ -66,9 +66,12 @@ if ((count _customLines) > 0) then {
 	] call BIS_fnc_typeText;
 } foreach _lines;
 
-// Make waits for players
+// Wait for players to be present
 waitUntil { ({alive _x && isPlayer _x} count allPlayers) > 0 };
-waitUntil { time > (_startTime + 5) };
+
+// Wait until init is finished (SAS_Init_fnc_finish is called)
+missionNamespace setVariable ["SAS_Init_done", false, true];
+waitUntil { missionNamespace getVariable ["SAS_Init_done", false] };
 
 
 // Black in and restore environment
@@ -77,4 +80,4 @@ sleep 2;
 [] call SAS_fnc_blackIn;
 
 // Log completion
-["[SAS] fn_loading: Completed"] call SAS_fnc_logDebug;
+["[SAS_Init] fn_loadingScreen: Completed"] call SAS_fnc_logDebug;

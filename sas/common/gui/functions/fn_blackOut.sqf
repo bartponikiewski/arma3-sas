@@ -4,8 +4,7 @@ params [["_callback", {}]];
 if (isDedicated) exitWith {};
 if (!hasInterface) exitWith {};
 
-waitUntil {(!isNull player)};
-waitUntil {time > 0};
+
 
 missionNamespace setVariable ["SAS_BlackOut_radioState", radioEnabled, true];
 
@@ -15,6 +14,9 @@ missionNamespace setVariable ["SAS_BlackOut_radioState", radioEnabled, true];
 enableEnvironment false;
 clearRadio;
 enableRadio false;
+
+waitUntil {(!isNull player)};
+waitUntil {time > 0};
 
 player action ["SwitchWeapon", vehicle player, vehicle player, 99];
 
