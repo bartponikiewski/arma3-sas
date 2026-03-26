@@ -7,6 +7,7 @@
 
     Parameter(s):
     0: OBJECT - Unit to make a hostage
+    1: BOOL (optional) - Whether to join the unit to the hostage group. Default is true.
 
     Returns:
     BOOL - true if successful, false otherwise
@@ -15,7 +16,7 @@
     Calls SAS_fnc_logDebug to output debug information if SAS_Debug_global is true.
 */
 
-params [["_unit", objNull]];
+params [["_unit", objNull], ["_join", true]];
 
 // Validate parameters
 if (isNull _unit) exitWith {
@@ -26,6 +27,11 @@ if (isNull _unit) exitWith {
 if (!local _unit) exitWith {
 	[format ["[makeHostage] Unit %1 is not local", _unit]] call SAS_fnc_logDebug;
 	false
+};
+
+if (_join) then {
+    // Join the unit to the rescue group when rescued
+    _unit setVariable ["SAS_Hostage_joinGroup", true];
 };
 
 // Handle hostage state

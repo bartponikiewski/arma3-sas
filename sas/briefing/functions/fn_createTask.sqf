@@ -93,7 +93,7 @@ private _task = [
 ] call BIS_fnc_taskCreate;
 
 
-[missionNamespace, "SAS_Briefing_TaskCreated", [_taskID]] remoteExecCall ["BIS_fnc_callScriptedEventHandler", 0];
+[missionNamespace, "SAS_Briefing_taskCreated", [_taskID]] remoteExecCall ["BIS_fnc_callScriptedEventHandler", 0];
 
 [format ["SAS_Tasks_fnc_createTask: task '%1' created successfully", _taskID]] call SAS_fnc_logDebug;
 

@@ -57,7 +57,6 @@ switch (_state) do {
 		_unit setCombatMode "BLUE";
 		_unit allowFleeing 0;
 		[_unit] call SAS_Hostage_fnc_removeFreeHostageAction;
-		_unit setCaptive true;
 
 		/*
 		  When a hostage is released, we want them to join the player's group so they can follow the player if they want. 
@@ -65,8 +64,12 @@ switch (_state) do {
 		  We use joinSilent to avoid any unwanted side effects of joining 
 		  a new group (e.g., getting a new group icon, etc.).
 		*/
-		if (!isNull _caller) then {
+
+		private _joinGroup = _unit getVariable ["SAS_Hostage_joinGroup", false];
+		if (!isNull _caller && _joinGroup) then {
 			[_unit] joinSilent (group _caller);
 		};
+
+		[missionNamespace, "SAS_Hostage_fnc_hostageStateChanged", [_unit, _state, _caller]] call BIS_fnc_callScriptedEventHandler;
 	};
 };

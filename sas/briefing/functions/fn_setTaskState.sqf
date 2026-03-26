@@ -24,4 +24,4 @@ params ["_taskID", "_state"];
 private _oldState = [_taskID] call BIS_fnc_taskState;
 [_taskID, _state] call BIS_fnc_taskSetState;
 
-[missionNamespace, "SAS_Briefing_TaskStateChanged", [_taskID, _oldState, _state]] remoteExecCall ["BIS_fnc_callScriptedEventHandler", 0];
+[missionNamespace, "SAS_Briefing_taskStateChanged", [_taskID, _oldState, _state]] call BIS_fnc_callScriptedEventHandler;

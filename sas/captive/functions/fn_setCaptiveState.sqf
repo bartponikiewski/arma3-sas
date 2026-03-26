@@ -229,3 +229,6 @@ switch (_state) do {
 		_unit switchMove "";
 	};
 };
+
+[missionNamespace, "SAS_Captive_fnc_captiveStateChanged", [_unit, _state, _caller]] call BIS_fnc_callScriptedEventHandler;
+

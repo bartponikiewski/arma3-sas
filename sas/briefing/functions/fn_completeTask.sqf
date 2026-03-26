@@ -21,4 +21,4 @@ params ["_taskID"];
 
 ["SAS_Tasks_fnc_completeTask: completing task '" + _taskID + "'"] call SAS_fnc_logDebug;
 
-[_taskID, "Succeeded"] remoteExec ["SAS_Briefing_fnc_setTaskState", 0, true];
+[_taskID, "Succeeded"] remoteExec ["SAS_Briefing_fnc_setTaskState", 0, _taskID];

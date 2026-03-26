@@ -22,4 +22,4 @@ params ["_taskID"];
 
 ["SAS_Tasks_fnc_cancelTask: cancelling task '" + _taskID + "'"] call SAS_fnc_logDebug;
 
-[_taskID, "CANCELLED"] remoteExec ["SAS_Briefing_fnc_setTaskState", 0, true];
+[_taskID, "CANCELED"] remoteExec ["SAS_Briefing_fnc_setTaskState", 0, _taskID];
