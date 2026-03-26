@@ -81,12 +81,7 @@ class CfgSounds
 	{
 		name = "SAS_vo_welcome";
 		sound[] = {"sas\assets\voice\welcome.ogg", db+0, 1.0};
-		titles[] = {
-				0, "At ease soldier!",
-				1, "Welcome in SAS - Sushi Arma Scripts dev environment.",
-				6, "Look around and take your time.",
-				
-		};
+		titles[] = {};
 	};
 };
 //<--Voice lines

@@ -1,4 +1,6 @@
 // --> Wait for loading screen to finish
+[officer_1, "BRIEFING", "FULL"] remoteExecCall ["BIS_fnc_ambientAnim", officer_1];
+
 waitUntil { [] call SAS_Init_fnc_getLoadingState };
 
 // --> Simple Intro sequence
@@ -19,7 +21,17 @@ waitUntil { [] call SAS_Init_fnc_getLoadingState };
 	["UAV", player]
 ] call SAS_Intro_fnc_play;
 
+
+// --> Example subtitle sequence with 3 entries and a global audio track
+[
+	[
+		["HQ", "At ease soldier!", 0],
+		["Harris", "Welcome in SAS - Sushi Arma Scripts dev environment.", 1.5],
+		["Harris", "Look around and take your time.", 5]
+	],
+	"SAS_Welcome",
+	officer_1
+] call SAS_Conv_fnc_subtitle;
+
 // --> Other
 [] call SAS_Intro_fnc_infoText;
-
-playSound "SAS_vo_welcome";

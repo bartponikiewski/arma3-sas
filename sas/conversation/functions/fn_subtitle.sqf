@@ -85,42 +85,46 @@ private _bisSubtitles = [];
     _bisSubtitles pushBack [_speaker, _text, _timing];
 } forEach _sequence;
 
-// Spawn the BIS subtitle display
-_bisSubtitles spawn BIS_fnc_EXP_camp_playSubtitles;
-
-// Play global audio track at the start (if provided)
-if (_globalSound != "") then {
-    if (!isNull _globalSource) then {
-        _globalSource say3D _globalSound;
-        (["[SAS_Conv_fnc_subtitle] Playing global 3D sound '" + _globalSound + "' from " + str _globalSource]) call SAS_fnc_logDebug;
-    } else {
-        playSound _globalSound;
-        (["[SAS_Conv_fnc_subtitle] Playing global 2D sound '" + _globalSound + "'"]) call SAS_fnc_logDebug;
+[_sequence, _globalSound, _globalSource] spawn {
+    params ["_sequence", "_globalSound", "_globalSource"];
+    // Play global audio track at the start (if provided)
+    if (_globalSound != "") then {
+        if (!isNull _globalSource) then {
+            _globalSource say3D _globalSound;
+            (["[SAS_Conv_fnc_subtitle] Playing global 3D sound '" + _globalSound + "' from " + str _globalSource]) call SAS_fnc_logDebug;
+        } else {
+            playSound _globalSound;
+            (["[SAS_Conv_fnc_subtitle] Playing global 2D sound '" + _globalSound + "'"]) call SAS_fnc_logDebug;
+        };
     };
-};
 
-// Schedule per-entry audio playback (if any entry has a sound)
-{
-    if (count _x > 3) then {
-        private _sound  = _x param [3, "", [""]];
-        private _timing = _x param [2, 0,  [0]];
-        private _source = _x param [4, objNull, [objNull]];
-        private _speaker = _x param [0, "", [""]];
+    // Schedule per-entry audio playback (if any entry has a sound)
+    {
+        if (count _x > 3) then {
+            private _sound  = _x param [3, "", [""]];
+            private _timing = _x param [2, 0,  [0]];
+            private _source = _x param [4, objNull, [objNull]];
+            private _speaker = _x param [0, "", [""]];
 
-        if (_sound != "") then {
-            [_sound, _timing, _source, _speaker] spawn {
-                params ["_sound", "_timing", "_source", "_speaker"];
+            if (_sound != "") then {
+                [_sound, _timing, _source, _speaker] spawn {
+                    params ["_sound", "_timing", "_source", "_speaker"];
 
-                if (_timing > 0) then { sleep _timing; };
+                    if (_timing > 0) then { sleep _timing; };
 
-                if (!isNull _source) then {
-                    _source say3D _sound;
-                    (["[SAS_Conv_fnc_subtitle] Playing 3D sound '" + _sound + "' from " + str _source + " for " + _speaker]) call SAS_fnc_logDebug;
-                } else {
-                    playSound _sound;
-                    (["[SAS_Conv_fnc_subtitle] Playing 2D sound '" + _sound + "' for " + _speaker]) call SAS_fnc_logDebug;
+                    if (!isNull _source) then {
+                        _source say3D _sound;
+                        (["[SAS_Conv_fnc_subtitle] Playing 3D sound '" + _sound + "' from " + str _source + " for " + _speaker]) call SAS_fnc_logDebug;
+                    } else {
+                        playSound _sound;
+                        (["[SAS_Conv_fnc_subtitle] Playing 2D sound '" + _sound + "' for " + _speaker]) call SAS_fnc_logDebug;
+                    };
                 };
             };
         };
-    };
-} forEach _sequence;
+    } forEach _sequence;
+};
+// Spawn the BIS subtitle display
+_bisSubtitles call BIS_fnc_EXP_camp_playSubtitles;
+sleep 1; // Short delay
+
