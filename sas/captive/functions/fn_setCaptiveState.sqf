@@ -138,8 +138,8 @@ switch (_state) do {
 				private _unloadActionId = [
 					_vehicle,
 					"Unload Captive",
-					"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unloadVehicle_ca.paa",
-					"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unloadVehicle_ca.paa",
+					"\a3\data_f_destroyer\data\UI\IGUI\Cfg\holdactions\holdAction_unloadVehicle_ca.paa",
+					"\a3\data_f_destroyer\data\UI\IGUI\Cfg\holdactions\holdAction_unloadVehicle_ca.paa",
 					format ["_this distance _target < 5 && alive %1 && (%1 getVariable ['SAS_Captive_state', '']) == 'IN_VEHICLE'", _unit],
 					"_caller distance _target < 5",
 					{},

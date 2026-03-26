@@ -33,20 +33,26 @@ private _escortActionId = _unit addAction [
 
 _unit setVariable ["SAS_Captive_escortActionId", _escortActionId];
 
-// Release action
-private _releaseActionId = _unit addAction [
-	"<t color='#00FF00'>Release</t>",
+// Release hold action
+private _releaseActionId = [
+	_unit,
+	"Release",
+	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa",
+	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa",
+	"_this distance _target < 5 && alive _target && (_target getVariable ['SAS_Captive_state', '']) in ['ARRESTED', 'ESCORTED'] && (isNull (_this getVariable ['SAS_Captive_escortingUnit', objNull]) || (_this getVariable ['SAS_Captive_escortingUnit', objNull]) == _target)",
+	"_caller distance _target < 5",
+	{},
+	{},
 	{
 		params ["_target", "_caller"];
 		[_target, "RELEASED", _caller] remoteExec ["SAS_Captive_fnc_setCaptiveState", 0, true];
 	},
+	{},
 	[],
-	1.5,
+	3,
+	nil,
 	true,
-	true,
-	"",
-	"alive _target && (_target getVariable ['SAS_Captive_state', '']) in ['ARRESTED', 'ESCORTED'] && (isNull (_this getVariable ['SAS_Captive_escortingUnit', objNull]) || (_this getVariable ['SAS_Captive_escortingUnit', objNull]) == _target)",
-	5
-];
+	false
+] call BIS_fnc_holdActionAdd;
 
 _unit setVariable ["SAS_Captive_releaseActionId", _releaseActionId];

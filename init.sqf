@@ -110,6 +110,9 @@ heli_2 addAction ["Fastrope", {
 	{ deleteVehicle laptop_3; ["task3"] call SAS_Briefing_fnc_completeTask; }
 ] call SAS_Intel_fnc_setIntelSimple;
 
+
+[laptop_4, "Hack", { hint "Laptop hacked!"; }, false, 15] call SAS_Intel_fnc_setIntelAction;
+
 // -------------------------------------------------------------------------
 
 /*

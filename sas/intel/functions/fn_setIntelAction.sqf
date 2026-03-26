@@ -10,11 +10,12 @@
 	1: (Optional) String - _actionText: Text shown on the hold action (default: "Investigate")
 	2: (Optional) Code - _callback: Code executed on completion, receives [_target, _caller] (default: {})
 	3: (Optional) Boolean - _removeOnComplete: If true, deleteVehicle the object after callback (default: true)
+	4: (Optional) Number - _duration: Duration in seconds to complete the hold action (default: 5)
 
 	Example:
 	[laptop_1, "Pick up intel", { hint "Intel found!"; }, true] call SAS_Intel_fnc_setIntelAction;
 */
-params [["_obj", objNull], ["_actionText", "Investigate"], ["_callback", {}], ["_removeOnComplete", true]];
+params [["_obj", objNull], ["_actionText", "Investigate"], ["_callback", {}], ["_removeOnComplete", true], ["_duration", 5]];
 
 if (isDedicated) exitWith {};
 if (isNull _obj) exitWith {
@@ -42,7 +43,7 @@ if (isNull _obj) exitWith {
 	},
 	{},
 	[_callback, _removeOnComplete],
-	5,
+	_duration,
 	nil,
 	true,
 	false

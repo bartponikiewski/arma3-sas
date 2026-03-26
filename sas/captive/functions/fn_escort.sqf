@@ -56,8 +56,8 @@ _target setVariable ["SAS_Captive_stopEscortActionId", _stopActionId];
 private _loadActionId = [
 	_caller,
 	"Load Captive into Vehicle",
-	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_loadVehicle_ca.paa",
-	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_loadVehicle_ca.paa",
+	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_loaddevice_ca.paa",
+	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_loaddevice_ca.paa",
 	"(cursorTarget isKindOf 'LandVehicle' || cursorTarget isKindOf 'Air' || cursorTarget isKindOf 'Ship') && cursorTarget emptyPositions 'cargo' > 0 && cursorTarget distance (_this getVariable ['SAS_Captive_escortingUnit', objNull]) < 5",
 	"true",
 	{},

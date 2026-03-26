@@ -19,6 +19,6 @@ if (_escortActionId >= 0) then {
 
 private _releaseActionId = _unit getVariable ["SAS_Captive_releaseActionId", -1];
 if (_releaseActionId >= 0) then {
-	_unit removeAction _releaseActionId;
+	[_unit, _releaseActionId] call BIS_fnc_holdActionRemove;
 	_unit setVariable ["SAS_Captive_releaseActionId", nil];
 };
