@@ -237,3 +237,13 @@ class SAS_Captive {
         class removeUnloadAction {};
     };
 };
+
+class SAS_Cache {
+    class Cache {
+        file = "sas\cache\functions";
+        class getCache {};
+        class cacheGroup {};
+        class spawnGroup {};
+        class spawnUnits {};
+    };
+};
