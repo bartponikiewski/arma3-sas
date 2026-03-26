@@ -135,21 +135,27 @@ switch (_state) do {
 		if (!isDedicated) then {
 			private _vehicle = _unit getVariable ["SAS_Captive_vehicle", objNull];
 			if (!isNull _vehicle) then {
-				private _unloadActionId = _vehicle addAction [
-					"<t color='#9370DB'>Unload Captive</t>",
+				private _unloadActionId = [
+					_vehicle,
+					"Unload Captive",
+					"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unloadVehicle_ca.paa",
+					"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unloadVehicle_ca.paa",
+					format ["_this distance _target < 5 && alive %1 && (%1 getVariable ['SAS_Captive_state', '']) == 'IN_VEHICLE'", _unit],
+					"_caller distance _target < 5",
+					{},
+					{},
 					{
-						params ["_vehicle", "_caller", "_actionId", "_arguments"];
+						params ["_target", "_caller", "_actionId", "_arguments"];
 						private _captive = _arguments select 0;
 						[_captive, _caller] call SAS_Captive_fnc_unloadFromVehicle;
 					},
+					{},
 					[_unit],
-					5,
+					3,
+					nil,
 					true,
-					true,
-					"",
-					format ["alive %1 && (%1 getVariable ['SAS_Captive_state', '']) == 'IN_VEHICLE'", _unit],
-					3
-				];
+					false
+				] call BIS_fnc_holdActionAdd;
 				_unit setVariable ["SAS_Captive_unloadActionId", _unloadActionId];
 			};
 		};

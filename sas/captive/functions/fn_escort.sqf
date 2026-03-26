@@ -52,22 +52,28 @@ private _stopActionId = _target addAction [
 
 _target setVariable ["SAS_Captive_stopEscortActionId", _stopActionId];
 
-// Add "Load into Vehicle" action on the player (self-action)
-private _loadActionId = _caller addAction [
-	"<t color='#9370DB'>Load Captive into Vehicle</t>",
+// Add "Load into Vehicle" hold action on the player (self-action)
+private _loadActionId = [
+	_caller,
+	"Load Captive into Vehicle",
+	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_loadVehicle_ca.paa",
+	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_loadVehicle_ca.paa",
+	"(cursorTarget isKindOf 'LandVehicle' || cursorTarget isKindOf 'Air' || cursorTarget isKindOf 'Ship') && cursorTarget emptyPositions 'cargo' > 0 && cursorTarget distance (_this getVariable ['SAS_Captive_escortingUnit', objNull]) < 5",
+	"true",
+	{},
+	{},
 	{
 		params ["_target", "_caller", "_actionId", "_arguments"];
 		private _captive = _arguments select 0;
-		[_captive, _caller] call SAS_Captive_fnc_loadInVehicle;
+		[_captive, _target] call SAS_Captive_fnc_loadInVehicle;
 	},
+	{},
 	[_target],
-	5,
+	3,
+	nil,
 	true,
-	false,
-	"",
-	"(cursorTarget isKindOf 'LandVehicle' || cursorTarget isKindOf 'Air' || cursorTarget isKindOf 'Ship') && cursorTarget emptyPositions 'cargo' > 0 && cursorTarget distance _target < 3",
-	5
-];
+	false
+] call BIS_fnc_holdActionAdd;
 
 _caller setVariable ["SAS_Captive_loadActionId", _loadActionId];
 
@@ -96,7 +102,7 @@ _caller setVariable ["SAS_Captive_loadActionId", _loadActionId];
 
 	// Always clean up escort player state — the loop exited because something changed
 	_target removeAction _stopActionId;
-	_caller removeAction _loadActionId;
+	[_caller, _loadActionId] call BIS_fnc_holdActionRemove;
 	_caller forceWalk false;
 
 	// Only transition back to ARRESTED if captive is still alive and escorted

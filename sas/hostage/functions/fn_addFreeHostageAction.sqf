@@ -21,21 +21,26 @@ params ["_hostage"];
 if (isDedicated) exitWith {};
 if (isNull _hostage) exitWith {};
 
-private _actionId = _hostage addAction [
-	"Free Hostage", 
+private _actionId = [
+	_hostage,
+	"Free Hostage",
+	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa",
+	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa",
+	"_this distance _target < 5",
+	"_caller distance _target < 5",
+	{},
+	{},
 	{
-		params ["_target", "_caller", "_actionId", "_arguments"];
-
+		params ["_target", "_caller"];
 		[_target, "RELEASED", _caller] remoteExec ["SAS_Hostage_fnc_setHostageState", 0];
-	}, 
-	[], 
-	1.5, 
-	true, 
-	true, 
-	"", 
-	"",
-	5
-];
+	},
+	{},
+	[],
+	5,
+	nil,
+	true,
+	false
+] call BIS_fnc_holdActionAdd;
 
 /* 
   Since we are probably in player local scope, we can store the action ID in a variable on the object for 

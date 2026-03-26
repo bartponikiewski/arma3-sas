@@ -40,7 +40,7 @@ if (_stopActionId >= 0) then {
 // Load action is on the player, not the target
 private _loadActionId = _caller getVariable ["SAS_Captive_loadActionId", -1];
 if (_loadActionId >= 0) then {
-	_caller removeAction _loadActionId;
+	[_caller, _loadActionId] call BIS_fnc_holdActionRemove;
 	_caller setVariable ["SAS_Captive_loadActionId", nil];
 };
 

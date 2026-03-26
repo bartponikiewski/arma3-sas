@@ -26,5 +26,6 @@ private _actionId = _lightControl getVariable ["SAS_NightOps_lightControlActionI
 if (_actionId == -1) exitWith {
 	["[SAS_NightOps_fnc_removePowerSourceAction]: No action found on this object"] call SAS_fnc_logDebug;
 }; // No action found on this object, probably shouldn't be trying to remove it
-_lightControl removeAction _actionId; // Remove existing action if it exists (e.g., when re-adding after object was repaired)
+[_lightControl, _actionId] call BIS_fnc_holdActionRemove;
+_lightControl setVariable ["SAS_NightOps_lightControlActionId", nil];
 

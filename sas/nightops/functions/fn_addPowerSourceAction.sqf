@@ -32,21 +32,27 @@ if (damage _lightControl > _turnOffDamage) exitWith {
 	
 }; 
 
-private _actionId = _lightControl addAction [
-	_text, 
+private _actionId = [
+	_lightControl,
+	_text,
+	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_off_ca.paa",
+	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_off_ca.paa",
+	"_this distance _target < 5",
+	"_caller distance _target < 5",
+	{},
+	{},
 	{
 		params ["_target", "_caller", "_actionId", "_arguments"];
 		_arguments params ["_radius"];
 		[getPos _target, _radius] call SAS_NightOps_fnc_switchLightsInArea;
-	}, 
-	[_radius], 
-	1.5, 
-	true, 
-	true, 
-	"", 
-	"",
-	5
-];
+	},
+	{},
+	[_radius],
+	3,
+	nil,
+	false,
+	false
+] call BIS_fnc_holdActionAdd;
 
 /* 
   Since we are probably in player local scope, we can store the action ID in a variable on the object for 

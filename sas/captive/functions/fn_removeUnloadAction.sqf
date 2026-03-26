@@ -15,6 +15,6 @@ private _vehicle = _unit getVariable ["SAS_Captive_vehicle", objNull];
 private _actionId = _unit getVariable ["SAS_Captive_unloadActionId", -1];
 
 if (_actionId >= 0 && !isNull _vehicle) then {
-	_vehicle removeAction _actionId;
+	[_vehicle, _actionId] call BIS_fnc_holdActionRemove;
 	_unit setVariable ["SAS_Captive_unloadActionId", nil];
 };

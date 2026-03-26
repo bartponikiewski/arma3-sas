@@ -13,6 +13,6 @@ if (isNull _unit) exitWith {};
 
 private _actionId = _unit getVariable ["SAS_Captive_arrestActionId", -1];
 if (_actionId >= 0) then {
-	_unit removeAction _actionId;
+	[_unit, _actionId] call BIS_fnc_holdActionRemove;
 	_unit setVariable ["SAS_Captive_arrestActionId", nil];
 };

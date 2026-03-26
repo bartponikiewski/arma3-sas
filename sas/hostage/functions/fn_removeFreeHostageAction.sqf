@@ -25,5 +25,6 @@ if (isNull _hostage) exitWith {};
 private _actionId = _hostage getVariable ["SAS_Hostage_freeActionId", -1];
 if (_actionId == -1) exitWith {
 	["[SAS_Hostage_fnc_removeFreeHostageAction]: No action found on this object"] call SAS_fnc_logDebug;
-}; // No action found on this object, probably shouldn't be trying to remove it
-_hostage removeAction _actionId; // Remove existing action if it exists (e.g., when re-adding after object was repaired)
+};
+[_hostage, _actionId] call BIS_fnc_holdActionRemove;
+_hostage setVariable ["SAS_Hostage_freeActionId", nil];

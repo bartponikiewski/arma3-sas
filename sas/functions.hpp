@@ -183,6 +183,7 @@ class SAS_Intel {
         file = "sas\intel\functions";
         class setIntel {};
         class setIntelSimple {};
+        class setIntelAction {};
         class intelDialog {};
     };
 };
