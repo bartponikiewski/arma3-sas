@@ -30,6 +30,8 @@ class SAS_Init {
         file = "sas\init\functions";
         class loadingScreen { postInit = 1; };
         class finish {};
+        class setScreenState {};
+        class getScreenState {};
     };
 };
 

@@ -1,15 +1,18 @@
+// --> Wait for loading screen to finish
+waitUntil { [] call SAS_Init_fnc_getScreenState };
+
 // --> Simple Intro sequence
 [
 	["QUOTE"],
 	[
-		"OPENING", 
+		"OPENING",
 		[
 			[
 				"This is",
 				"a simple intro sequence example ",
 				"for SAS framework"
-			], 
-			["SAS", "Sushi ArmA Scripts", "v1.0.0"], 
+			],
+			["SAS", "Sushi ArmA Scripts", "v1.0.0"],
 			["LeadTrack01_F_Tacops", true]
 		]
 	],
