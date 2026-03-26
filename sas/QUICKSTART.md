@@ -105,7 +105,8 @@ You can copy them from the repo and strip out what you don't need, or start from
 
 ```sqf
 // Loading screen runs automatically (postInit) — no call needed.
-// It stays up until SAS_Init_fnc_finish is called.
+// Wait for it to finish before starting the intro.
+waitUntil { [] call SAS_Init_fnc_getScreenState };
 
 // Intro sequence — runs on each player's client
 [
@@ -123,9 +124,6 @@ You can copy them from the repo and strip out what you don't need, or start from
 
 // Info overlay (player name + location + time)
 [] call SAS_Intro_fnc_infoText;
-
-// Signal that init is done — loading screen fades out
-[] call SAS_Init_fnc_finish;
 ```
 
 **OPENING** array format: `[lines[], titleLines[], [musicClass, fadeIn]]`
