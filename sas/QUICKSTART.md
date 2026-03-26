@@ -97,6 +97,8 @@ Create two empty files in your mission root:
 
 You can copy them from the repo and strip out what you don't need, or start from scratch using the examples below.
 
+> **IMPORTANT:** You **must** call `[] call SAS_Init_fnc_finish;` at the very end of `init.sqf`, after all your setup scripts have run. The loading screen stays up until this is called — if you forget it, players will be stuck on the loading screen forever.
+
 ---
 
 ## Step 5 — Intro + briefing (copy-paste starter)
@@ -106,7 +108,7 @@ You can copy them from the repo and strip out what you don't need, or start from
 ```sqf
 // Loading screen runs automatically (postInit) — no call needed.
 // Wait for it to finish before starting the intro.
-waitUntil { [] call SAS_Init_fnc_getScreenState };
+waitUntil { [] call SAS_Init_fnc_getLoadingState };
 
 // Intro sequence — runs on each player's client
 [
@@ -152,6 +154,9 @@ To skip the quote screen or UAV shot, simply remove those entries from the array
     ["Execution", "Insert via LZ Alpha, clear the town, extract via LZ Bravo."],
     ["Support",   "One fast-rope capable helo on standby. No CAS available."]
 ] spawn SAS_Briefing_fnc_createBriefing;
+
+// IMPORTANT: Signal init done — loading screen will fade out
+[] call SAS_Init_fnc_finish;
 ```
 
 ---
@@ -341,7 +346,7 @@ Lets players enable or disable the intro sequence in the lobby. Read the value i
 
 ```sqf
 // Wait for loading screen to finish
-waitUntil { [] call SAS_Init_fnc_getScreenState };
+waitUntil { [] call SAS_Init_fnc_getLoadingState };
 if ([] call SAS_Intro_fnc_enabled) then {
     [...] call SAS_Intro_fnc_play;
 };
@@ -395,13 +400,16 @@ missionNamespace setVariable ["SAS_Debug_global", false];
 // ── AI tasks ──────────────────────────────────────────────────────────────
 [group enemy_patrol_1, getPos enemy_patrol_1, 150] call SAS_Task_fnc_patrol;
 [group enemy_guard_1,  getPos enemy_guard_1,  80, true, false] call SAS_Task_fnc_defend;
+
+// IMPORTANT: Always call this at the very end — loading screen won't end without it!
+[] call SAS_Init_fnc_finish;
 ```
 
 ## Minimal initPlayerLocal.sqf template
 
 ```sqf
 // Wait for loading screen to finish
-waitUntil { [] call SAS_Init_fnc_getScreenState };
+waitUntil { [] call SAS_Init_fnc_getLoadingState };
 if ([] call SAS_Intro_fnc_enabled) then {
     [
         ["QUOTE"],

@@ -16,7 +16,7 @@ All modules live under `sas/`, each self-contained with its own functions and RE
 | Init | `SAS_Init_fnc_` | Loading screen that persists until all init scripts finish | [init/README.md](init/README.md) |
 | Intro | `SAS_Intro_fnc_` | Blackout intro sequence, UAV shot, info overlay, quote screen | [intro/README.md](intro/README.md) |
 | Briefing | `SAS_Briefing_fnc_` | Task creation, briefing sections, diary notes, task state management | [briefing/README_diary.md](briefing/README_diary.md) |
-| Conversation | `SAS_Conv_fnc_` | Non-blocking HUD overlays and modal branching dialogs with face-cam | [conversation/README.md](conversation/README.md) |
+| Conversation | `SAS_Conv_fnc_` | Non-blocking HUD overlays, modal branching dialogs with face-cam, and cinematic subtitles with voiceover | [conversation/README.md](conversation/README.md) |
 | Task | `SAS_Task_fnc_` | Patrol, defend, and garrison behaviours for AI groups | [task/README.md](task/README.md) |
 | Morale | `SAS_Morale_fnc_` | Per-group fear tracking based on casualties | [morale/README.md](morale/README.md) |
 | Reinforcement | `SAS_Reinforcement_fnc_` | Fear-driven reinforcement requests and dispatch between AI groups | [reinforcement/README.md](reinforcement/README.md) |

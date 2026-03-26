@@ -13,8 +13,11 @@
     Nothing
 */
 
-if (isDedicated) exitWith {};
-if (!hasInterface) exitWith {};
+if (!isServer) exitWith {
+    ["[SAS_Init] fn_finish: Must be called on server"] call SAS_fnc_logDebug;
+    false
+};
+
 
 missionNamespace setVariable ["SAS_Init_done", true, true];
 

@@ -1,5 +1,5 @@
 // --> Wait for loading screen to finish
-waitUntil { [] call SAS_Init_fnc_getScreenState };
+waitUntil { [] call SAS_Init_fnc_getLoadingState };
 
 // --> Simple Intro sequence
 [
@@ -21,3 +21,5 @@ waitUntil { [] call SAS_Init_fnc_getScreenState };
 
 // --> Other
 [] call SAS_Intro_fnc_infoText;
+
+playSound "SAS_vo_welcome";

@@ -34,19 +34,19 @@ Signals the loading screen to end. Call this when all your initialization script
 
 **Returns:** Nothing
 
-### `SAS_Init_fnc_getScreenState`
+### `SAS_Init_fnc_getLoadingState`
 Returns whether the loading screen has finished (faded in). Use this to gate scripts that should only run after the screen is gone.
 
 **Usage:**
 ```sqf
-waitUntil { [] call SAS_Init_fnc_getScreenState };
+waitUntil { [] call SAS_Init_fnc_getLoadingState };
 ```
 
 **Parameters:** None
 
 **Returns:** `BOOL` — `true` when the loading screen has finished, `false` otherwise.
 
-### `SAS_Init_fnc_setScreenState`
+### `SAS_Init_fnc_setLoadingState`
 Sets the loading screen state. Called internally by the loading screen — you normally don't need to call this yourself.
 
 **Parameters:**
@@ -68,7 +68,7 @@ Sets the loading screen state. Called internally by the loading screen — you n
 
 ```sqf
 // initPlayerLocal.sqf — wait for loading screen before starting intro
-waitUntil { [] call SAS_Init_fnc_getScreenState };
+waitUntil { [] call SAS_Init_fnc_getLoadingState };
 [...] call SAS_Intro_fnc_play;
 ```
 

@@ -150,8 +150,8 @@ heli_2 addAction ["Fastrope", {
 
 // SAS Example additional notes
 [
-	["Credits", "Mission created by Sushi. Multiplayer testing by Gruwi. Thanks for playing!<br /><img image='sas\assets\logo_bar.paa' width=300 />"],
-	["Tech notes", "This mission is using Sushi Arma Scripts framework v1.0.0<br/><br/><img image='sas\assets\powered_by_sas_large.paa' width=200 />"]
+	["Credits", "Mission created by Sushi. Multiplayer testing by Gruwi. Thanks for playing!<br /><img image='sas\assets\images\logo_bar.paa' width=300 />"],
+	["Tech notes", "This mission is using Sushi Arma Scripts framework v1.0.0<br/><br/><img image='sas\assets\images\powered_by_sas_large.paa' width=200 />"]
 ] spawn SAS_Briefing_fnc_createNotes;
 
 // -------------------------------------------------------------------------
@@ -410,6 +410,9 @@ private  _playableUnits = if(isMultiplayer) then {playableUnits} else {switchabl
 
 // OR start CAS support mission programatically by:
 // [attackPos, mode, jtacUnit] call SAS_Gunship_fnc_startMission;
+
+// !! This one is super important, call this at the end of your init.sqf after all initialization is done to signal the loading screen to finish and fade in !!
+[] call SAS_Init_fnc_finish;
 
 
 

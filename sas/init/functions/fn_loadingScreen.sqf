@@ -9,8 +9,6 @@
     [] call SAS_Init_fnc_finish;
 
     Parameters:
-    0: (Optional) ARRAY - Array of strings to display as loading lines (default: prebuilt)
-    1: (Optional) NUMBER - Delay after the sequence finishes before black in (default: 2)
 
     Returns:
     Nothing
@@ -18,17 +16,15 @@
     Debug:
     Calls SAS_fnc_logDebug to output debug information if SAS_Debug_global is true.
 */
-params [
-    ["_customLines", [], [[]]],
-    ["_endDelay", 4, [2]]
-];
 
 if (isDedicated) exitWith {};
 if (!hasInterface) exitWith {};
 
+private _customLines = [];
+private _endDelay = 4;
 private _devMode = missionNamespace getVariable ["SAS_Dev_mode", false];
 if (_devMode) exitWith {
-    [true] call SAS_Init_fnc_setScreenState;
+    [true] call SAS_Init_fnc_setLoadingState;
     ["[SAS_Init]: Skipping loading screen due to dev mode"] call SAS_fnc_logDebug;
 };
 
@@ -38,17 +34,25 @@ if (_devMode) exitWith {
 [_customLines, _endDelay] spawn {
     params ["_customLines", "_endDelay"];
 
+    // Black out
+    waitUntil { time > 0 };
+    waitUntil { !isNull player };
+
+    [] call SAS_fnc_blackOut;
+
     private _startTime = time;
-    [false] call SAS_Init_fnc_setScreenState;
+    [false] call SAS_Init_fnc_setLoadingState;
     ["[SAS_Init] fn_loadingScreen: Started"] call SAS_fnc_logDebug;
 
-    // Black out
-    [] call SAS_fnc_blackOut;
+  
+
+
 
     // Determine mission/author if present in description.ext
     private _author = getMissionConfigValue ["author", "Unknown"];
     private _missionName = getMissionConfigValue ["briefingName", "Classified"];
     private _onLoadMissionName = getMissionConfigValue ["onLoadName", ""];
+    private _subText = format ["<t size='1' font='RobotoCondensed' color='#FFFFFFFF' align='center'><br/><br/>Author: %1 Mission: %2</t><br/><img image='sas\assets\images\logo_bar.paa' size='4' />", _author, _missionName];
 
     if (_onLoadMissionName != "") then {
         _missionName = _onLoadMissionName;
@@ -73,10 +77,7 @@ if (_devMode) exitWith {
     };
 
     // Build static HTML block for mission/author and a smaller logo below
-    2 cutText [format ["<t size='1' font='RobotoCondensed' color='#FFFFFFFF' align='center'><br/><br/>Author: %1 | Mission: %2</t><br/><img image='sas\assets\logo_bar.paa' size='4' />", _author, _missionName], "PLAIN", -1, true, true];
-
-    // Wait for players to be present
-    waitUntil { ({alive _x && isPlayer _x} count allPlayers) > 0 };
+    2 cutText [_subText, "PLAIN", -1, true, true];
 
     // Show random lines until init is done
     private _isDone = missionNamespace getVariable ["SAS_Init_done", false];
@@ -111,8 +112,6 @@ if (_devMode) exitWith {
             0.4,
             "<t color='#FFFFFFFF' align='center'>%1</t>"
         ] call BIS_fnc_typeText;
-
-        sleep 3;
     };
 
 
@@ -122,6 +121,6 @@ if (_devMode) exitWith {
     [] call SAS_fnc_blackIn;
 
     // Mark screen as done and log completion
-    [true] call SAS_Init_fnc_setScreenState;
+    [true] call SAS_Init_fnc_setLoadingState;
     ["[SAS_Init] fn_loadingScreen: Completed"] call SAS_fnc_logDebug;
 };

@@ -30,8 +30,8 @@ class SAS_Init {
         file = "sas\init\functions";
         class loadingScreen { postInit = 1; };
         class finish {};
-        class setScreenState {};
-        class getScreenState {};
+        class setLoadingState {};
+        class getLoadingState {};
     };
 };
 
@@ -60,6 +60,7 @@ class SAS_Conv {
         file = "sas\conversation\functions";
         class messageDialog {};
         class message {};
+        class subtitle {};
     };
 };
 
