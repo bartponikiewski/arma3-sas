@@ -104,8 +104,8 @@ You can copy them from the repo and strip out what you don't need, or start from
 ### initPlayerLocal.sqf
 
 ```sqf
-// Show loading screen while mission loads
-[] call SAS_Init_fnc_loadingScreen;
+// Loading screen runs automatically (postInit) — no call needed.
+// It stays up until SAS_Init_fnc_finish is called.
 
 // Intro sequence — runs on each player's client
 [
@@ -123,6 +123,9 @@ You can copy them from the repo and strip out what you don't need, or start from
 
 // Info overlay (player name + location + time)
 [] call SAS_Intro_fnc_infoText;
+
+// Signal that init is done — loading screen fades out
+[] call SAS_Init_fnc_finish;
 ```
 
 **OPENING** array format: `[lines[], titleLines[], [musicClass, fadeIn]]`
@@ -339,10 +342,12 @@ They are already included in `description.ext` via:
 Lets players enable or disable the intro sequence in the lobby. Read the value in `initPlayerLocal.sqf`:
 
 ```sqf
+// Loading screen runs automatically via postInit.
 if ([] call SAS_Intro_fnc_enabled) then {
-    [] call SAS_Init_fnc_loadingScreen;
     [...] call SAS_Intro_fnc_play;
 };
+// Signal init done when all scripts are finished
+[] call SAS_Init_fnc_finish;
 ```
 
 The function returns `false` when the player disabled intro in the lobby — no extra work needed.
@@ -398,8 +403,8 @@ missionNamespace setVariable ["SAS_Debug_global", false];
 ## Minimal initPlayerLocal.sqf template
 
 ```sqf
+// Loading screen runs automatically via postInit.
 if ([] call SAS_Intro_fnc_enabled) then {
-    [] call SAS_Init_fnc_loadingScreen;
     [
         ["QUOTE"],
         ["OPENING", [
@@ -411,6 +416,8 @@ if ([] call SAS_Intro_fnc_enabled) then {
     ] call SAS_Intro_fnc_play;
     [] call SAS_Intro_fnc_infoText;
 };
+// Signal init done — loading screen fades out
+[] call SAS_Init_fnc_finish;
 ```
 
 ---

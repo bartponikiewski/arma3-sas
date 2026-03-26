@@ -12,7 +12,8 @@ All modules live under `sas/`, each self-contained with its own functions and RE
 |--------|-----|-------------|------|
 | Common / Logging | `SAS_fnc_` | Centralised debug logging via `SAS_fnc_logDebug` | [common/logging/README.md](common/logging/README.md) |
 | Common / Misc | `SAS_fnc_` | HALO jump, flares, markers, waypoints, group reset, side switch | [common/misc/README.md](common/misc/README.md) |
-| Common / GUI | `SAS_fnc_` | Modal button dialogs, black-in/out, loading screen | [common/gui/README.md](common/gui/README.md) |
+| Common / GUI | `SAS_fnc_` | Modal button dialogs, black-in/out transitions | [common/gui/README.md](common/gui/README.md) |
+| Init | `SAS_Init_fnc_` | Loading screen that persists until all init scripts finish | [init/README.md](init/README.md) |
 | Intro | `SAS_Intro_fnc_` | Blackout intro sequence, UAV shot, info overlay, quote screen | [intro/README.md](intro/README.md) |
 | Briefing | `SAS_Briefing_fnc_` | Task creation, briefing sections, diary notes, task state management | [briefing/README_diary.md](briefing/README_diary.md) |
 | Conversation | `SAS_Conv_fnc_` | Non-blocking HUD overlays and modal branching dialogs with face-cam | [conversation/README.md](conversation/README.md) |

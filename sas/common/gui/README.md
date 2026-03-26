@@ -1,6 +1,6 @@
 # SAS Common — GUI Sub-module
 
-This sub-module provides a generic, reusable GUI message dialog for the SAS framework. It supports a title bar, a message body, and one or more configurable action buttons — suitable for notifications, confirmations, and simple decision prompts.
+This sub-module provides GUI utilities for the SAS framework: a generic modal message dialog, and black-in/out screen transitions.
 
 ## Functions
 
