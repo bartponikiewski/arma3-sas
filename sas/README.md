@@ -29,6 +29,7 @@ All modules live under `sas/`, each self-contained with its own functions and RE
 | Gunship | `SAS_Gunship_fnc_` | Gunship CAS: spawn, JTAC menu, laser/manual fire modes, RTB | [gunship/README.md](gunship/README.md) |
 | Intel | `SAS_Intel_fnc_` | Interactable intel objects with dialog and callback | [intel/README.md](intel/README.md) |
 | Skills | `SAS_Skills_fnc_` | Apply skill presets (NORMAL / GOOD / SPECOPS) to units or groups | [skills/README.md](skills/README.md) |
+| Cache | `SAS_Cache_fnc_` | Cache editor groups as templates, spawn clones or scaled squads at runtime | [cache/README.md](cache/README.md) |
 | Params | — | Lobby parameters for intro toggle and AI skill level | [params/README.md](params/README.md) |
 
 ---
