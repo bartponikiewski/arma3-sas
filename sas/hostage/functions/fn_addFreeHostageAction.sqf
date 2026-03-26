@@ -26,8 +26,8 @@ private _actionId = [
 	"Free Hostage",
 	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa",
 	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa",
-	"_this distance _target < 5",
-	"_caller distance _target < 5",
+	"true",
+	"_caller distance _target < 3",
 	{},
 	{},
 	{
@@ -36,10 +36,12 @@ private _actionId = [
 	},
 	{},
 	[],
-	5,
+	3,
 	nil,
 	true,
-	false
+	false,
+	true,
+	3
 ] call BIS_fnc_holdActionAdd;
 
 /* 

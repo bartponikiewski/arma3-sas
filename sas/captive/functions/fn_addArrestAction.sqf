@@ -20,7 +20,7 @@ private _actionId = [
 	"Arrest",
 	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_secure_ca.paa",
 	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_secure_ca.paa",
-	"_this distance _target < 3 && alive _target && (_target getVariable ['SAS_Captive_state', '']) == 'SURRENDERED' && isNull (_this getVariable ['SAS_Captive_escortingUnit', objNull])",
+	"alive _target && (_target getVariable ['SAS_Captive_state', '']) == 'SURRENDERED' && isNull (_this getVariable ['SAS_Captive_escortingUnit', objNull])",
 	"_caller distance _target < 3",
 	{},
 	{},
@@ -34,7 +34,9 @@ private _actionId = [
 	3,
 	nil,
 	true,
-	false
+	false,
+	true,
+	3
 ] call BIS_fnc_holdActionAdd;
 
 _unit setVariable ["SAS_Captive_arrestActionId", _actionId];

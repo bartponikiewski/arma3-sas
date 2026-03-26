@@ -39,8 +39,8 @@ private _releaseActionId = [
 	"Release",
 	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa",
 	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa",
-	"_this distance _target < 5 && alive _target && (_target getVariable ['SAS_Captive_state', '']) in ['ARRESTED', 'ESCORTED'] && (isNull (_this getVariable ['SAS_Captive_escortingUnit', objNull]) || (_this getVariable ['SAS_Captive_escortingUnit', objNull]) == _target)",
-	"_caller distance _target < 5",
+	"alive _target && (_target getVariable ['SAS_Captive_state', '']) in ['ARRESTED', 'ESCORTED'] && (isNull (_this getVariable ['SAS_Captive_escortingUnit', objNull]) || (_this getVariable ['SAS_Captive_escortingUnit', objNull]) == _target)",
+	"_caller distance _target < 3",
 	{},
 	{},
 	{
@@ -52,7 +52,9 @@ private _releaseActionId = [
 	3,
 	nil,
 	true,
-	false
+	false,
+	false,
+	3
 ] call BIS_fnc_holdActionAdd;
 
 _unit setVariable ["SAS_Captive_releaseActionId", _releaseActionId];

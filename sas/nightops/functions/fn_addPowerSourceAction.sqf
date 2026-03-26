@@ -35,10 +35,10 @@ if (damage _lightControl > _turnOffDamage) exitWith {
 private _actionId = [
 	_lightControl,
 	_text,
-	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_off_ca.paa",
-	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_off_ca.paa",
-	"_this distance _target < 5",
-	"_caller distance _target < 5",
+	"\a3\ui_f_oldman\data\IGUI\Cfg\holdactions\repair_ca.paa",
+	"\a3\ui_f_oldman\data\IGUI\Cfg\holdactions\repair_ca.paa",
+	"true",
+	"_caller distance _target < 3",
 	{},
 	{},
 	{
@@ -51,7 +51,9 @@ private _actionId = [
 	3,
 	nil,
 	false,
-	false
+	false,
+	true,
+	3
 ] call BIS_fnc_holdActionAdd;
 
 /* 
