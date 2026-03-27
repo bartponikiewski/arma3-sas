@@ -186,10 +186,8 @@ if (isPlayer _unit) then {
         sleep 1;
         _unit allowDamage true;
     } else {
-        cutText ["", "BLACK FADED", 999];
         _unit addHeadgear _helmet;
         sleep 2;
-        cutText ["", "BLACK IN", 2];
         _unit setDamage 0;
     };
 };
