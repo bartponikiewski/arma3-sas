@@ -1,7 +1,7 @@
 /*
     Description:
     Caches a group as a reusable template. Stores unit classnames, vehicle
-    classnames, side, and original position under a string name.
+    classnames, side, behaviour, and original position under a string name.
 
     Usage:
     [myGroup, "patrolTemplate"] call SAS_Cache_fnc_cacheGroup;
@@ -10,7 +10,7 @@
     Parameter(s):
     0: GROUP or OBJECT - Group or unit (resolved to group)
     1: STRING - Template name
-    2: BOOL - Delete group after caching (default: false)
+    2: BOOL - Delete group after caching (default: true)
 
     Returns:
     BOOL - true on success

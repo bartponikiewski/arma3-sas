@@ -1,20 +1,20 @@
 # Cache Module
 
-Cache editor-placed groups as reusable templates, then spawn new groups at runtime. Templates store unit classnames, vehicle classnames, side, and original position.
+Cache editor-placed groups as reusable templates, then spawn new groups at runtime. Templates store unit classnames, vehicle classnames, side, behaviour, and original position.
 
 ## Setup
 
 Cache a group from its editor init or from `init.sqf`:
 
 ```sqf
-// Cache and keep the original group
+// Cache and delete the original (default)
 [myGroup, "patrolTemplate"] call SAS_Cache_fnc_cacheGroup;
 
-// Cache and delete the original (useful for "virtual" template groups)
-[myGroup, "patrolTemplate", true] call SAS_Cache_fnc_cacheGroup;
+// Cache and keep the original group
+[myGroup, "patrolTemplate", false] call SAS_Cache_fnc_cacheGroup;
 
 // Also accepts a unit (resolved to its group)
-[leader myGroup, "patrolTemplate", true] call SAS_Cache_fnc_cacheGroup;
+[leader myGroup, "patrolTemplate"] call SAS_Cache_fnc_cacheGroup;
 ```
 
 ## Spawning
@@ -37,7 +37,7 @@ Cache a group from its editor init or from `init.sqf`:
 
 | Function | Description |
 |----------|-------------|
-| `SAS_Cache_fnc_cacheGroup` | Serialize a group (unit classnames, vehicle classnames, side, position) into a named template |
+| `SAS_Cache_fnc_cacheGroup` | Serialize a group (unit classnames, vehicle classnames, side, behaviour, position) into a named template |
 | `SAS_Cache_fnc_getCache` | Retrieve a cached template by name (returns hashmap or nil) |
 | `SAS_Cache_fnc_spawn` | Spawn a group from a cached template with optional position and infantry count |
 
@@ -49,6 +49,7 @@ Templates are stored as `missionNamespace` variables (`SAS_Cache_<name>`):
 |-------|------|-------------|
 | `side` | Side | Side of the original group |
 | `position` | Array | Absolute position of the original leader |
+| `behaviour` | String | Group behaviour (e.g. "SAFE", "AWARE", "COMBAT") |
 | `infantry` | Array | Classnames of dismounted units |
 | `vehicles` | Array | Classnames of crewed vehicles |
 
@@ -61,6 +62,7 @@ Templates are stored as `missionNamespace` variables (`SAS_Cache_<name>`):
 - Infantry uses `BIS_fnc_spawnGroup`, vehicles use `BIS_fnc_spawnVehicle` — units spawn with class-default loadouts (no loadout preservation).
 - If the `SAS_Skills` mission parameter is active (non-AUTO), skills are automatically applied to spawned groups via `SAS_Skills_fnc_set`.
 - When a custom infantry count is provided, unit classes cycle through the template's infantry pool.
+- Group behaviour (SAFE, AWARE, COMBAT, etc.) is preserved from the template and applied to spawned groups.
 
 ## Debugging
 
