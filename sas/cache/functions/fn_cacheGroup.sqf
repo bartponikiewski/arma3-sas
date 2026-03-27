@@ -1,7 +1,7 @@
 /*
     Description:
-    Caches a group as a reusable template. Stores unit classnames, loadouts,
-    relative positions, vehicle compositions and crew assignments under a string name.
+    Caches a group as a reusable template. Stores unit classnames, vehicle
+    classnames, side, and original position under a string name.
 
     Usage:
     [myGroup, "patrolTemplate"] call SAS_Cache_fnc_cacheGroup;
@@ -16,16 +16,17 @@
     BOOL - true on success
 */
 
+params [
+    ["_group", grpNull, [grpNull, objNull]],
+    ["_name", "", [""]],
+    ["_deleteAfter", true, [false]]
+];
+
 if (!isServer) exitWith {
     ["[cacheGroup] Must run on server"] call SAS_fnc_logDebug;
     false
 };
 
-params [
-    ["_group", grpNull, [grpNull, objNull]],
-    ["_name", "", [""]],
-    ["_deleteAfter", false, [false]]
-];
 
 if (typeName _group == "OBJECT") then { _group = group _group };
 
@@ -40,66 +41,30 @@ if (_name isEqualTo "") exitWith {
 };
 
 private _leader = leader _group;
-private _leaderPos = getPos _leader;
 
-// Collect unique vehicles belonging to group members
+// Collect unique crewed vehicles
 private _groupVehicles = [];
-{
-    private _veh = vehicle _x;
-    if (_veh != _x) then {
-        _groupVehicles pushBackUnique _veh;
-    };
-} forEach units _group;
+{ _groupVehicles pushBackUnique (vehicle _x) } forEach (units _group select { vehicle _x != _x });
 
-// Build vehicle data
-private _vehicleData = [];
-{
-    private _vehMap = createHashMap;
-    _vehMap set ["classname", typeOf _x];
-    _vehMap set ["offset", (getPos _x) vectorDiff _leaderPos];
-    _vehicleData pushBack _vehMap;
-} forEach _groupVehicles;
+// Infantry classnames (units not inside vehicles)
+private _infantryClasses = [];
+{ _infantryClasses pushBack (typeOf _x) } forEach (units _group select { vehicle _x == _x });
 
-// Build unit data
-private _unitData = [];
-{
-    private _unit = _x;
-    private _unitMap = createHashMap;
-
-    _unitMap set ["classname", typeOf _unit];
-    _unitMap set ["loadout", getUnitLoadout _unit];
-    _unitMap set ["offset", (getPos _unit) vectorDiff _leaderPos];
-    _unitMap set ["isLeader", _unit == _leader];
-
-    private _veh = vehicle _unit;
-    if (_veh != _unit) then {
-        private _vehIdx = _groupVehicles find _veh;
-        _unitMap set ["vehicleIdx", _vehIdx];
-
-        private _role = "cargo";
-        if (_unit == driver _veh) then { _role = "driver" };
-        if (_unit == gunner _veh) then { _role = "gunner" };
-        if (_unit == commander _veh) then { _role = "commander" };
-
-        _unitMap set ["vehicleRole", _role];
-    } else {
-        _unitMap set ["vehicleIdx", -1];
-        _unitMap set ["vehicleRole", ""];
-    };
-
-    _unitData pushBack _unitMap;
-} forEach units _group;
+// Vehicle classnames
+private _vehicleClasses = [];
+{ _vehicleClasses pushBack (typeOf _x) } forEach _groupVehicles;
 
 // Assemble template
 private _template = createHashMap;
 _template set ["side", side _group];
-_template set ["units", _unitData];
-_template set ["vehicles", _vehicleData];
+_template set ["position", getPos _leader];
+_template set ["behaviour", behaviour _leader];
+_template set ["infantry", _infantryClasses];
+_template set ["vehicles", _vehicleClasses];
 
-// Store as individual variable per template (avoids race condition from editor inits)
 missionNamespace setVariable [format ["SAS_Cache_%1", _name], _template];
 
-[format ["[cacheGroup] Cached '%1': %2 units, %3 vehicles", _name, count _unitData, count _vehicleData]] call SAS_fnc_logDebug;
+[format ["[cacheGroup] Cached '%1': %2 infantry, %3 vehicles", _name, count _infantryClasses, count _vehicleClasses]] call SAS_fnc_logDebug;
 
 // Optional deletion
 if (_deleteAfter) then {

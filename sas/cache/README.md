@@ -1,6 +1,6 @@
 # Cache Module
 
-Cache editor-placed groups as reusable templates, then spawn exact clones or scaled infantry squads at runtime. Templates capture unit classnames, loadouts, relative positions, vehicle compositions, and crew assignments under a string name.
+Cache editor-placed groups as reusable templates, then spawn new groups at runtime. Templates store unit classnames, vehicle classnames, side, and original position.
 
 ## Setup
 
@@ -19,49 +19,48 @@ Cache a group from its editor init or from `init.sqf`:
 
 ## Spawning
 
-### Exact clone
-
 ```sqf
-private _grp = ["patrolTemplate", getMarkerPos "spawn1"] call SAS_Cache_fnc_spawnGroup;
+// Spawn at original position with original infantry count
+["patrolTemplate"] call SAS_Cache_fnc_spawn;
 
-// With side override
-private _grp = ["patrolTemplate", getMarkerPos "spawn1", east] call SAS_Cache_fnc_spawnGroup;
-```
+// Spawn at custom position
+["patrolTemplate", getMarkerPos "spawn1"] call SAS_Cache_fnc_spawn;
 
-### Scaled infantry
+// Spawn at original position with custom infantry count
+["patrolTemplate", nil, 12] call SAS_Cache_fnc_spawn;
 
-```sqf
-// 8 infantry only (cycles through template unit types)
-private _grp = ["patrolTemplate", 8, getMarkerPos "spawn2"] call SAS_Cache_fnc_spawnUnits;
-
-// 6 infantry + all template vehicles with original crew
-private _grp = ["patrolTemplate", 6, getMarkerPos "spawn2", nil, true] call SAS_Cache_fnc_spawnUnits;
+// Spawn at custom position with custom infantry count
+["patrolTemplate", getMarkerPos "spawn1", 8] call SAS_Cache_fnc_spawn;
 ```
 
 ## Functions
 
 | Function | Description |
 |----------|-------------|
-| `SAS_Cache_fnc_cacheGroup` | Serialize a group (units, loadouts, vehicles, crew roles) into a named template |
+| `SAS_Cache_fnc_cacheGroup` | Serialize a group (unit classnames, vehicle classnames, side, position) into a named template |
 | `SAS_Cache_fnc_getCache` | Retrieve a cached template by name (returns hashmap or nil) |
-| `SAS_Cache_fnc_spawnGroup` | Spawn an exact clone of a cached template at a position |
-| `SAS_Cache_fnc_spawnUnits` | Spawn N infantry from a template, optionally with all template vehicles and crew |
+| `SAS_Cache_fnc_spawn` | Spawn a group from a cached template with optional position and infantry count |
 
-## Variables
+## Template Structure
 
-Templates are stored as individual `missionNamespace` variables:
+Templates are stored as `missionNamespace` variables (`SAS_Cache_<name>`):
 
-| Variable | Type | Description |
-|----------|------|-------------|
-| `SAS_Cache_<name>` | HashMap | Template data for the given name |
+| Field | Type | Description |
+|-------|------|-------------|
+| `side` | Side | Side of the original group |
+| `position` | Array | Absolute position of the original leader |
+| `infantry` | Array | Classnames of dismounted units |
+| `vehicles` | Array | Classnames of crewed vehicles |
 
 ## Notes
 
 - All functions are **server-only** (`isServer` guard).
 - Only vehicles with crew from the group are captured. Empty/uncrewed vehicles are not included.
-- `spawnUnits` with `_withVehicles = true` spawns all template vehicles with their original crew **on top of** the N infantry count.
-- If a template has no dismounted infantry (all units are vehicle crew), `spawnUnits` falls back to using all unit types as the cycling pool, spawning them on foot.
-- Vehicle crew roles use simple driver/gunner/commander/cargo assignment. Multi-turret vehicles default to the primary turret.
+- If a template has vehicles, they are **always** spawned alongside infantry.
+- Units and vehicles are spawned at safe positions via `BIS_fnc_findSafePos` to avoid rocks, rooftops, and steep terrain.
+- Infantry uses `BIS_fnc_spawnGroup`, vehicles use `BIS_fnc_spawnVehicle` — units spawn with class-default loadouts (no loadout preservation).
+- If the `SAS_Skills` mission parameter is active (non-AUTO), skills are automatically applied to spawned groups via `SAS_Skills_fnc_set`.
+- When a custom infantry count is provided, unit classes cycle through the template's infantry pool.
 
 ## Debugging
 

@@ -411,6 +411,52 @@ private  _playableUnits = if(isMultiplayer) then {playableUnits} else {switchabl
 // OR start CAS support mission programatically by:
 // [attackPos, mode, jtacUnit] call SAS_Gunship_fnc_startMission;
 
+
+/*
+	AI Caching example
+	Simple system to cache AI groups and units, then spawn them later at a given position.
+
+	To cache a group, use:
+	[group, "templateName"] call SAS_Cache_fnc_cacheGroup;
+
+	where:
+	0: GROUP or OBJECT - Group or unit (resolved to group)
+	1: STRING - Template name
+	2: BOOL - Delete group after caching (default: true)
+
+	To spawn a cached group, use:
+	["templateName", position] call SAS_Cache_fnc_spawn;
+
+	where:
+	0: STRING - Template name
+	1: ARRAY - Position to spawn the group at
+	2: NUMBER - Infantry count (optional, defaults to template's infantry count)
+*/
+
+[group tl_cache_1, "cache_remove", true] call SAS_Cache_fnc_cacheGroup;
+[group tl_cache_2, "cache_not_remove", false] call SAS_Cache_fnc_cacheGroup;
+[group tl_cache_3, "cache_unit_number", true] call SAS_Cache_fnc_cacheGroup;
+[group tl_cache_4, "cache_vehicle", true] call SAS_Cache_fnc_cacheGroup;
+[group tl_cache_5, "cache_vehicle_unit_number", true] call SAS_Cache_fnc_cacheGroup;
+
+laptop_5 addAction ["Test cache", {
+	params ["_target", "_caller", "_actionId", "_arguments"];
+	
+	private _spawnParams = [
+		["cache_remove", getMarkerPos "mrk_cache_1"],
+		["cache_not_remove", getMarkerPos "mrk_cache_2"],
+		["cache_unit_number", getMarkerPos "mrk_cache_3", 5],
+		["cache_vehicle", getMarkerPos "mrk_cache_4"],
+		["cache_vehicle_unit_number", getMarkerPos "mrk_cache_5", 6]
+	]; 
+
+	{
+		_x remoteExec ["SAS_Cache_fnc_spawn", 2];
+	} forEach _spawnParams;
+
+}, [],1.5,true, true, "", "true", 5];
+	
+
 // !! This one is super important, call this at the end of your init.sqf after all initialization is done to signal the loading screen to finish and fade in !!
 [] call SAS_Init_fnc_finish;
 

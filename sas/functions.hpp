@@ -246,7 +246,6 @@ class SAS_Cache {
         file = "sas\cache\functions";
         class getCache {};
         class cacheGroup {};
-        class spawnGroup {};
-        class spawnUnits {};
+        class spawn {};
     };
 };

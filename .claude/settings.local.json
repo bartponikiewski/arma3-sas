@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:community.bistudio.com)"
+      "WebFetch(domain:community.bistudio.com)",
+      "Bash(find . -name *test* -o -name *example*)"
     ]
   }
 }
