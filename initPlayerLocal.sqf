@@ -1,6 +1,4 @@
 // --> Wait for loading screen to finish
-[officer_1, "BRIEFING", "FULL"] remoteExecCall ["BIS_fnc_ambientAnim", officer_1];
-
 waitUntil { [] call SAS_Init_fnc_getLoadingState };
 
 // --> Simple Intro sequence
@@ -20,7 +18,6 @@ waitUntil { [] call SAS_Init_fnc_getLoadingState };
 	],
 	["UAV", player]
 ] call SAS_Intro_fnc_play;
-
 
 // --> Example subtitle sequence with 3 entries and a global audio track
 [

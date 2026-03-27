@@ -10,6 +10,7 @@ class SAS {
         class createMarker {};
         class addWaypoint {};
         class guideAmmo {};
+        class canSeeTarget {};
     };
 
     class Logging {
@@ -247,5 +248,16 @@ class SAS_Cache {
         class getCache {};
         class cacheGroup {};
         class spawn {};
+    };
+};
+
+class SAS_CovertOps {
+    class CovertOps {
+        file = "sas\covertops\functions";
+        class init {};
+        class drawWeapon {};
+        class hideWeapon {};
+        class checkDetection {};
+        class reset {};
     };
 };

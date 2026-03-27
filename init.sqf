@@ -11,10 +11,12 @@ missionNamespace setVariable ["SAS_Dev_mode", true];
 // Disable auto reporting
 enableSentences false; 
 
-// -------------------------------------------------------------------------
-// Some helper things for testing
+// Ambient unit animation:
+if (local officer_1) then {
+	[officer_1, "BRIEFING", "FULL"] spawn BIS_fnc_ambientAnim;
+};
 
-// Add action to switch day/light
+// Add action to switch day/light -  this is helper only
 laptop_1 addAction ["Switch day/night", {
 	params ["_target", "_caller", "_actionId", "_arguments"];
 	
@@ -31,7 +33,6 @@ laptop_1 addAction ["Switch day/night", {
 	[_now] remoteExec ["setDate"];
 }, [],1.5,true, true, "", "true", 5];
 
-// Add action to switch day/light
 laptop_2 addAction ["Switch day/night", {
 	params ["_target", "_caller", "_actionId", "_arguments"];
 	
@@ -48,18 +49,44 @@ laptop_2 addAction ["Switch day/night", {
 	[_now] remoteExec ["setDate"];
 }, [],1.5,true, true, "", "true", 5];
 
-// Add action to parachute
+
+// -------------------------------------------------------------------------
+
+/*
+	Note: These are just examples to show how different functions can be used. 
+	You can customize the content, parameters, and which functions you use based on your mission's needs.
+
+	See also initPlayerLocal.sqf for examples of intro sequence.
+*/
+
+// -------------------------------------------------------------------------
+
+/*
+  	Parahute exmaple
+	To start halo jump, use:
+    [unit] call SAS_fnc_doHalo;
+    [unit, getPos unit, 4000, true, true, true] call SAS_fnc_doHalo;
+
+    Parameter(s):
+    0: OBJECT - Unit to perform the jump
+    1: (Optional): POSITION - Jump position (default: unit's current position)
+    2: (Optional): NUMBER - Jump altitude (default: 3000)
+    3: (Optional): BOOL - Attach chemlight (default: true)
+    4: (Optional): BOOL - Auto-open parachute at 150m (default: false)
+    5: (Optional): BOOL - Preserve backpack (default: true)
+
+	In example below added as action to laptop_1, but can be added to any object or called directly. 
+	When player uses the action, the jump starts immediately at the position of the player.
+*/
 laptop_1 addAction ["Parachute", {
 	params ["_target", "_caller", "_actionId", "_arguments"];
 	
 	[_caller, getPos _caller, 2000, true, true, true] call SAS_fnc_doHalo;
 },[],1.5,true, true, "", "true", 5];
 
-// Add action to fastrpe
-heli_1 addAction ["Fastrope", {
-	params ["_target", "_caller", "_actionId", "_arguments"];
+// -------------------------------------------------------------------------
 
-	/*
+/*
 	Helicopter fast-rope transport script
 
 	Usage:
@@ -71,10 +98,19 @@ heli_1 addAction ["Fastrope", {
 	1: ARRAY - Position to drop troops at (e.g., marker position)
 	2: ARRAY - Position for helicopter to return to after fast rope operation
 	3: BOOL - Whether to delete the helicopter at the end of the mission
-	*/
+
+	In example below added as action to two helicopters, but can be added to any object or called directly. 
+	When player uses the action, the fast rope mission starts immediately with the helicopter and positions defined in the parameters.
+*/
+
+heli_1 addAction ["Fastrope", {
+	params ["_target", "_caller", "_actionId", "_arguments"];
+
+	
 
 	[_target, getPos _target, getPos _target, false] remoteExec ["SAS_Fastrope_fnc_startMission", _target];
 },[],1.5,true, true, "", "true", 5];
+
 
 heli_2 addAction ["Fastrope", {
 	params ["_target", "_caller", "_actionId", "_arguments"];
@@ -84,6 +120,7 @@ heli_2 addAction ["Fastrope", {
 
 
 // ------------------------------------------------------------------------
+
 /*
 	Example of simple intel action added to an object, which when used shows a dialog with intel information and a response button.
 	Example below shows how to destroy intel when taken, and complete related task.
@@ -236,7 +273,7 @@ heli_2 addAction ["Fastrope", {
 	}];
 } foreach [lamp_1, lamp_2];
 
-// Example: Switch all lights in area on at mission start
+// Example: Switch all lights in area at mission start
 [[1000, 1000, 0], 50] call SAS_NightOps_fnc_switchLightsInArea;
 
 /*
@@ -258,6 +295,7 @@ heli_2 addAction ["Fastrope", {
 [light_control, 200, 0.2, "Toggle power on/off"] call SAS_NightOps_fnc_setAsLightsPowerSource;
 
 // -------------------------------------------------------------------------
+
 /*
 	Hostile Zone Example
 	Simple system to make civilians hostile.
@@ -286,6 +324,7 @@ heli_2 addAction ["Fastrope", {
 
 
 // -------------------------------------------------------------------------
+
 /*
 	Make Hostage Example
 	Simple system to make hostages out of civilians.
@@ -302,6 +341,7 @@ heli_2 addAction ["Fastrope", {
 [civ_2] call SAS_Hostage_fnc_make;
 
 // -------------------------------------------------------------------------
+
 /*
 	Captive System
 	Allows players to order units to surrender, arrest, escort, and load into vehicles.
@@ -327,6 +367,7 @@ heli_2 addAction ["Fastrope", {
 [civ_4] call SAS_Captive_fnc_surrender;
 
 // -------------------------------------------------------------------------
+
 /*
 	AI Conversation
 	Simple system create conversations with ai.
@@ -411,6 +452,7 @@ private  _playableUnits = if(isMultiplayer) then {playableUnits} else {switchabl
 // OR start CAS support mission programatically by:
 // [attackPos, mode, jtacUnit] call SAS_Gunship_fnc_startMission;
 
+// -------------------------------------------------------------------------
 
 /*
 	AI Caching example
@@ -455,9 +497,43 @@ laptop_5 addAction ["Test cache", {
 	} forEach _spawnParams;
 
 }, [],1.5,true, true, "", "true", 5];
-	
 
-// !! This one is super important, call this at the end of your init.sqf after all initialization is done to signal the loading screen to finish and fade in !!
+// -------------------------------------------------------------------------
+
+/* 
+	Undercover Weapon Draw and Detection Example
+	Simple system to allow undercover units to draw their weapon, but risk blowing their cover if detected by enemies.
+
+	To draw weapon, use:
+	[_unit] call SAS_CovertOps_fnc_drawWeapon;
+
+	where:
+	0: OBJECT - The undercover unit drawing their weapon
+
+	To hide weapon again, use:
+	[_unit] call SAS_CovertOps_fnc_hideWeapon;
+
+	where:
+	0: OBJECT - The undercover unit hiding their weapon
+
+	The system will monitor nearby enemies while the weapon is drawn, and if any enemy sees the undercover unit with weapon drawn, it will blow their cover, reset the covert ops state, and show a warning message.
+*/
+
+[undercover_1, "hgun_PDW2000_F"] call SAS_CovertOps_fnc_init;
+[undercover_2, ""] call SAS_CovertOps_fnc_init;
+
+// -------------------------------------------------------------------------
+
+/*
+	!! IMPORTANT !!
+	Call the following function at the end of your init.sqf after all initialization is done to signal the loading screen to finish and fade in.
+	If you forget to call this, the loading screen will not disappear and the player will be stuck looking at it.
+
+	Usage:
+	[] call SAS_Init_fnc_finish;
+
+*/
+	
 [] call SAS_Init_fnc_finish;
 
 
