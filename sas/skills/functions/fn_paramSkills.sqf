@@ -20,7 +20,7 @@ if (!isServer) exitWith {
 
 [_skillLevel] spawn {
     params ["_skillLevel"];
-    waitUntil { !isNil "allUnits" };
+    waitUntil { time > 0 };
 
     private _trueSkillLvels = ["AUTO", "NORMAL", "GOOD", "SPECOPS"];
     [allUnits, _trueSkillLvels select _skillLevel] call SAS_Skills_fnc_set;

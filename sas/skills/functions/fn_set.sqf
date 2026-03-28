@@ -32,8 +32,6 @@ params [
 	["_sArr",[],[[]]]
 ];
 
-hint format ["%1", _uArr];
-
 //-->Validate
 if (typename _uArr == "GROUP") then {
 	_uArr setVariable ["SAS_skillLevelCache",_this select 1,true];
@@ -63,7 +61,7 @@ switch (_lvl) do {
 			_x setskill ["courage", 0.9];
 			_x setSkill ["spottime", 0.2];
 			_x setSkill ["commanding", 1];
-			_x setSkill ["general", 0.9];
+			_x setSkill ["general", 0.5];
 		} forEach _uArr;
 	};
 	
