@@ -3,7 +3,7 @@
 // missionNamespace setVariable ["SAS_Briefing_Task3D", false];
 
 // --> Uncomment for development testing
-missionNamespace setVariable ["SAS_Debug_global", true];
+// missionNamespace setVariable ["SAS_Debug_global", true];
 missionNamespace setVariable ["SAS_Dev_mode", true];
 
 

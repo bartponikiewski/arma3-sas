@@ -3,7 +3,8 @@
     "allow": [
       "WebFetch(domain:community.bistudio.com)",
       "Bash(find . -name *test* -o -name *example*)",
-      "Bash(ls -d \"c:/Users/bponi/Documents/Arma 3 - Other Profiles/Sushi/mpmissions/SAS_v1.Stratis/sas\"/*/)"
+      "Bash(ls -d \"c:/Users/bponi/Documents/Arma 3 - Other Profiles/Sushi/mpmissions/SAS_v1.Stratis/sas\"/*/)",
+      "WebSearch"
     ]
   }
 }

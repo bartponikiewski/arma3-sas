@@ -3,7 +3,7 @@
 	Author: Sushi
 
 	Description:
-	Set give units or group skills to predefined levels (NORMAL, GOOD, SPECOPS) or custom values.
+	Set give units or group skills to predefined levels (AUTO, EASY, NORMAL, GOOD, SPECOPS) or custom values.
 	Can be used to quickly set up AI units without needing to configure each skill individually.
 
 	Parameter(s):
@@ -34,7 +34,7 @@ params [
 
 //-->Validate
 if (typename _uArr == "GROUP") then {
-	_uArr setVariable ["SAS_skillLevelCache",_this select 1,true];
+	_uArr setVariable ["SAS_skillLevelCache",_lvl,true];
 	_uArr = units _uArr;
 };
 if (typename _uArr == "OBJECT") then {
@@ -49,19 +49,44 @@ switch (_lvl) do {
 	case "AUTO": {
 		// Do nothing, auto settings from editor
 	};
+
+	case "EASY": {
+		{
+			if (!local _x) then { continue };
+
+			_x setSkill 0.2;
+			_x setSkill ["general", 0.2];
+			_x setSkill ["spotdistance", 0.05];
+			_x setSkill ["spottime", 0.1];
+
+			_x setSkill ["aimingaccuracy", 0.03];
+			_x setSkill ["aimingspeed", 0.03];
+			_x setSkill ["aimingshake", 0.02];
+			
+			
+			_x setskill ["courage", 0.4];
+			_x setSkill ["commanding", 0.5];
+			
+		} forEach _uArr;
+	};
+	
 	
 	case "NORMAL": {
 		{
 			if (!local _x) then { continue };
 
-			_x setSkill ["aimingspeed", 0.05];
+			_x setSkill 0.4;
+			_x setSkill ["general", 0.4];
 			_x setSkill ["spotdistance", 0.1];
-			_x setSkill ["aimingaccuracy", 0.05];
-			_x setSkill ["aimingshake", 0.04];
-			_x setskill ["courage", 0.9];
 			_x setSkill ["spottime", 0.2];
-			_x setSkill ["commanding", 1];
-			_x setSkill ["general", 0.5];
+
+			_x setSkill ["aimingaccuracy", 0.05];
+			_x setSkill ["aimingspeed", 0.05];
+			_x setSkill ["aimingshake", 0.05];
+			
+			
+			_x setskill ["courage", 0.3];
+			_x setSkill ["commanding", 0.4];
 		} forEach _uArr;
 	};
 	
@@ -69,14 +94,18 @@ switch (_lvl) do {
 		{
 			if (!local _x) then { continue };
 
-			_x setSkill ["aimingspeed", 0.08];
-			_x setSkill ["spotdistance", 0.1];
-			_x setSkill ["aimingaccuracy", 0.07];
-			_x setSkill ["aimingshake", 0.07];
-			_x setskill ["courage", 0.9];
+			_x setSkill 0.6;
+			_x setSkill ["general", 0.6];
+			_x setSkill ["spotdistance", 0.2];
 			_x setSkill ["spottime", 0.2];
-			_x setSkill ["commanding", 1];
-			_x setSkill ["general", 1];
+
+			_x setSkill ["aimingaccuracy", 0.1];
+			_x setSkill ["aimingspeed", 0.1];
+			_x setSkill ["aimingshake", 0.1];
+			
+			
+			_x setskill ["courage", 0.6];
+			_x setSkill ["commanding", 0.6];
 		} forEach _uArr;
 	};
 	
@@ -84,14 +113,18 @@ switch (_lvl) do {
 		{	
 			if (!local _x) then { continue };
 
-			_x setSkill ["aimingspeed", 1];
-			_x setSkill ["spotdistance", 0.15];
-			_x setSkill ["aimingaccuracy", 1];
-			_x setSkill ["aimingshake", 0.05];
-			_x setskill ["courage", 1];
+			_x setSkill 0.8;
+			_x setSkill ["general", 0.8];
+			_x setSkill ["spotdistance", 0.25];
 			_x setSkill ["spottime", 0.25];
-			_x setSkill ["commanding", 1];
-			_x setSkill ["general", 1];
+
+			_x setSkill ["aimingaccuracy", 0.3];
+			_x setSkill ["aimingspeed", 0.3];
+			_x setSkill ["aimingshake", 0.3];
+			
+			
+			_x setskill ["courage", 0.8];
+			_x setSkill ["commanding", 0.8];
 		} forEach _uArr;
 	};
 	
@@ -99,6 +132,7 @@ switch (_lvl) do {
 		{	
 			if (!local _x) then { continue };
 
+			_x setSkill _sArr select 7; // general
 			_x setSkill ["aimingspeed", _sArr select 0];
 			_x setSkill ["spotdistance", _sArr select 1];
 			_x setSkill ["aimingaccuracy", _sArr select 2];
