@@ -33,7 +33,7 @@ if (!local _unit) exitWith {
 
 private _coverBlown = _unit getVariable ["SAS_CovertOps_coverBlown", false];
 private _playerSide = side (group _unit);
-private _nearUnits = _unit nearEntities ["Man", 500];
+private _nearUnits = _unit nearEntities ["Man", 350];
 private _tick = 0;
 
 while {
@@ -51,10 +51,14 @@ while {
 		) exitWith {
 			_coverBlown = true;
 			_unit setVariable ["SAS_CovertOps_coverBlown", true, true];
+			
+
 
 			[_unit] call SAS_CovertOps_fnc_reset;
 
 			hint "An enemy has spotted you! Your cover is blown!";
+
+			[missionNamespace, "SAS_CovertOps_coverBlown", [_unit, _x]] call BIS_fnc_callScriptedEventHandler;
 
 			[format [
 				"[SAS_CovertOps_fnc_checkDetection]: Cover blown! Enemy %1 detected %2 (knowsAbout: %3)",
@@ -69,7 +73,7 @@ while {
 
 	// Refresh nearby units every 100 ticks (30 seconds) to account for movement and new spawns
 	if (_tick % 100 == 0) then {
-		_nearUnits = _unit nearEntities ["Man", 500];
+		_nearUnits = _unit nearEntities ["Man", 350];
 	};
 
 	_tick = _tick + 1;
