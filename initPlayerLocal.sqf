@@ -12,7 +12,7 @@ waitUntil { [] call SAS_Init_fnc_getLoadingState };
 				"a simple intro sequence example ",
 				"for SAS framework"
 			],
-			["SAS", "Sushi ArmA Scripts", "v1.0.0"],
+			["SAS", "Sushi ArmA Scripts", "v1.1.0"],
 			["LeadTrack01_F_Tacops", true]
 		]
 	],

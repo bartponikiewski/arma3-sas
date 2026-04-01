@@ -7,7 +7,7 @@
     Usage:
     [
         ["Credits", "Mission designed by XYZ"],
-        ["Tech notes", "This mission is using Sushi Arma Scripts framework v1.0.0"],
+        ["Tech notes", "This mission is using Sushi Arma Scripts framework v1.1.0"],
     ] call SAS_Briefing_fnc_createNotes;
 
     Parameters:

@@ -1,13 +1,13 @@
 //--> Mission info
 author = "Sushi and Gruwi";
-briefingName = "SAS v1.0.0";
+briefingName = "SAS v1.1.0";
 
 //--> Overview
 overviewText = "Playground for SAS Development";
 overviewPicture = "sas\assets\images\mission_bg.jpg";
 
 //--> Loading screen 
-onLoadName = "SAS v1.0.0";
+onLoadName = "SAS v1.1.0";
 onLoadMission = "Playground for SAS Development"; // Description
 loadScreen = "sas\assets\images\mission_bg.jpg"; // Preview picture
 
