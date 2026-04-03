@@ -11,7 +11,7 @@ private _jtacUnits = [] call SAS_Gunship_fnc_getJtacUnits;
 waitUntil {
 	 _jtacUnits = [] call SAS_Gunship_fnc_getJtacUnits;
 	 count _jtacUnits > 0
-}
+};
 
 if (_callsLeft <= 0) exitWith {};
 
