@@ -38,6 +38,11 @@ if (_unit getVariable ["SAS_CovertOps_active", false]) exitWith {
 	[format ["[SAS_CovertOps_fnc_init]: Covert ops already active on %1", _unit]] call SAS_fnc_logDebug;
 };
 
+// Set captive and state variables ASAP
+_unit setCaptive true;
+_unit setVariable ["SAS_CovertOps_active", true, true];
+_unit setVariable ["SAS_CovertOps_coverBlown", false, true];
+
 private _useCurrent = (_weaponClass == "");
 // If no weapon class provided, use unit's current primary weapon
 if (_useCurrent) then {
@@ -51,23 +56,16 @@ if (_weaponClass == "") exitWith {
 // Remove all weapons and magazines
 removeAllWeapons _unit;
 
-if (!_useCurrent) then {
-	// If a specific weapon class was provided, remve old magazines and ensure the unit has it in inventory for magazines to be added
-	removeAllMagazines _unit;
+// Remve old magazines and ensure the unit has it in inventory for magazines to be added
+removeAllMagazines _unit;
 
-	// Add covert weapon with magazines via BIS_fnc_addWeapon, then hide the weapon
-	// Magazines remain in inventory and persist through draw/hide cycles
-	[_unit, _weaponClass, 4] call BIS_fnc_addWeapon;
-	_unit removeWeapon _weaponClass;
-};
+// Add covert weapon with magazines via BIS_fnc_addWeapon, then hide the weapon
+// Magazines remain in inventory and persist through draw/hide cycles
+[_unit, _weaponClass, 4] call BIS_fnc_addWeapon;
+_unit removeWeapon _weaponClass;
 
 // Store weapon class for draw/hide
 _unit setVariable ["SAS_CovertOps_weaponClass", _weaponClass];
-
-// Set captive and state variables
-_unit setCaptive true;
-_unit setVariable ["SAS_CovertOps_active", true, true];
-_unit setVariable ["SAS_CovertOps_coverBlown", false, true];
 
 // Add "Draw Weapon" self-action
 private _drawActionId = _unit addAction [
