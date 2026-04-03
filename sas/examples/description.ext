@@ -1,0 +1,102 @@
+//--> Mission info
+author = "Sushi and Gruwi";
+briefingName = "SAS v1.1.0";
+
+//--> Overview
+overviewText = "Playground for SAS Development";
+overviewPicture = "sas\assets\images\mission_bg.jpg";
+
+//--> Loading screen 
+onLoadName = "SAS v1.1.0";
+onLoadMission = "Playground for SAS Development"; // Description
+loadScreen = "sas\assets\images\mission_bg.jpg"; // Preview picture
+
+class Header
+{
+	gameType = "Coop";	// game type
+	minPlayers =  1;	// minimum number of players the mission supports
+	maxPlayers = 4;	// maximum number of players the mission supports
+};
+
+//--> Respawn settings
+respawn = 1;
+respawnDelay = 42;
+respawnTemplates[] = { "Spectator" };
+
+//--> Revive settings
+ReviveMode  = 1;
+ReviveUnconsciousStateMode=0;
+ReviveRequiredTrait = 0;
+ReviveRequiredItems = 2;
+ReviveRequiredItemsFakConsumed = 1;
+ReviveMedicSpeedMultiplier = 2;
+ReviveDelay = 10;
+ReviveForceRespawnDelay = 30;
+ReviveBleedOutDelay = 200;
+
+// --> Mission settings
+class Params
+{
+	// Params examples
+
+	// class Daytime
+	// {
+	// 	title = "Time";
+	// 	texts[] = { "Morning", "Day", "Evening", "Night" };
+	// 	values[] = { 6, 12, 18, 0 };
+	// 	default = 12;
+	// 	function = "BIS_fnc_paramDaytime";
+	// };
+
+	// class Weather
+	// {
+	// 	title = "Weather";
+	// 	texts[] = { "Clear", "Cloudy", "Rainy", "Stormy" };
+	// 	values[] = { 0, 0.5, 1, 1.5 };
+	// 	default = 0;
+	// 	function = "BIS_fnc_paramWeather";
+	// };
+
+	//-->SAS Params
+	#include "sas\params\paramIntro.hpp"
+	#include "sas\params\paramSkills.hpp"
+	//<--SAS Params
+};
+
+//-->Comms modules
+class CfgCommunicationMenu
+{
+	//->SAS Comms
+	#include "sas\gunship\comms.hpp"
+	//<-SAS Comms
+};
+//<--Comms modules
+
+//-->Voice lines
+class CfgSounds
+{
+    sounds[] = {};
+    // Add voice entries here, e.g.:
+    class SAS_Welcome
+	{
+		name = "SAS_vo_welcome";
+		sound[] = {"sas\assets\voice\welcome.ogg", db+0, 1.0};
+		titles[] = {};
+	};
+};
+//<--Voice lines
+
+//-->Functions
+class cfgFunctions
+{
+	//->SAS Functions
+	#include "sas\functions.hpp"
+	//<-SAS Functions
+};
+//<--Functions
+
+//-->RSC
+#include "sas\rsc.hpp"
+//<--RSC
+
+
