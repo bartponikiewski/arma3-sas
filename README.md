@@ -22,12 +22,12 @@ This repo is also a **ready-to-run test mission**. The included `mission.sqm` ha
 
 ## Modules
 
-All modules live under `sas/`. For the full list with function tags and documentation links see **[sas/README.md](sas/README.md)**.
+All modules need to live live under `sas/`. For the full list with function tags and documentation links see **[sas/MODULE_INDEX.md](MODULE_INDEX.md)**.
 
 ## References
 
-- [sas/QUICKSTART.md](sas/QUICKSTART.md)
-- [sas/README.md](sas/README.md)
+- [sas/QUICKSTART.md](QUICKSTART.md)
+- [sas/MODULE_INDEX.md](MODULE_INDEX.md)
 - [.github/copilot-instructions.md](.github/copilot-instructions.md)
 - [Arma 3 SQF Reference](https://community.bistudio.com/wiki/Category:Scripting_Commands)
 - [CfgFunctions reference](https://community.bistudio.com/wiki/Arma_3:_Functions_Library)

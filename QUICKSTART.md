@@ -13,7 +13,7 @@ To run it:
 2. Host it as a local multiplayer session or open it in Eden Editor.
 3. Play — all systems (intro, briefing, tasks, reinforcements, conversations, captives, etc.) are active and ready to test.
 
-Use `init.sqf` and `initPlayerLocal.sqf` as a reference while reading the steps below.
+Use `init.sqf` and `initPlayerLocal.sqf` from `_examples_` dir as a reference while reading the steps below.
 
 ---
 
@@ -28,13 +28,14 @@ Use `init.sqf` and `initPlayerLocal.sqf` as a reference while reading the steps 
 
 ## Step 2 — Download and copy the SAS framework
 
-1. Download or clone the SAS repository.
-2. Copy these files and folders into your mission root:
+1. In your mission dir create `sas` folder
+2. Download or clone the SAS repository into this folder.
+2. Copy files from `_examples_` into your mission root and edit if needed:
 
 ```
 YourMissionName.MapName/
-├── sas/               ← copy entire folder
-├── description.ext    ← copy and edit
+├── sas/               ← place all file and folders from this repo here
+├── description.ext    ← copy from `_examples_` and edit
 ```
 
 Your mission folder should now look like:
