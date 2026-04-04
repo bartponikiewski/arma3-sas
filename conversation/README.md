@@ -180,4 +180,4 @@ All functions use `SAS_fnc_logDebug` for debug output. Enable `SAS_Debug_global`
 
 ## References
 - See [copilot-instructions.md](../../.github/copilot-instructions.md) for architectural and coding standards.
-- See `sas/common/gui` for the simpler `SAS_fnc_guiMessage` dialog (no portrait, no face-cam).
+- See `common/gui` for the simpler `SAS_fnc_guiMessage` dialog (no portrait, no face-cam).

@@ -50,4 +50,4 @@ Debug output is controlled by `SAS_Debug_global`. Enable it to receive hint mess
 
 ## References
 - See [copilot-instructions.md](../../.github/copilot-instructions.md) for architectural and coding standards.
-- See `sas/common/misc` for `SAS_fnc_switchSide`, which this module depends on.
+- See `common/misc` for `SAS_fnc_switchSide`, which this module depends on.

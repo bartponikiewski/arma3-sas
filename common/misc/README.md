@@ -86,5 +86,5 @@ All functions use `SAS_fnc_logDebug` for debug output. Enable `SAS_Debug_global`
 
 ## References
 - See [copilot-instructions.md](../../../.github/copilot-instructions.md) for architectural and coding standards.
-- `SAS_fnc_switchSide` is used by `sas/civilians` (`SAS_Civilians_fnc_makeHostile`).
-- `SAS_fnc_fireFlare` is used by `sas/nightops` (`SAS_NightOps_fnc_fireFlaresAtTargetRecurring`).
+- `SAS_fnc_switchSide` is used by `civilians` (`SAS_Civilians_fnc_makeHostile`).
+- `SAS_fnc_fireFlare` is used by `nightops` (`SAS_NightOps_fnc_fireFlaresAtTargetRecurring`).

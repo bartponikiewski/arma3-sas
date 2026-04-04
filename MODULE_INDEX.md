@@ -1,6 +1,6 @@
 # SAS Framework — Module Index
 
-All modules live under `sas/`, each self-contained with its own functions and README. Functions are registered centrally in `sas/functions.hpp` via `cfgFunctions` in `description.ext`.
+Each module is self-contained with its own functions and README. Functions are registered centrally in `functions.hpp` via `cfgFunctions` in `description.ext`. This repository is used as a git submodule (or copy) at the `sas/` path inside a mission directory.
 
 → New here? Start with **[QUICKSTART.md](QUICKSTART.md)**.
 
@@ -45,18 +45,18 @@ All modules live under `sas/`, each self-contained with its own functions and RE
 
 ## Adding a new module
 
-1. Create `sas/<module>/` with a `functions/` subfolder.
+1. Create `<module>/` at the repo root with a `functions/` subfolder.
 2. Write your functions as `fn_<name>.sqf`.
-3. Register them in `sas/functions.hpp` under a new `class SAS_<Module>` block.
+3. Register them in `functions.hpp` under a new `class SAS_<Module>` block.
 4. Add a `README.md` and a row to this table.
 
-See [copilot-instructions.md](../.github/copilot-instructions.md) for naming conventions and coding standards.
+See [copilot-instructions.md](.github/copilot-instructions.md) for naming conventions and coding standards.
 
 ---
 
 ## References
 
 - [QUICKSTART.md](QUICKSTART.md)
-- [copilot-instructions.md](../.github/copilot-instructions.md)
+- [copilot-instructions.md](.github/copilot-instructions.md)
 - [Arma 3 SQF Reference](https://community.bistudio.com/wiki/Category:Scripting_Commands)
 - [CfgFunctions reference](https://community.bistudio.com/wiki/Arma_3:_Functions_Library)

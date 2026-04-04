@@ -52,4 +52,4 @@ Debug output is controlled by `SAS_Debug_global`. Enable it to receive hint mess
 
 ## References
 - See [copilot-instructions.md](../../../.github/copilot-instructions.md) for architectural and coding standards.
-- For a non-modal conversation overlay with portrait/face-cam support, see `sas/conversation`.
+- For a non-modal conversation overlay with portrait/face-cam support, see `conversation`.

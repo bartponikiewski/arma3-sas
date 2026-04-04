@@ -14,12 +14,14 @@ A fully wired test mission that demonstrates every SAS module is available at [a
 
 ## Repository layout
 
+This repository is designed to be used as a **git submodule** (or copied) into an Arma 3 mission directory as `sas/`. The repo root becomes the `sas/` folder inside the mission.
+
 ```
-sas/
+(repo root → becomes sas/ in mission)
 ├── _examples_/        ← starter description.ext, init.sqf, initPlayerLocal.sqf
 ├── assets/            ← shared images, voice files
 ├── params/            ← lobby parameters (intro toggle, AI skill)
-├── [module_name]/*    ← modules dirs
+├── [module_name]/*    ← module directories
 ├── functions.hpp      ← central function registration
 └── rsc.hpp            ← UI resource definitions
 ```
