@@ -18,6 +18,9 @@ class Header
 	maxPlayers = 4;	// maximum number of players the mission supports
 };
 
+// --> Disable AI to fill empty slots with spectators
+disabledAI = 1;
+
 //--> Respawn settings
 respawn = 1;
 respawnDelay = 42;

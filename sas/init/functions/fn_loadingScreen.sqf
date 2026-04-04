@@ -20,13 +20,9 @@
 if (isDedicated) exitWith {};
 if (!hasInterface) exitWith {};
 
+
 private _customLines = [];
 private _endDelay = 4;
-private _devMode = missionNamespace getVariable ["SAS_Dev_mode", false];
-if (_devMode) exitWith {
-    [true] call SAS_Init_fnc_setLoadingState;
-    ["[SAS_Init]: Skipping loading screen due to dev mode"] call SAS_fnc_logDebug;
-};
 
 // Spawn so postInit returns immediately and does not block mission loading.
 // postInit suspends the loading pipeline while a function is suspended,
@@ -34,9 +30,15 @@ if (_devMode) exitWith {
 [_customLines, _endDelay] spawn {
     params ["_customLines", "_endDelay"];
 
+
     // Black out
     waitUntil { time > 0 };
     waitUntil { !isNull player };
+    private _devMode = missionNamespace getVariable ["SAS_Dev_mode", false];
+    if (_devMode) exitWith {
+        [true] call SAS_Init_fnc_setLoadingState;
+        ["[SAS_Init]: Skipping loading screen due to dev mode"] call SAS_fnc_logDebug;
+    };
 
     [] call SAS_fnc_blackOut;
 

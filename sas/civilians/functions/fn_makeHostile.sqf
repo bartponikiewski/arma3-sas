@@ -78,6 +78,10 @@ if !(_weaponType in _weaponsConfig) exitWith {
 // Select a random weapon from the chosen type
 private _weaponClass = selectRandom (_weaponsConfig get _weaponType);
 
+// set behaviour:
+_hostileGroup setBehaviour "COMBAT";
+_hostileGroup setCombatMode "RED";
+
 // Add weapon and ammo to each civilian in the group, and set them to be hostile
 {
 	private _civ = _x;
@@ -86,6 +90,7 @@ private _weaponClass = selectRandom (_weaponsConfig get _weaponType);
 	_civ setCaptive false;
 	_civ selectWeapon _weaponClass;
 } forEach units _hostileGroup;
+
 
 [format ["[makeHostile] Civilian group %1 is now hostile and armed with %2", _hostileGroup, _weaponClass]] call SAS_fnc_logDebug;
 true;
