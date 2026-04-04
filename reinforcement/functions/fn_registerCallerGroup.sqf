@@ -21,7 +21,7 @@ if (!local _group) exitWith {false};
 
 [_group, true] call SAS_Reinforcement_fnc_setCanCall;
 
-[_group, "SAS_Morale_groupFearChanged", {
+[missionNamespace, "SAS_Morale_groupFearChanged", {
     params ["_group", "_oldFear", "_newFear"];
     [_group, _oldFear, _newFear] call SAS_Reinforcement_fnc_onGroupFearChanged;
 }] call BIS_fnc_addScriptedEventHandler;

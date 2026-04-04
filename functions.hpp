@@ -251,6 +251,14 @@ class SAS_Cache {
     };
 };
 
+class SAS_Event {
+    class Event {
+        file = "sas\event\functions";
+        class emit {};
+        class onEvent {};
+    };
+};
+
 class SAS_State {
     class State {
         file = "sas\state\functions";

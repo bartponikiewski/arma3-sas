@@ -37,5 +37,5 @@ if ({alive _x} count (units _group) == 0) exitWith {};
 
 // Emit event if fear changed
 if (_newFear != _oldFear) then {
-    [_group, "SAS_Morale_groupFearChanged", [_group, _oldFear, _newFear]] call BIS_fnc_callScriptedEventHandler;
+    [missionNamespace, "SAS_Morale_groupFearChanged", [_group, _oldFear, _newFear]] remoteExec ["BIS_fnc_callScriptedEventHandler", 0];
 };
