@@ -251,6 +251,15 @@ class SAS_Cache {
     };
 };
 
+class SAS_State {
+    class State {
+        file = "sas\state\functions";
+        class set {};
+        class get {};
+        class onChanged {};
+    };
+};
+
 class SAS_CovertOps {
     class CovertOps {
         file = "sas\covertops\functions";

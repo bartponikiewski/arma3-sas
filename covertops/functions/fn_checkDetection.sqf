@@ -58,7 +58,7 @@ while {
 
 			hint "An enemy has spotted you! Your cover is blown!";
 
-			[missionNamespace, "SAS_CovertOps_coverBlown", [_unit, _x]] call BIS_fnc_callScriptedEventHandler;
+			[missionNamespace, "SAS_CovertOps_coverBlown", [_unit, _x]] remoteExec ["BIS_fnc_callScriptedEventHandler", 0];
 
 			[format [
 				"[SAS_CovertOps_fnc_checkDetection]: Cover blown! Enemy %1 detected %2 (knowsAbout: %3)",
