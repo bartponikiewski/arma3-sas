@@ -6,28 +6,32 @@ SAS (Sushi ArmA Scripts) is a modular framework for Arma 3 missions, created by 
 
 ## Getting started
 
-→ **[sas/QUICKSTART.md](sas/QUICKSTART.md)** — step-by-step guide: setup, intro, briefing, AI tasks, conversations, and reinforcements.
+→ **[QUICKSTART.md](QUICKSTART.md)** — installation options and step-by-step guide to building your first mission.
+
+## Test mission
+
+A fully wired test mission that demonstrates every SAS module is available at [arma3-sas-mission](https://github.com/bartponikiewski/arma3-sas-mission). It uses this repo as a submodule and serves as a living reference for how to use each module.
 
 ## Repository layout
 
 ```
-sas/               — all framework modules
-description.ext    — wires up functions, params, RSC, and comms
-init.sqf           — server-side setup (tasks, AI, briefing)
-initPlayerLocal.sqf — per-client setup (intro, HUD)
-mission.sqm        — Eden Editor scene data
+sas/
+├── _examples_/        ← starter description.ext, init.sqf, initPlayerLocal.sqf
+├── assets/            ← shared images, voice files
+├── params/            ← lobby parameters (intro toggle, AI skill)
+├── [module_name]/*    ← modules dirs
+├── functions.hpp      ← central function registration
+└── rsc.hpp            ← UI resource definitions
 ```
-
-This repo is also a **ready-to-run test mission**. The included `mission.sqm` has all units, markers, and objects already placed and named. Drop the repo folder into your Arma 3 missions directory and open it in the editor or host it directly — every SAS feature is wired up and ready to test. `init.sqf` and `initPlayerLocal.sqf` serve as a living reference for how to use each module.
 
 ## Modules
 
-All modules need to live live under `sas/`. For the full list with function tags and documentation links see **[sas/MODULE_INDEX.md](MODULE_INDEX.md)**.
+For the full list with function tags and documentation links see **[MODULE_INDEX.md](MODULE_INDEX.md)**.
 
 ## References
 
-- [sas/QUICKSTART.md](QUICKSTART.md)
-- [sas/MODULE_INDEX.md](MODULE_INDEX.md)
+- [QUICKSTART.md](QUICKSTART.md)
+- [MODULE_INDEX.md](MODULE_INDEX.md)
 - [.github/copilot-instructions.md](.github/copilot-instructions.md)
 - [Arma 3 SQF Reference](https://community.bistudio.com/wiki/Category:Scripting_Commands)
 - [CfgFunctions reference](https://community.bistudio.com/wiki/Arma_3:_Functions_Library)

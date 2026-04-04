@@ -4,16 +4,11 @@ Get a playable mission with intro, briefing, AI tasks, and conversation up and r
 
 ---
 
-## Using the repo as a test mission
+## Test mission
 
-You don't have to build from scratch. The repo itself is a fully working mission — `mission.sqm` already has all units, markers, named objects, and groups placed in the editor. Every SAS feature is wired up in `init.sqf` and `initPlayerLocal.sqf`.
+You don't have to build from scratch. A fully wired test mission that demonstrates every SAS module is available at [arma3-sas-mission](https://github.com/bartponikiewski/arma3-sas-mission). It uses this repo as a submodule and serves as a living reference for how to use each module.
 
-To run it:
-1. Copy the repo folder into `Documents\Arma 3\mpmissions\` (keep the `.Stratis` suffix in the folder name).
-2. Host it as a local multiplayer session or open it in Eden Editor.
-3. Play — all systems (intro, briefing, tasks, reinforcements, conversations, captives, etc.) are active and ready to test.
-
-Use `init.sqf` and `initPlayerLocal.sqf` from `_examples_` dir as a reference while reading the steps below.
+Use `init.sqf` and `initPlayerLocal.sqf` from `_examples_/` dir as a reference while reading the steps below.
 
 ---
 
@@ -26,25 +21,47 @@ Use `init.sqf` and `initPlayerLocal.sqf` from `_examples_` dir as a reference wh
 
 ---
 
-## Step 2 — Download and copy the SAS framework
+## Step 2 — Install the SAS framework
 
-1. In your mission dir create `sas` folder
-2. Download or clone the SAS repository into this folder.
-2. Copy files from `_examples_` into your mission root and edit if needed:
+### Option A — Direct download (recommended for most missionmakers)
 
-```
-YourMissionName.MapName/
-├── sas/               ← place all file and folders from this repo here
-├── description.ext    ← copy from `_examples_` and edit
-```
+1. Download or clone this repository.
+2. Copy the contents into a `sas/` folder inside your mission directory.
+3. Copy files from `_examples_/` into your mission root and edit as needed.
 
-Your mission folder should now look like:
+Your mission folder should look like:
 
 ```
 YourMissionName.MapName/
-├── sas/
-├── description.ext
-└── mission.sqm        ← already there from the editor
+├── sas/                 ← this repo
+├── description.ext      ← copy from _examples_/ and edit
+├── init.sqf             ← copy from _examples_/ and edit
+├── initPlayerLocal.sqf  ← copy from _examples_/ and edit
+└── mission.sqm          ← already there from the editor
+```
+
+### Option B — Git submodule (recommended for development)
+
+If your mission is a Git repository, add SAS as a submodule so you can develop the framework and your mission side by side, with independent Git histories:
+
+```bash
+cd YourMissionName.MapName
+git submodule add https://github.com/bartponikiewski/arma3-sas.git sas
+```
+
+Then commit the `.gitmodules` file and `sas` reference to your mission repo. Copy files from `_examples_/` into your mission root and edit as needed.
+
+Collaborators clone with:
+
+```bash
+git clone --recurse-submodules <your-mission-repo>
+```
+
+Or if already cloned (the `sas/` folder will be empty):
+
+```bash
+git submodule init
+git submodule update
 ```
 
 ---
