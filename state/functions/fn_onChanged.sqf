@@ -11,13 +11,13 @@
     }] call SAS_State_fnc_onChanged;
 
     // React to a specific state value:
-    private _id = ["meeting", "broken", {
+    private _id = ["meeting", "attack", {
         params ["_scope", "_newState", "_oldState"];
         hint "Cover blown!";
     }] call SAS_State_fnc_onChanged;
 
     // JIP catch-up (fire immediately if state already matches):
-    private _id = ["meeting", "broken", {
+    private _id = ["meeting", "attack", {
         params ["_scope", "_newState", "_oldState"];
     }, true] call SAS_State_fnc_onChanged;
 

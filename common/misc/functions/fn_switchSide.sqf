@@ -32,6 +32,12 @@ if (!local _entity) exitWith {
 };
 
 private _currentGroup = if (typeName _entity == "OBJECT") then { group _entity } else { _entity };
+
+if (side _currentGroup == _side) exitWith {
+    [format ["[switchSide] Entity %1 is already on side %2", _entity, _side]] call SAS_fnc_logDebug;
+    _currentGroup
+};
+
 private _newGroup = createGroup [_side, false];
 
 {

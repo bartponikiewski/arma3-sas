@@ -33,7 +33,7 @@ if (!local _unit) exitWith {
 
 private _coverBlown = _unit getVariable ["SAS_CovertOps_coverBlown", false];
 private _playerSide = side (group _unit);
-private _nearUnits = _unit nearEntities ["Man", 350];
+private _nearUnits = (_unit nearEntities [["Man", "Car", "Motorcycle", "Tank"], 350]) select {alive _x && {[_playerSide, side (group _x)] call BIS_fnc_sideIsEnemy}};
 private _tick = 0;
 
 while {
@@ -45,7 +45,6 @@ while {
 	{
 		if (
 			alive _x
-			&& {[_playerSide, side (group _x)] call BIS_fnc_sideIsEnemy}
 			&& {(_x knowsAbout _unit) >= 1.5}
 			&& {[_x, _unit] call SAS_fnc_canSeeTarget}
 		) exitWith {

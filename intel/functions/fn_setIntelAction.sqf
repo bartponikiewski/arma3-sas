@@ -36,7 +36,7 @@ if (isNull _obj) exitWith {
 		params ["_target", "_caller", "_actionId", "_arguments"];
 		_arguments params ["_callback", "_removeOnComplete"];
 
-		[_target, _caller] call _callback;
+		[_target, _caller, _actionId] call _callback;
 
 		if (_removeOnComplete) then {
 			deleteVehicle _target;

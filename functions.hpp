@@ -11,6 +11,8 @@ class SAS {
         class addWaypoint {};
         class guideAmmo {};
         class canSeeTarget {};
+        class unitExitVehicle {};
+        class unitDoMoveToPos {};
     };
 
     class Logging {
@@ -62,6 +64,7 @@ class SAS_Conv {
         class messageDialog {};
         class message {};
         class subtitle {};
+        class subtitleTerminate {};
     };
 };
 
@@ -199,6 +202,13 @@ class SAS_Intel {
     };
 };
 
+class SAS_Phone {
+    class Phone {
+        file = "sas\phone\functions";
+        class openPhone {};
+    };
+};
+
 class SAS_Fastrope {
     class Fastrope {
         file = "sas\fastrope\functions";
@@ -255,6 +265,7 @@ class SAS_Event {
     class Event {
         file = "sas\event\functions";
         class emit {};
+        class removeHandler {};
         class onEvent {};
     };
 };

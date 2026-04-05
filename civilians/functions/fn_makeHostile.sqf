@@ -40,11 +40,6 @@ if (isNull _civGroup) exitWith {
 };
 if (typename _civGroup == "OBJECT") then { _civGroup = group _civGroup; };
 
-if ((side _civGroup) != civilian) exitWith {
-    [format ["[makeHostile] Invalid civilian group side: %1", _civGroup]] call SAS_fnc_logDebug;
-    false
-};
-
 if (!local _civGroup) exitWith {
 	[format ["[makeHostile] Civilian group %1 is not local", _civGroup]] call SAS_fnc_logDebug;
 	false

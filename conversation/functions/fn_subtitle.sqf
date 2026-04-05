@@ -29,6 +29,8 @@
                 that plays at the start over the entire sequence ("" = none)
     2: OBJECT - (Optional) Unit for say3D for the global track,
                 objNull for playSound (default: objNull)
+    3: NUMBER - (Optional) distance from object to show subtitles in 3D space, requires a global sound source (default: -1 = n)
+    4: STRING - (Optional) Variable name to store the subtitle handle in (for later termination), default: ""
 
     Returns:
     Nothing
@@ -65,12 +67,19 @@
 params [
     ["_sequence",    [], [[]]],
     ["_globalSound", "", [""]],
-    ["_globalSource", objNull, [objNull]]
+    ["_globalSource", objNull, [objNull]],
+    ["_maxDistance", -1, [-1]],
+    ["_handle", "SAS_Subtitles", [""]]
 ];
 
 if (isDedicated) exitWith {};
 if (!hasInterface) exitWith {};
 if (_sequence isEqualTo []) exitWith {};
+if (isNull player) exitWith {};
+
+missionNamespace setVariable [format ["%1_text", _handle], nil];
+missionNamespace setVariable [format ["%1_sound", _handle], nil];
+
 
 (["[SAS_Conv_fnc_subtitle] Playing subtitle sequence with " + str (count _sequence) + " entries"]) call SAS_fnc_logDebug;
 
@@ -85,15 +94,18 @@ private _bisSubtitles = [];
     _bisSubtitles pushBack [_speaker, _text, _timing];
 } forEach _sequence;
 
-[_sequence, _globalSound, _globalSource] spawn {
-    params ["_sequence", "_globalSound", "_globalSource"];
+[_sequence, _globalSound, _globalSource, _maxDistance] spawn {
+    params ["_sequence", "_globalSound", "_globalSource", "_maxDistance"];
+    _maxDistance = if (_maxDistance < 0) then { 100 } else { _maxDistance + 10 }; // Ensure non-negative
     // Play global audio track at the start (if provided)
     if (_globalSound != "") then {
         if (!isNull _globalSource) then {
-            _globalSource say3D _globalSound;
+            private _soundSrc = _globalSource say3D [_globalSound, _maxDistance];
+            missionNamespace setVariable [format ["%1_sound", _handle], _soundSrc];
             (["[SAS_Conv_fnc_subtitle] Playing global 3D sound '" + _globalSound + "' from " + str _globalSource]) call SAS_fnc_logDebug;
         } else {
-            playSound _globalSound;
+            private _soundSrc = playSound _globalSound;
+            missionNamespace setVariable [format ["%1_sound", _handle], _soundSrc];
             (["[SAS_Conv_fnc_subtitle] Playing global 2D sound '" + _globalSound + "'"]) call SAS_fnc_logDebug;
         };
     };
@@ -107,16 +119,18 @@ private _bisSubtitles = [];
             private _speaker = _x param [0, "", [""]];
 
             if (_sound != "") then {
-                [_sound, _timing, _source, _speaker] spawn {
-                    params ["_sound", "_timing", "_source", "_speaker"];
+                [_sound, _timing, _source, _speaker, _maxDistance] spawn {
+                    params ["_sound", "_timing", "_source", "_speaker", "_maxDistance"];
 
                     if (_timing > 0) then { sleep _timing; };
 
                     if (!isNull _source) then {
-                        _source say3D _sound;
+                        private _soundSrc = _source say3D [_sound, _maxDistance];
+                        missionNamespace setVariable [format ["%1_sound", _handle], _soundSrc];
                         (["[SAS_Conv_fnc_subtitle] Playing 3D sound '" + _sound + "' from " + str _source + " for " + _speaker]) call SAS_fnc_logDebug;
                     } else {
-                        playSound _sound;
+                        private _soundSrc = playSound _sound;
+                        missionNamespace setVariable [format ["%1_sound", _handle], _soundSrc];
                         (["[SAS_Conv_fnc_subtitle] Playing 2D sound '" + _sound + "' for " + _speaker]) call SAS_fnc_logDebug;
                     };
                 };
@@ -124,7 +138,19 @@ private _bisSubtitles = [];
         };
     } forEach _sequence;
 };
+
 // Spawn the BIS subtitle display
-_bisSubtitles call BIS_fnc_EXP_camp_playSubtitles;
+if (
+    _maxDistance > -1 && 
+    !isNull _globalSource &&
+    player distance _globalSource > _maxDistance
+) exitWith {
+    (["[SAS_Conv_fnc_subtitle] Player is too far from global sound source to show subtitles (distance: " + str (player distance _globalSource) + ", threshold: " + str _maxDistance + ")"]) call SAS_fnc_logDebug;
+};
+
+private _textHandle = _bisSubtitles spawn BIS_fnc_EXP_camp_playSubtitles;
+missionNamespace setVariable [format ["%1_text", _handle], _textHandle];
+
+waitUntil { scriptDone _textHandle };
 sleep 1; // Short delay
 
