@@ -205,7 +205,7 @@ class SAS_Intel {
 class SAS_Phone {
     class Phone {
         file = "sas\phone\functions";
-        class openPhone {};
+        class openNokiaPhone {};
     };
 };
 
