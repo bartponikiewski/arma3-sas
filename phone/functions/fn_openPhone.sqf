@@ -16,16 +16,21 @@
 
     Parameter(s):
     0: ARRAY  - _messages: Array of SMS entries. Each entry:
-                [sender, time, text]
-                  sender : STRING - Contact name
-                  time   : STRING - Timestamp
-                  text   : STRING - Message body
-    1: (Optional) CODE - _onClose: Code executed when phone closes (default: {})
+                [sender, time, text, onDisplay]
+                  sender    : STRING - Contact name
+                  time      : STRING - Timestamp
+                  text      : STRING - Message body
+                  onDisplay : (Optional) CODE - Executed once when this message
+                              is first displayed. Receives [sender, time, text, index].
+    1: (Optional) CODE    - _onClose: Code executed when phone closes (default: {})
+    2: (Optional) BOOLEAN - _logDiary: If true, logs all messages to diary
+                            under "Intel Log" subject (default: true)
 
     Returns:
     DISPLAY - Reference to the created display, or displayNull on failure
 
     Examples:
+    // Basic messages (no callbacks)
     [
         [
             ["Informant", "21:37", "Meet me at the church. Come alone."],
@@ -33,11 +38,25 @@
             ["Command",   "22:01", "We have eyes on the church. Proceed."]
         ]
     ] call SAS_Phone_fnc_openPhone;
+
+    // With per-message callbacks (fired once when first displayed)
+    [
+        [
+            ["Informant", "21:37", "Meet me at the church.", {
+                params ["_sender", "_time", "_text", "_index"];
+                hint "First message displayed!";
+            }],
+            ["Command", "22:01", "Proceed.", {
+                ["obj_1", "SUCCEEDED"] call SAS_Briefing_fnc_setTaskState;
+            }]
+        ]
+    ] call SAS_Phone_fnc_openPhone;
 */
 
 params [
-    ["_messages",  [],  [[]]],
-    ["_onClose",   {},  [{}]]
+    ["_messages",  [],    [[]]],
+    ["_onClose",   {},    [{}]],
+    ["_logDiary",  true,  [true]]
 ];
 
 if (isDedicated) exitWith {};
@@ -120,6 +139,8 @@ _display setVariable ["SAS_Phone_index", 0];
 _display setVariable ["SAS_Phone_onClose", _onClose];
 _display setVariable ["SAS_Phone_pixelColor", _pixelColor];
 _display setVariable ["SAS_Phone_pixelColorDim", _pixelColorDim];
+_display setVariable ["SAS_Phone_firedCallbacks", []];
+_display setVariable ["SAS_Phone_logDiary", _logDiary];
 
 // DEBUG: set to true to color buttons for positioning
 private _debug = false;
@@ -215,7 +236,17 @@ private _fnc_render = {
     if (_total == 0) exitWith {};
 
     private _msg = _msgs select _idx;
-    _msg params [["_sender", ""], ["_time", ""], ["_text", ""]];
+    _msg params [["_sender", ""], ["_time", ""], ["_text", ""], ["_onDisplay", {}]];
+
+    // Fire onDisplay callback once per message
+    private _fired = _disp getVariable ["SAS_Phone_firedCallbacks", []];
+    if !(_idx in _fired) then {
+        _fired pushBack _idx;
+        _disp setVariable ["SAS_Phone_firedCallbacks", _fired];
+        if !(_onDisplay isEqualTo {}) then {
+            [_sender, _time, _text, _idx] call _onDisplay;
+        };
+    };
 
     // Counter with arrow indicators
     private _counterCtrl = _disp displayCtrl 9312;
@@ -373,6 +404,28 @@ _display displayAddEventHandler ["MouseZChanged", {
 // -------------------------------------------------------
 _display displayAddEventHandler ["Unload", {
     params ["_disp"];
+
+    // Log only viewed messages to diary
+    if (_disp getVariable ["SAS_Phone_logDiary", true]) then {
+        private _msgs  = _disp getVariable ["SAS_Phone_messages", []];
+        private _fired = _disp getVariable ["SAS_Phone_firedCallbacks", []];
+        if (count _fired > 0) then {
+            private _body = "";
+            {
+                private _idx = _x;
+                private _msg = _msgs select _idx;
+                _msg params [["_s", ""], ["_t", ""], ["_m", ""]];
+                if (_body != "") then { _body = _body + "<br/>"; };
+                if (_s != "") then {
+                    _body = _body + format ["[%1] %2: %3", _t, _s, _m];
+                } else {
+                    _body = _body + _m;
+                };
+            } forEach _fired;
+            ["Intel Log", "Phone Messages", _body] call SAS_Briefing_fnc_addDiaryRecord;
+        };
+    };
+
     private _cb = _disp getVariable ["SAS_Phone_onClose", {}];
     [] call _cb;
 }];
